@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Step One</h2>
+<p>Please upload your dataset and select a visual format once prompted</p>
+
+<p></p>
+
+<h3>Upload Dataset (for now only csv files accepted)</h3>
+@using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="text" id="submissionName" , name="submissionName" />
+    <input type="file" name="file" id="file" />
+    //<input type="file" name="file1" id="file"/>
+    <input type="submit" value="Upload" />
+}
+
+<p></p>
+<p></p>
+<p></p>
+
+
+
+
+

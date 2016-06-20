@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Congrats! Your file has been uploaded to the server and imported into the database</h2>
+<p>message returned from import = @ViewBag.Import</p>
+<p>Please choose your visual format from the list provided below</p>
+
+<p></p>
+<p></p>
+<p></p>
+
+@using (Html.BeginForm("BarChart", "Visual"))
+{
+    <input type="submit" value="BarChart" />
+}
+
+<p></p>
+
+@using (Html.BeginForm("Graph", "Visual"))
+{
+    <input type="submit" value="Graph" />
+}
+
+<p></p>
+
+@using (Html.BeginForm("Table", "Visual"))
+{
+    <input type="submit" value="Table" />
+}
+
+
+<p></p>
+<p></p>
+<p></p>
+
+<p>NOTE: At the moment the only analysis available is number of AntiVirus failures for the 11/11/2013. This is subject to change very shortly!</p>
