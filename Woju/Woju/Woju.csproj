@@ -80,13 +80,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Woju.mdf" />
-    <Content Include="App_Data\Woju_log.ldf">
-      <DependentUpon>Woju.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\R_HTML\maryland_Mw_Date_AvCounter.html" />
+    <Content Include="Content\R2HTML\maryland_Mw_Date_AvCounter_tab.html" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -126,6 +122,7 @@
     <Content Include="Views\Visual\BarChart.cshtml" />
     <Content Include="Views\Visual\Graph.cshtml" />
     <Content Include="Views\Visual\Table.cshtml" />
+    <Content Include="Views\Query\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -134,9 +131,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="UploadedCSV\schema\" />
-    <Folder Include="Views\Query\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
