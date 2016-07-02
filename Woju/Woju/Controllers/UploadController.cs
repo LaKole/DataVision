@@ -47,7 +47,9 @@ namespace Woju.Controllers
 
                 string query = @"SELECT * INTO {0} 
                                 FROM OPENQUERY(UploadedCSV, 'select * from {1}')";
+                                //FROM OPENQUERY(UploadedCSV, 'select * from commontable.csv')";
 
+                //query = String.Format(query, submissionName);
                 query = String.Format(query, submissionName, filePath);
 
                 Configuration rootWebConfig = WebConfigurationManager.OpenWebConfiguration("/MyWebSiteRoot");
