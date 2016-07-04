@@ -1,0 +1,25 @@
+﻿@model IEnumerable<AntiVirusAnalysisTool.Models.ScanResult>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Antivirus)</th>
+        <th>@Html.DisplayNameFor(model => model.ScanDate)</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.Antivirus)</td>
+        <td>@Html.DisplayFor(modelItem => item.ScanDate)</td>
+        
+    </tr>
+}
+</table>
