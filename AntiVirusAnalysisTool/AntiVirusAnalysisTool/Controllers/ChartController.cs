@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
+using System.Collections;
 
 namespace AntiVirusAnalysisTool.Controllers
 {
@@ -18,10 +19,12 @@ namespace AntiVirusAnalysisTool.Controllers
             return View();
         }
 
-        public ActionResult Data()
+        public ActionResult Data()//(IEnumerable data)
         {
             ScanResultX srl = new ScanResultX();
             return Json(srl.findAll(), JsonRequestBehavior.AllowGet);
+            
+            //return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult List()
@@ -98,10 +101,10 @@ namespace AntiVirusAnalysisTool.Controllers
             {
                 v = v.OrderBy(sortColumn + " " + sortColumnDir);
             }
-            CData(v);
+            ;
             recordsTotal = v.Count();
             var data = v.Skip(skip).Take(pageSize).ToList();
-
+            //Data(CData(v));
             return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
 
         }
@@ -112,14 +115,14 @@ namespace AntiVirusAnalysisTool.Controllers
             public int Quantity { get; set; }
         }
 
-        public ActionResult CData(IQueryable<ScanResult> data)
+        public IEnumerable CData(IQueryable<ScanResult> data)
         {
-            List<ChartData> cd = new List<ChartData>();
+            
             var x = from d in data
                     group d by d.Antivirus into g
                     select new ChartData { Antivirus = g.Key, Quantity = g.Count() };
-            
-            return Json(x.ToList<ChartData>(), JsonRequestBehavior.AllowGet);
+
+            return x.AsEnumerable();
         
         }
     }
