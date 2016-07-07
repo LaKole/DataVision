@@ -1,7 +1,45 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿
+<head>
+    <title>About</title>
+<style>
+    /*body {
+        font-family:"helvetica neue";
+        color: #667;
+        padding: 0 20%;
+    }*/
 
-<p>Use this area to provide additional information.</p>
+    li input {
+        display: none;
+    }
+
+    li.edit span {
+        display: none;
+    }
+
+    li.edit input {
+        display: initial;
+    }
+
+</style>
+</head>
+
+<header>
+    <h1>Events</h1>
+</header>
+<main>
+    <ul id="checkList">
+        <li>
+            <span>Apples</span>
+            <input value="Apples"/>
+        </li>
+        <li>
+            <span>Oranges</span>
+            <input value="Oranges" />
+        </li>
+        <li>
+            <span>Bananas</span>
+            <input value="Bananas" />
+        </li>
+    </ul>
+</main>
+<script src="~/Scripts/helpers/main.js"></script>

@@ -3,15 +3,117 @@
     ViewBag.Title = "Chart";
 }
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!--Load jQuery-->
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<!--Load Google Charts API-->
+<script src="https://www.gstatic.com/charts/loader.js"></script>
 
-<!--Load the AJAX API-->
-<script type="text/javascript"
-        src="https://www.gstatic.com/charts/loader.js">
 
-</script>
 
-<script type="text/javascript">
+<div class="row">
+    <div class="col-md-8 margin-top-20">
+
+        @*@using (Html.BeginForm("LoadData", "Chart", FormMethod.Post))
+            {
+                <h2>Query</h2>
+                <div class="input-group-lg margin-top-20">@Html.TextArea("query")</div>
+
+                <button class="btn btn-primary btn-large btn-block margin-top-20" type="submit">Execute</button>
+            }
+
+        <textarea id="query" style="width:100%"></textarea>
+        <input id="execute" type="button" value="Execute query" class="btn btn-primary btn-large btn-block margin-top-20" />
+
+
+        <a href="@Url.Action("LoadData", "Chart")" class="btn btn-primary btn-large btn-block margin-top-20"><span class="glyphicon glyphicon-upload"></span> Execute query</a>*@
+
+        <div style="width:90%;">
+            @*Search Area*@
+            <div style="background-color:#f5f5f5; padding:20px">
+                <h3>Search Panel</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Antivirus</td>
+                            <td>
+                                <select id="ddAntiVirus" style="width:200px">
+                                    <option value="">All AntiVirus</option>
+                                    <option value="AVG">AVG</option>
+                                    <option value="McAfee">McAfee</option>
+                                    <option value="Microsft">Microsft</option>
+                                </select>                        @*This is a select box with static data, populate from db later*@
+                            </td>
+                            <td>ScanDate</td>
+                            <td><input type="text" id="txtScanDate" /></td>                            
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td>Detection Failure</td>
+                            <td>
+                                <select id="ddDF" style="width:200px">
+                                    <option value="">All</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+                                </select>                        @*This is a select box with static data, populate from db later*@
+                            </td>
+                            <td>
+                                <input type="button" value="Search" id="btnSearch" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @*jQuery DataTable*@
+            <div>
+                <table id="myTable" class="table table-responsive table-striped">
+                    <thead>
+                        <tr>
+                            <th>Antivirus</th>
+                            <th>MD5</th>
+                            <th>ScanDate</th>
+                            <th>DetectionFailureAVR</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    
+
+
+    <div class="col-md-4 margin-top-20">
+
+        <table class="columns margin-top-20">
+            <tr>
+                <td><div id="piechart_div" style="border: 1px solid #ccc"></div></td>
+                <td>@*<div id="barchart_div" style="border: 1px solid #ccc"></div>*@</td>
+            </tr>
+        </table>
+
+
+        <a href="@Url.Action("Chart", "Chart")" class="btn btn-primary btn-large btn-block margin-top-20"><span class="glyphicon glyphicon-upload"></span> Chart Data</a>
+    </div>
+</div>
+
+
+
+@*jQuery DT*@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@*jQeury*@
+
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+ 
+}
+
+
+<script src="~/Scripts/helpers/main.js"></script>
+
+@*<script type="text/javascript">
     $(document).ready(function () {
         $.ajax({
             type: 'POST',
@@ -112,7 +214,7 @@
         });
 
         $('#execute').click(function () {
-            var data = { dr: $('#query').val().trim()}
+            var data = { dr: $('#query').val().trim() }
 
             $(this).val('Please wait...');
 
@@ -132,109 +234,4 @@
 
         });
     });
-</script>
-
-<div class="row">
-    <div class="col-md-8 margin-top-20">
-
-        @*@using (Html.BeginForm("LoadData", "Chart", FormMethod.Post))
-            {
-                <h2>Query</h2>
-                <div class="input-group-lg margin-top-20">@Html.TextArea("query")</div>
-
-                <button class="btn btn-primary btn-large btn-block margin-top-20" type="submit">Execute</button>
-            }
-
-        <textarea id="query" style="width:100%"></textarea>
-        <input id="execute" type="button" value="Execute query" class="btn btn-primary btn-large btn-block margin-top-20" />
-
-
-        <a href="@Url.Action("LoadData", "Chart")" class="btn btn-primary btn-large btn-block margin-top-20"><span class="glyphicon glyphicon-upload"></span> Execute query</a>*@
-
-        <div style="width:90%;">
-            @*Search Area*@
-            <div style="background-color:#f5f5f5; padding:20px">
-                <h3>Search Panel</h3>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Antivirus</td>
-                            <td>
-                                <select id="ddAntiVirus" style="width:200px">
-                                    <option value="">All AntiVirus</option>
-                                    <option value="AVG">AVG</option>
-                                    <option value="McAfee">McAfee</option>
-                                    <option value="Microsft">Microsft</option>
-                                </select>                        @*This is a select box with static data, populate from db later*@
-                            </td>
-                            <td>ScanDate</td>
-                            <td><input type="text" id="txtScanDate" /></td>                            
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td>Detection Failure</td>
-                            <td>
-                                <select id="ddDF" style="width:200px">
-                                    <option value="">All</option>
-                                    <option value="True">True</option>
-                                    <option value="False">False</option>
-                                </select>                        @*This is a select box with static data, populate from db later*@
-                            </td>
-                            <td>
-                                <input type="button" value="Search" id="btnSearch" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            @*jQuery DataTable*@
-            <div>
-                <table id="myTable" class="table table-responsive table-striped">
-                    <thead>
-                        <tr>
-                            <th>Antivirus</th>
-                            <th>MD5</th>
-                            <th>ScanDate</th>
-                            <th>DetectionFailureAVR</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-
-
-    
-
-
-    <div class="col-md-4 margin-top-20">
-
-        <table class="columns margin-top-20">
-            <tr>
-                <td><div id="piechart_div" style="border: 1px solid #ccc"></div></td>
-                <td>@*<div id="barchart_div" style="border: 1px solid #ccc"></div>*@</td>
-            </tr>
-        </table>
-
-
-        <a href="@Url.Action("Chart", "Chart")" class="btn btn-primary btn-large btn-block margin-top-20"><span class="glyphicon glyphicon-upload"></span> Chart Data</a>
-    </div>
-</div>
-
-
-
-@*jQuery DT*@
-<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
-@*jQurry*@
-
-@section Scripts{
-    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
-    <script>
-
-
-
-
-    </script>
-}
+</script>*@
