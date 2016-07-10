@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Chart";
+}
+
+<h2>Chart</h2>
+<p></p>
+
+<div class="container">
+    <h3>Select Chart Type:</h3>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Chart Menu
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" id="chart-menu">
+            <li id="combo"><a href="#">Combo</a></li>
+            <li id="waterfall"><a href="#">Waterfall</a></li>
+            <li id="none"><a href="#" id="none">TBC</a></li>
+        </ul>
+    </div>
+</div>
+<div id="chart_div" class="margin-top-20" height="800px"></div>
+
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/helpers/main2.js"></script>

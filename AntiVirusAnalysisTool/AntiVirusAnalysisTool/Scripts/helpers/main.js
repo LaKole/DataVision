@@ -135,45 +135,45 @@ google.visualization.events.addListener(piechart, 'select', selectHandler);
 
 
 
-//var numOne = document.getElementById("num-one");
-//var numTwo = document.getElementById("num-two");
-//var addSum = document.getElementById("add-sum");
+var numOne = document.getElementById("num-one");
+var numTwo = document.getElementById("num-two");
+var addSum = document.getElementById("add-sum");
 
-//numOne.addEventListener("input", add);
-//numTwo.addEventListener("input", add);
+numOne.addEventListener("input", add);
+numTwo.addEventListener("input", add);
 
-//function add() {
-//    var one = parseFloat(numOne.value) || 0;
-//    var two = parseFloat(numTwo.value) || 0;
-//    addSum.innerHTML = "Your sum is: " + (one + two);
-//}
+function add() {
+    var one = parseFloat(numOne.value) || 0;
+    var two = parseFloat(numTwo.value) || 0;
+    addSum.innerHTML = "Your sum is: " + (one + two);
+}
 
-//var checklist = document.getElementById("checkList");
+var checklist = document.getElementById("checkList");
 
-//var items = checklist.querySelectorAll("li");
-//var inputs = checklist.querySelectorAll("input");
+var items = checklist.querySelectorAll("li");
+var inputs = checklist.querySelectorAll("input");
 
-//for (var i = 0; i < items.length; i++) {
-//    items[i].addEventListener("click", editItem);
-//    inputs[i].addEventListener("blur", updateItem);
-//    inputs[i].addEventListener("keypress", itemKeyPress);
-//}
+for (var i = 0; i < items.length; i++) {
+    items[i].addEventListener("click", editItem);
+    inputs[i].addEventListener("blur", updateItem);
+    inputs[i].addEventListener("keypress", itemKeyPress);
+}
 
-//function editItem() {
-//    this.className = "edit";
-//    var input = this.querySelector("input");
-//    input.focus();
-//    console.log("my current value is ", input.value);
-//    input.setSelectionRange(0, input.value.length);
-//}
+function editItem() {
+    this.className = "edit";
+    var input = this.querySelector("input");
+    input.focus();
+    console.log("my current value is ", input.value);
+    input.setSelectionRange(0, input.value.length);
+}
 
-//function updateItem() {
-//    this.previousElementSibling.innerHTML = this.value;
-//    this.parentNode.className = "";
-//}
+function updateItem() {
+    this.previousElementSibling.innerHTML = this.value;
+    this.parentNode.className = "";
+}
 
-//function itemKeyPress(event) {
-//    if (event.which === 13) {
-//        updateItem.call(this);
-//    }
-//}
+function itemKeyPress(event) {
+    if (event.which === 13) {
+        updateItem.call(this);
+    }
+}
