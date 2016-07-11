@@ -122,7 +122,8 @@
     <None Include="Scripts\jquery-3.0.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\helpers\main2.js" />
+    <Content Include="Scripts\helpers\table.js" />
+    <Content Include="Scripts\helpers\chart.js" />
     <Content Include="Scripts\helpers\main.js" />
     <Content Include="Scripts\helpers\maint.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

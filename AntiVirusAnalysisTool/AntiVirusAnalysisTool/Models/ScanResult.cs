@@ -9,13 +9,13 @@ namespace AntiVirusAnalysisTool.Models
     public class ScanResult
     {
 
-        //public int ID { get; set; }
+        public int ID { get; set; }
         public string Antivirus { get; set; }
         public DateTime ScanDate { get; set; }
         public string MD5 { get; set; }
-        public int DetectionFailureAVR { get; set; }
+        public double DetectionFailureAVR { get; set; }
         public string SignatureLabelAVR { get; set; }
-        public int DetectionFailureMalware { get; set; }
+        public double DetectionFailureMalware { get; set; }
         public string SignatureLabelMalware { get; set; }
         
         

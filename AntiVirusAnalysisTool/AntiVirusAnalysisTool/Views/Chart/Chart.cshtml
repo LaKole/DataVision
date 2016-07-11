@@ -13,20 +13,6 @@
 <div class="row">
     <div class="col-md-8 margin-top-20">
 
-        @*@using (Html.BeginForm("LoadData", "Chart", FormMethod.Post))
-            {
-                <h2>Query</h2>
-                <div class="input-group-lg margin-top-20">@Html.TextArea("query")</div>
-
-                <button class="btn btn-primary btn-large btn-block margin-top-20" type="submit">Execute</button>
-            }
-
-        <textarea id="query" style="width:100%"></textarea>
-        <input id="execute" type="button" value="Execute query" class="btn btn-primary btn-large btn-block margin-top-20" />
-
-
-        <a href="@Url.Action("LoadData", "Chart")" class="btn btn-primary btn-large btn-block margin-top-20"><span class="glyphicon glyphicon-upload"></span> Execute query</a>*@
-
         <div style="width:90%;">
             @*Search Area*@
             <div style="background-color:#f5f5f5; padding:20px">
@@ -81,10 +67,6 @@
     </div>
 
 
-
-    
-
-
     <div class="col-md-4 margin-top-20">
 
         <table class="columns margin-top-20">
@@ -98,6 +80,10 @@
         <a href="@Url.Action("Chart", "Chart")" class="btn btn-primary btn-large btn-block margin-top-20"><span class="glyphicon glyphicon-upload"></span> Chart Data</a>
     </div>
 </div>
+
+
+
+
 
 
 
