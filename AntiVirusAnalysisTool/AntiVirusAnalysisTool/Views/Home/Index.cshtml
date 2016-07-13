@@ -1,40 +1,138 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Chart Live";
 }
 
-<div class="row">
-    <div class="col-md-6 margin-top-20">
-        <a href="#" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-upload"></span> Upload Dataset</a>
-        <a href="@Url.Action("Chart", "Analysis")" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-inbox"></span> Use Existing</a>
+<div class="container margin-top-20">
+    
+    <div class="tab-panels">
+        <ul class="tabs">
+            <li data-panelID="analysisType" class="active">Analysis Type</li>
+            <li data-panelID="chartOptions">Visualisation Type</li>
+            <li data-panelID="filterOptions">Filter Options</li>
+            <li data-panelID="diy">Write Your Own</li>
+        </ul>
+
+        <div id="panel1" data-panelID="analysisType" class="panel active">
+            panel one
+        </div>
+
+        <div id="panel2" data-panelID="chartOptions" class="panel">
+            data table<br />
+            tree map<br />
+            circles<br />
+            bars<br />
+            line<br />
+            heatmap <br />
+        </div>
+
+        <div id="panel3" data-panelID="filterOptions" class="panel">
+            panel three
+        </div>
+
+
+        <div id="panel4" data-panelID="diy" class="panel">
+            write<br/>
+            your<br/>
+            own<br/>
+        </div>
+
     </div>
-    <div class="col-md-6 margin-top-20">
-        <a href="@Url.Action("Index", "Chart")" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-upload"></span> Place Holder</a>
-        <a href="@Url.Action("About", "Home")" class="btn btn-primary btn-large btn-block"><span class="glyphicon glyphicon-inbox"></span> Place Holder</a>
-    </div>
+
+
+
+
+
+
+
+
+
+    
+
 </div>
 
+<button type="button" class="btn btn-info">Version Comparisons</button>
+<button type="button" class="btn btn-info">Visualisations Over AV, MW and Time</button> @*heatmaps, figures 2-4*@
+<button type="button" class="btn btn-info">Time Lag Analysis</button> @*differences in detections by two versions*@
+<button type="button" class="btn btn-info">Signature Label Analysis</button> @*analysis to do with signature labels*@
+<button type="button" class="btn btn-info">Summary Analysis</button> @*using overall totals*@
 
-
-
-
-
-
-
-@*<div class="row">
-        <div class="col-md-4">
-            <h2>First Time?</h2>
-            <p>
-                Video tutorials for using the application can be found here!
-            </p>
-            <p><a class="btn btn-default" href="https://www.youtube.com/watch?v=FIc8zFUywF4">Watch Videos &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Ready?</h2>
-            <p>Get Visualising</p>
-            <p>@Html.ActionLink("Go!", "Index", "Query", null, new { @class = "btn btn-default" })</p>
-        </div>
+<div class="container margin-top-20">
+    <h2>What would you like to see?</h2>
+    The
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputID="quantInput" data-toggle="dropdown">
+            Count/Rate
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Count</a></li>
+            <li><a href="#">Rate</a></li>
+        </ul>
+    </div>
+    of detection
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputid="detectionInput" data-toggle="dropdown">
+            Failure/Success
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Failure</a></li>
+            <li><a href="#">Success</a></li>
+        </ul>
+    </div>
+    across
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputid="versionInput" data-toggle="dropdown">
+            Antivirus Versions
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            @*<li><a href="#">Full version</a></li>
+                <li><a href="#">VT version</a></li>*@
+            <li><a href="#">Both versions</a></li>
+        </ul>
+    </div>
+    grouped by
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputid="groupInput" data-toggle="dropdown">
+            AV Name/Scan Date
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Antivirus</a></li>
+            @*<li><a href="#">Date</a></li>*@
+        </ul>
     </div>
 
-    @section scripts{
-        <script>var testing = true;</script>
-    }*@
+    <button class="btn btn-success btn-large btn-block margin-top-20" onclick="qs('default')">Execute query</button>
+
+    <p></p>
+
+</div>
+
+<div class="container" id="chart">
+    <h3>Your Chart:</h3>
+
+    <div id="chartTyper">
+        <button type="button" class="btn btn-info" onclick="qs(value)" value="combo">Combo</button>
+        <button type="button" class="btn btn-info">Waterfall</button>
+        <button type="button" class="btn btn-info">Line</button>
+        <button type="button" class="btn btn-info">HeatMap</button>
+
+        <div id="chartSelector">
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="combo">Combo</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="waterfall">Waterfall</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="area">Area</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="series">series</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="pie">pie</label>
+        </div>
+
+        <div id="chart_div" class="margin-top-20" height="800px"></div>
+
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/helpers/chart.js"></script>

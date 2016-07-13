@@ -1,4 +1,33 @@
-﻿<h1>JAT</h1>
+﻿<html>
+<head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["imageareachart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var chart = new google.visualization.ImageAreaChart(document.getElementById('chart_div'));
+
+        chart.draw(data, {width: 400, height: 240, min: 300, max: 1400, title: 'Yearly Expenses and Sales'});
+      }
+    </script>
+</head>
+<body>
+    <div id="chart_div" style="width: 400px; height: 240px;"></div>
+</body>
+</html>
+
+
+
+@*<h1>JAT</h1>
 <h2>Coffee Orders</h2>
 <ul id="orders">
 
@@ -11,4 +40,61 @@
 
 
 <script src="~/Scripts/jquery-3.0.0.js"></script>
-<script src="~/Scripts/helpers/maint.js"></script>
+<script src="~/Scripts/helpers/maint.js"></script>*@
+
+@*<html>
+<head>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="DrasticTreemapGApi.js"></script>
+    <script type="text/javascript">
+	google.load("visualization", "1");
+	google.load("swfobject", "2.2");
+
+	// Set callback to run when API is loaded
+	google.setOnLoadCallback(drawVisualization);
+
+	// Called when the Visualization API is loaded.
+	function drawVisualization() {
+
+	// Create and populate a data table.
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Product');
+	data.addColumn('string', 'Type');
+	data.addColumn('number', 'East');
+	data.addColumn('number', 'West');
+	data.addColumn('number', 'South');
+	data.addRows([
+	  ['Green beans', 'Vegetables', 100, 100, 400],
+	  ['Avocado', 'Vegetables', 50, 400, 300],
+	  ['Tomatos', 'Vegetables', 200, 400, 500],
+	  ['Cucumbers', 'Vegetables', 500, 1000, 700],
+	  ['Apples', 'Fruit', 1700, 2300, 2000],
+	  ['Bananas', 'Fruit', 800, 700, 600],
+	  ['Oranges', 'Fruit', 200, 300, 100],
+	  ['Pineapples', 'Fruit', 100, 150, 500],
+	  ['Broccoli', 'Vegetables', 800, 1000, 900],
+	  ['Wholemeal', 'Bread', 250, 100, 300],
+	  ['Bagels', 'Bread', 120, 300, 200],
+	  ['Baguette', 'Bread', 50, 300, 200],
+	  ['Ciabatta', 'Bread', 200, 300, 400],
+	  ['Croissants', 'Bread', 400, 600, 200],
+	  ['white bread', 'Bread', 500, 200, 300]
+	]);
+
+	// Instantiate our object.
+	var vis = new drasticdata.DrasticTreemap(document.getElementById('thediv'));
+
+	// Draw the treemap with the data we created locally and some options:
+	vis.draw(data, {
+		groupbycol: "Type",
+		labelcol: "Product",
+		variables: ['East', 'West', 'South']
+		}
+	);
+   }
+    </script>
+</head>
+<body>
+    <div id="thediv" style="width:500px; height:300px;"></div>
+</body>
+</html>*@
