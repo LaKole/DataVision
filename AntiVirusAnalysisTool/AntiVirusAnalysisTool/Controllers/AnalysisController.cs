@@ -18,6 +18,28 @@ namespace AntiVirusAnalysisTool.Controllers
             return View();
         }
 
+        public ActionResult getHMData()
+        {
+            var v = (from a in db.AnalysisResults
+                     group a by a.ScanDate into av
+                     select new
+                     {
+                         scandate = av.Key,
+                         avg = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "AVG"),
+                         comodo = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "Comodo"),
+                         fsecure = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "F-Secure"),
+                         kaspersky = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "Kaspersky"),
+                         mcafee = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "McAfee"),
+                         microsoft = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "Microsoft"),
+                         antivir = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "AntiVir"),
+                         sophos = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "Sophos"),
+                         symantec = av.Count(x => x.DetectionFailureAVR == 1 && x.Antivirus == "Symantec")
+                     }
+                     );
+
+            return Json(v, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult getData()
         {
             List<AnalysisResult> arl = new List<AnalysisResult>();
@@ -65,22 +87,80 @@ namespace AntiVirusAnalysisTool.Controllers
             }
             else
             {
-                
-                    var rate = (from a in db.AnalysisResults
-                                group a by a.Antivirus into av
-                                select new
-                                {
-                                    anv = av.Key,
-                                    cdfavr = (double)av.Count(x => x.DetectionFailureAVR == detectionState) / av.Count(),
-                                    cdfmw = (double)av.Count(x => x.DetectionFailureMalware == detectionState) / av.Count()
-                                }
-                );
-                    return Json(rate, JsonRequestBehavior.AllowGet);
-                
+
+                var rate = (from a in db.AnalysisResults
+                            group a by a.Antivirus into av
+                            select new
+                            {
+                                anv = av.Key,
+                                cdfavr = (double)av.Count(x => x.DetectionFailureAVR == detectionState) / av.Count(),
+                                cdfmw = (double)av.Count(x => x.DetectionFailureMalware == detectionState) / av.Count()
+                            }
+            );
+                return Json(rate, JsonRequestBehavior.AllowGet);
+
             }
 
 
         }
+
+        [HttpPost]
+        public ActionResult getDataNew(string xaxis, string yaxis, string zaxis, string version)
+        {
+            double detectionState = 0;
+
+            switch (yaxis)
+            {
+                case "dfr":
+                case "dfc":
+                    detectionState = 1;
+                    break;
+                case "dsc":
+                case "dsr":
+                    detectionState = 0;
+                    break;
+            }
+
+            if (yaxis == "dfc" || yaxis == "dsc")
+            {
+
+
+                var vx = (from a in db.AnalysisResults
+                          group a by a.Antivirus into av
+                          select new
+                          {
+                              anv = av.Key,
+                              cm = av.Count(),
+                              cdfavr = av.Count(x => x.DetectionFailureAVR == detectionState),
+                              cdfmw = av.Count(x => x.DetectionFailureMalware == detectionState)
+                          }
+                         );
+
+                return Json(vx, JsonRequestBehavior.AllowGet);
+
+
+            }
+            else //if (yaxis == "dfr" || yaxis == "dsr")
+            {
+
+                var rate = (from a in db.AnalysisResults
+                            group a by a.Antivirus into av
+                            select new
+                            {
+                                anv = av.Key,
+                                cdfavr = (double)av.Count(x => x.DetectionFailureAVR == detectionState) / av.Count(),
+                                cdfmw = (double)av.Count(x => x.DetectionFailureMalware == detectionState) / av.Count()
+                            }
+            );
+                return Json(rate, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+        }
+
+
+
 
         [HttpPost]
         public ActionResult LoadTableData(string dr)

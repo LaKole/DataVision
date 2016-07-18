@@ -1,44 +1,53 @@
-﻿$(function () {
-
-    $('.tab-panels .tabs li').on('click', function () {
-
-        var $panel = $(this).closest('.tab-panels');
-
-        $panel.find('.tabs li.active').removeClass('active');
-        $(this).addClass('active');
-
-        //figure out which panel to show
-        var panelToShow = $(this).attr('data-panelID');
-        console.log(panelToShow);
-
-        //hide current panel
-        $panel.find('.panel.active').slideUp(300, showNextPanel);
-
-        //show next panel
-        function showNextPanel() {
-            $(this).removeClass('active');
-            $('#' + panelToShow).slideDown(300, function () {
-                $(this).addClass('active');
-                console.log(this);
-            });
-        }
-    });
-
-
-});
-
-
-
-
-
-
-
-
-$('.dropdown-toggle').dropdown();
-var quant;
+﻿var quant;
 var det;
 var vers;
 var grol;
+
+var opt, type, chartTitle, xlab, ylab;
+
+//defaults
+type = 'area';
+
+function updateOptions() {
+    var x = $('#xaxis').find(":selected").val();
+
+    var y = $('#yaxis').find(":selected").val();
+
+    var z = $('#zaxis').find(":selected").val();
+
+    var v = $('#version').find(":selected").val();
+
+    xlab = $('#xaxis').find(":selected").text();
+
+    ylab = $('#yaxis').find(":selected").text();
+
+    chartTitle = v = $('#chartName').val();
+
+    opt = { xaxis: x, yaxis: y, zaxis: z, version: v };
+
+    console.log(opt + ", " + chartTitle);
+    getData(type, opt);
+
+}
+
+function getData(type, querySet) {
+
+    $.ajax({
+        type: 'POST',
+        dataType: "json",
+        data: JSON.stringify(querySet),
+        contentType: "application/json",
+        url: '/Analysis/getDataNew',
+        success: function (result) {
+            console.log(type);
+            drawChart(result, type);
+        },
+        error: function () {
+            console.log('unable to get data');
+        }
+    });
+
+}
 
 $(".dropdown-menu li a").click(function () {
     var selText = $(this).text();
@@ -92,11 +101,9 @@ function gd2(type, querySet) {
 }
 
 var dataSet //different data sets for diff charts, different getData methods in chart
-google.charts.load('current', { 'packages': ['corechart', 'line'] });
+google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table'] });
 
-google.charts.setOnLoadCallback(gd());
-//load chart data
-//$(gd);
+google.charts.setOnLoadCallback(gd2(type, opt));
 
 function gd(type) {
 
@@ -136,6 +143,12 @@ function drawChart(result, type) {
         case "pie":
             drawPieChart(result, 'donut');
             break;
+        case "treemap":
+            drawTreeMapChart(result);
+            break;
+        case "table":
+            drawTable(result);
+            break;
         default:
             console.log('please select a chart you mug');
     }
@@ -157,10 +170,11 @@ function drawComboChart(result) {
     data.addRows(dataArray);
 
     var options = {
-        title: 'Detection Failure Comparison',
-        vAxis: { title: 'Detection Faulures' },
-        hAxis: { title: 'AntiVirus' },
+        title: chartTitle,
+        vAxis: { title: ylab},
+        hAxis: { title: xlab },
         seriesType: 'bars',
+        //chartArea: { top: 60 },
         series: { 5: { type: 'line' } }
     };
 
@@ -186,7 +200,11 @@ function drawWaterFallChart(result) {
     data.addRows(dataArray);
 
     var options = {
+        title: chartTitle,
+        vAxis: { title: ylab },
+        hAxis: { title: xlab },
         legend: 'none',
+        ////chartArea: { top: 60 },
         bar: { groupWidth: '100%' }, // Remove space between bars.
         candlestick: {
             fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
@@ -199,8 +217,6 @@ function drawWaterFallChart(result) {
 }
 
 function drawAreaChart(result) {
-
-
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Antivirus');
@@ -215,7 +231,10 @@ function drawAreaChart(result) {
     data.addRows(dataArray);
 
     var options = {
-        title: 'Detection Comparisons'
+        title: chartTitle,
+        vAxis: { title: ylab },
+        hAxis: { title: xlab }
+        ////chartArea: { top: 60 }
     };
 
     var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
@@ -239,10 +258,10 @@ function drawSeriesChart(result) {
     data.addRows(dataArray);
 
     var options = {
-        title: 'Correlation between life expectancy, fertility rate ' +
-               'and population of some world countries (2010)',
-        hAxis: { title: 'Full' },
-        vAxis: { title: 'Free' },
+        title: chartTitle,
+        vAxis: { title: ylab},
+        hAxis: { title: xlab },
+        //chartArea: { top: 60 },
         bubble: { textStyle: { fontSize: 11 } }
     };
 
@@ -268,19 +287,22 @@ function drawPieChart(result, type) { //alternate dataset needed
     switch (type) {
         case "3d":
             options = {
-                title: 'My Daily Activities',
+                title: chartTitle,
                 is3D: true,
+                //chartArea: { top: 60 }
             };
             break;
         case "donut":
             options = {
-                title: 'My Daily Activities',
+                title: chartTitle,
                 pieHole: 0.4,
+                //chartArea: { top: 60 }
             };
             break;
         default:
             options = {
-                title: 'My Daily Activities'
+                title: chartTitle,
+                chartArea: { top: 0 },
             };
     }
 
@@ -288,6 +310,83 @@ function drawPieChart(result, type) { //alternate dataset needed
     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 }
+
+function drawTreeMapChart(result) {
+    //['Free/Full', 'Antivirus', 'DF/DS', sample size]
+    var data = new google.visualization.arrayToDataTable([
+      ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
+      ['Global', null, 0, 0],
+      ['America', 'Global', 0, 0],
+      ['Europe', 'Global', 0, 0],
+      ['Asia', 'Global', 0, 0],
+      ['Australia', 'Global', 0, 0],
+      ['Africa', 'Global', 0, 0],
+      ['Brazil', 'America', 11, 10],
+      ['USA', 'America', 52, 31],
+      ['Mexico', 'America', 24, 12],
+      ['Canada', 'America', 16, -23],
+      ['France', 'Europe', 42, -11],
+      ['Germany', 'Europe', 31, -2],
+      ['Sweden', 'Europe', 22, -13],
+      ['Italy', 'Europe', 17, 4],
+      ['UK', 'Europe', 21, -5],
+      ['China', 'Asia', 36, 4],
+      ['Japan', 'Asia', 20, -12],
+      ['India', 'Asia', 40, 63],
+      ['Laos', 'Asia', 4, 34],
+      ['Mongolia', 'Asia', 1, -5],
+      ['Israel', 'Asia', 12, 24],
+      ['Iran', 'Asia', 18, 13],
+      ['Pakistan', 'Asia', 11, -52],
+      ['Egypt', 'Africa', 21, 0],
+      ['S. Africa', 'Africa', 30, 43],
+      ['Sudan', 'Africa', 12, 2],
+      ['Congo', 'Africa', 10, 12],
+      ['Zaire', 'Africa', 8, 10]
+    ]);
+
+    tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
+
+    var options = {
+        title: chartTitle,
+        minColor: '#e7711c',
+        midColor: '#fff',
+        maxColor: '#4374e0',
+        showScale: true,
+        chartArea: { top: 0 },
+        generateTooltip: showStaticTooltip
+    };
+
+    tree.draw(data, options);
+
+    function showStaticTooltip(row, size, value) {
+        return '<div style="background:#fd9; padding:10px; border-style:solid">' +
+               'Read more about the <a href="http://en.wikipedia.org/wiki/Kingdom_(biology)">kingdoms of life</a>.</div>';
+    }
+
+}
+
+function drawTable(result) {
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Antivirus');
+    data.addColumn('number', 'Detection');
+
+    var dataArray = [];
+    $.each(result, function (i, av) {
+        dataArray.push([av.anv, av.cdfavr]);
+    });
+
+    data.addRows(dataArray);
+
+    var options;
+
+    var table = new google.visualization.Table(document.getElementById('chart_div'));
+
+    table.draw(data, options);
+}
+
+
 
 //function drawLineChart() { //requires formatting of result set
 

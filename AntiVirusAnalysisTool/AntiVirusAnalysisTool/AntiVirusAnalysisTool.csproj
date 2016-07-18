@@ -113,7 +113,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\pie-chart-design.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -125,8 +124,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\helpers\table.js" />
     <Content Include="Scripts\helpers\chart.js" />
-    <Content Include="Scripts\helpers\main.js" />
-    <Content Include="Scripts\helpers\maint.js" />
+    <Content Include="Scripts\helpers\web.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.js" />
@@ -147,7 +145,6 @@
     <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.0.0.min.map" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\ScanResult\Index.cshtml" />
     <Content Include="Views\Chart\Chart.cshtml" />
     <Content Include="Views\Chart\Index.cshtml" />
     <Content Include="Views\Chart\List.cshtml" />
@@ -159,7 +156,6 @@
     <Compile Include="Controllers\AnalysisController.cs" />
     <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ScanResultController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,7 +168,6 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index-Old.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Analysis\Chart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
