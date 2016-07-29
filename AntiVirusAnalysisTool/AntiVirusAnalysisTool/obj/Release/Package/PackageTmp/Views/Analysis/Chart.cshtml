@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Chart Live";
+}
+
+<h2>Chart</h2>
+<p></p>
+
+<div class="container">
+    <fieldset>
+        <legend>What would you like to see?</legend>
+        The 
+        <div class="dropdown" style="display: inline">
+            <button class="btn dropdown-toggle" data-inputID="quantInput" data-toggle="dropdown">
+                Count/Rate
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Count</a></li>
+                <li><a href="#">Rate</a></li>
+            </ul>
+        </div>
+        of detection
+        <div class="dropdown" style="display: inline">
+            <button class="btn dropdown-toggle" data-inputid="detectionInput" data-toggle="dropdown">
+                Failure/Success
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Failure</a></li>
+                <li><a href="#">Success</a></li>
+            </ul>
+        </div>
+        across 
+        <div class="dropdown" style="display: inline">
+            <button class="btn dropdown-toggle" data-inputid="versionInput" data-toggle="dropdown">
+                Antivirus Versions
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @*<li><a href="#">Full version</a></li>
+                <li><a href="#">VT version</a></li>*@
+                <li><a href="#">Both versions</a></li>
+            </ul>
+        </div>
+        grouped by 
+        <div class="dropdown" style="display: inline">
+            <button class="btn dropdown-toggle" data-inputid="groupInput" data-toggle="dropdown">
+                AV Name/Scan Date
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Antivirus</a></li>
+                @*<li><a href="#">Date</a></li>*@
+            </ul>
+        </div>
+    </fieldset>
+
+    <button class="btn btn-primary btn-large btn-block margin-top-20" onclick="qs('default')">Execute query</button>
+
+<h4>Chart Type:</h4>
+<div id="chartSelector">
+    <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="combo">Combo</label>
+    <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="waterfall">Waterfall</label>
+    @*<label class="radio-inline"><input type="radio" name="optradio" onclick="gd(value)" value="combo">Option 3</label>*@
+</div>
+
+
+
+</div>
+
+<div class="container" id="chart">
+    <h3>Your Chart:</h3>
+    <div id="chart_div" class="margin-top-20" height="800px"></div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/helpers/chart.js"></script>

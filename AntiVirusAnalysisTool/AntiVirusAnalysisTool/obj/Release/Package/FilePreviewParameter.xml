@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="AVAnalytics" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Olamide\\Desktop\\DataVision\\AntiVirusAnalysisTool\\AntiVirusAnalysisTool\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Olamide\\Desktop\\DataVision\\AntiVirusAnalysisTool\\AntiVirusAnalysisTool\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="AnalysisResultContext-Web.config Connection String" description="" value="Data Source=tcp:olamidek.database.windows.net,1433;Initial Catalog=AntivirusAnalytics;User Id=olamidek@olamidek.database.windows.net;Password=Olaitan1" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Olamide\\Desktop\\DataVision\\AntiVirusAnalysisTool\\AntiVirusAnalysisTool\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AnalysisResultContext']/@connectionString" />
+  </parameter>
+  <parameter name="ScanResultContext-Web.config Connection String" description="" value="Data Source=tcp:olamidek.database.windows.net,1433;Initial Catalog=AntivirusAnalytics;User Id=olamidek@olamidek.database.windows.net;Password=Olaitan1" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Olamide\\Desktop\\DataVision\\AntiVirusAnalysisTool\\AntiVirusAnalysisTool\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ScanResultContext']/@connectionString" />
+  </parameter>
+</parameters>

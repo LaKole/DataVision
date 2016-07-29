@@ -12,6 +12,17 @@ namespace AntiVirusAnalysisTool.Controllers
     public class ChartController : Controller
     {
         private ScanResultContext db = new ScanResultContext();
+        private AnalysisResultContext dbx = new AnalysisResultContext();
+
+        public ActionResult test()
+        {
+
+            var data = dbx.AnalysisResults.Take(5).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+       
+
 
         // GET: ScanResult
         public ActionResult Index()

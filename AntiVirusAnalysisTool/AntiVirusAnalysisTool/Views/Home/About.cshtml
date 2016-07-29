@@ -1,156 +1,140 @@
-﻿<div class="container margin-top-20">
-    <div class="col-md-9">
-        <div id="chart_div" style="height:500px; "></div> @*if pie selected and both versions width spilt in half width = 50%*@
-    </div>
-    <div class="col-md-3">
+﻿@{
+    ViewBag.Title = "Chart Live";
+}
 
-        <div class="panel-group" id="accordion">
+<div class="container margin-top-20">
+    
+    <div class="tab-panels">
+        <ul class="tabs">
+            <li data-panelID="analysisType" class="active">Analysis Type</li>
+            <li data-panelID="chartOptions">Visualisation Type</li>
+            <li data-panelID="filterOptions">Filter Options</li>
+            <li data-panelID="diy">Write Your Own</li>
+        </ul>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#chartType">Chart Type</a>
-                    </h4>
-                </div>
-                <div id="chartType" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div id="chartSelector">
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('combo')">Combo</button>
-                            @*<button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('waterfall')">Waterfall</button>*@
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('area')">Area</button>
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('series')">Series</button>
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('pie')">Pie</button>
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('treemap')">Tree Map</button>
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('table')">Table</button>
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('')">HeatMap</button>
-                            <button type="button" class="btn btn-info" style="margin:1px 0px" onclick="qs('')">Line</button>
-                            @*<label class="radio"><input type="radio" name="optradio" onclick="qs(value)" value="area">Area</label>
-                                <label class="radio"><input type="radio" name="optradio" onclick="qs(value)" value="series">series</label>
-                                <label class="radio"><input type="radio" name="optradio" onclick="qs(value)" value="pie">pie</label>
-                                <label class="radio"><input type="radio" name="optradio" onclick="qs(value)" value="treemap">treemap</label>
-                                <label class="radio"><input type="radio" name="optradio" onclick="qs(value)" value="table">table</label>*@
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#filterOptions">Filter Options</a>
-                    </h4>
-                </div>
-                <div id="filterOptions" class="panel-collapse collapse">
-                    <div class="panel-body">
-
-                        <label class="control-label">X-Axis</label>
-                        <div class="selectContainer">
-                            <select class="form-control" id="xaxis" onchange="updateOptions()">
-                                <option value="antivirus">Antivirus</option>
-                                <option value="day">Day</option>
-                                <option value="malware">Malware</option>
-                                <option value="week">Week</option>
-                            </select>
-                        </div>
-
-                        <label class="control-label">Y-Axis</label>
-                        <div class="selectContainer">
-                            <select class="form-control" id="yaxis" onchange="updateOptions()">
-                                <option value="dfc">Detection Failure Count</option>
-                                <option value="av">Antivirus</option>
-                                <option value="day">Day</option>
-                                <option value="mw">Malware</option>
-                                <option value="week">Week</option>
-                                <option value="dfr">Detection Failure Rate</option>
-                                <option value="dsc">Detection Success Count</option>
-                                <option value="dsr">Detection Success Rate</option>
-                            </select>
-                        </div>
-
-                        <label class="control-label">Z-Axis</label>
-                        <div class="selectContainer">
-                            <select class="form-control" id="zaxis" onchange="updateOptions()">
-                                <option value="mc">Malware Count</option>
-                                <option value="dc">Day Count</option>
-                                <option value="ac">Antivirus Count</option>
-                            </select>
-                        </div>
-
-                        <label class="control-label">Version Comparison</label>
-                        <div class="selectContainer">
-                            <select class="form-control" id="version" onchange="updateOptions()">
-                                <option value="both">Both</option>
-                                <option value="free">Virus Total (free)</option>
-                                <option value="full">Full Capability</option>
-                            </select>
-                        </div>
-
-                        
-
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#chartSettings">Chart Settings</a>
-                    </h4>
-                </div>
-                <div id="chartSettings" class="panel-collapse collapse">
-                    <div class="panel-body">
-
-                        <label class="control-label">Chart Name</label>
-                        <div>
-                            <input type="text" class="form-control" id="chartName" onchange="updateOptions()"/>
-                        </div>
-                        <p>(Press "Enter" when done)</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#rscript">R Script</a>
-                    </h4>
-                </div>
-                <div id="rscript" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <p>Write your script here...</p>
-
-                        <div class="form-group">
-                            <div>
-                                <textarea name="description" class="form-control" rows="5"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#otherOptions">Other Options</a>
-                    </h4>
-                </div>
-                <div id="otherOptions" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <p>
-                            save, email etc options here
-                        </p>
-                    </div>
-                </div>
-            </div>
-
+        <div id="panel1" data-panelID="analysisType" class="panel active">
+            panel one
         </div>
-        
+
+        <div id="panel2" data-panelID="chartOptions" class="panel">
+            data table<br />
+            tree map<br />
+            circles<br />
+            bars<br />
+            line<br />
+            heatmap <br />
+        </div>
+
+        <div id="panel3" data-panelID="filterOptions" class="panel">
+            panel three
+        </div>
+
+
+        <div id="panel4" data-panelID="diy" class="panel">
+            write<br/>
+            your<br/>
+            own<br/>
+        </div>
+
     </div>
+
+
+
+
+
+
+
+
+
+    
+
 </div>
 
+<button type="button" class="btn btn-info">Version Comparisons</button>
+<button type="button" class="btn btn-info">Visualisations Over AV, MW and Time</button> @*heatmaps, figures 2-4*@
+<button type="button" class="btn btn-info">Time Lag Analysis</button> @*differences in detections by two versions*@
+<button type="button" class="btn btn-info">Signature Label Analysis</button> @*analysis to do with signature labels*@
+<button type="button" class="btn btn-info">Summary Analysis</button> @*using overall totals*@
+
+<div class="container margin-top-20">
+    <h2>What would you like to see?</h2>
+    The
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputID="quantInput" data-toggle="dropdown">
+            Count/Rate
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Count</a></li>
+            <li><a href="#">Rate</a></li>
+        </ul>
+    </div>
+    of detection
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputid="detectionInput" data-toggle="dropdown">
+            Failure/Success
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Failure</a></li>
+            <li><a href="#">Success</a></li>
+        </ul>
+    </div>
+    across
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputid="versionInput" data-toggle="dropdown">
+            Antivirus Versions
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            @*<li><a href="#">Full version</a></li>
+                <li><a href="#">VT version</a></li>*@
+            <li><a href="#">Both versions</a></li>
+        </ul>
+    </div>
+    grouped by
+    <div class="dropdown" style="display: inline">
+        <button class="btn dropdown-toggle" data-inputid="groupInput" data-toggle="dropdown">
+            AV Name/Scan Date
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Antivirus</a></li>
+            @*<li><a href="#">Date</a></li>*@
+        </ul>
+    </div>
+
+    <button class="btn btn-success btn-large btn-block margin-top-20" onclick="qs('default')">Execute query</button>
+
+    <p></p>
+
+</div>
+
+<div class="container" id="chart">
+    <h3>Your Chart:</h3>
+
+    <div id="chartTyper">
+        <button type="button" class="btn btn-info" onclick="qs(value)" value="combo">Combo</button>
+        <button type="button" class="btn btn-info">Waterfall</button>
+        <button type="button" class="btn btn-info">Line</button>
+        <button type="button" class="btn btn-info">HeatMap</button>
+
+        <div id="chartSelector">
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="combo">Combo</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="waterfall">Waterfall</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="area">Area</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="series">series</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="pie">pie</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="treemap">treemap</label>
+            <label class="radio-inline"><input type="radio" name="optradio" onclick="qs(value)" value="table">table</label>
+        </div>
+
+        <div id="chart_div" class="margin-top-20" height="800px"></div>
+
+    </div>
+</div>
 <script src="~/Scripts/jquery-3.0.0.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="~/Scripts/bootstrap.js"></script>
 <script src="~/Scripts/helpers/chart.js"></script>
-<script src="~/Scripts/helpers/web.js"></script>
