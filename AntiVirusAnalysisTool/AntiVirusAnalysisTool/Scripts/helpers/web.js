@@ -5,8 +5,10 @@ $('.btn').on('click', (function () {
     $('.btn').removeClass('btn-success').addClass('btn-info');
     $(this).addClass('btn-success').removeClass('btn-info');
     type = $(this).val();
-    //showPanel();
     updateOptions();
+    $('.panel-collapse').collapse("hide");
+    //console.log('btn.on.click - web.js');
+
 }));
 
 
@@ -28,34 +30,6 @@ function customRange(input) {
         return { minDate: minDate, maxDate: new Date("12/11/2013") };
     }
     return { minDate: new Date("11/11/2013"), maxDate: new Date("12/11/2013") };
-}
-
-$('.tab-panels .tabs li').on('click', showPanel());
-
-function showPanel() {
-    //find panel
-    console.log('shwOanebyjfkyjbfjbjb');
-    var $panel = $(this).closest('.tab-panels');
-    //find the active tab in the panel and make inactive
-    $panel.find('.tabs li.active').removeClass('active');
-    $(this).addClass('active');
-
-    //figure out which panel to show
-    var panelToShow = $(this).attr('data-panelID');
-
-    //hide current panel
-    $panel.find('.panel.active').slideUp(300, showNextPanel(panelToShow));
-
-}
-
-//show next panel
-function showNextPanel(panelToShow) {
-    $(this).removeClass('active');
-    $('#' + panelToShow).slideDown(300, function () {
-        $(this).addClass('active');
-    });
-
-
 }
 
 
@@ -86,7 +60,7 @@ function getGroupBy(x, y) {
     else if ((x === ("Scandate")) && (y === ("MD5"))) {
         z = "Antivirus";
     }
-    console.log(x);
+
     $('#groupby').val(z);
 
     return z;
@@ -96,12 +70,20 @@ function updateOptions() {
     $('[data-chartOp]').attr('id', 'inactiveOp');
     switch (type) {
         case "table":
-            console.log(type);
+            //console.log(type + ' - web.js updateOptions');
             $('[data-chartOp="matrixOp"]').attr('id', 'chartOptions');
             updateTableOptions();
             break;
+        case "pie":
+        case "3dPie":
+        case "donutPie":
+            //console.log(type + ' - web.js updateOptions');
+            $('[data-chartOp="pieOp"]').attr('id', 'chartOptions');
+            updatePieOptions();
+            break;
+
         case "other":
-            console.log(type);
+            //console.log(type + ' - web.js updateOptions');
             $('[data-chartOp="quantOp"]').attr('id', 'chartOptions');
             updateOtherOptions();
             break;
@@ -109,13 +91,12 @@ function updateOptions() {
         case "area":
         case "line":
         default:
-            console.log(type);
+            //console.log(type + ' - web.js updateOptions');
             $('[data-chartOp="quantOp"]').attr('id', 'chartOptions');
             updateBarOptions();
             break;
     }
 
-    //showPanel();
 }
 
 function updateBarOptions() {
@@ -134,14 +115,29 @@ function updateBarOptions() {
     ylab = $('#detectionOp').find(":selected").text();
 
     chartTitle = $('#chartName').val();
-
-
-    $('#chart_div').attr('style', 'height:500px');
-    $('#pie_div').attr('style', 'display:none');
-
+    
     opt = { key: x, xaxis: y, measure: z, d: d, v: v };
 
-    console.log('made it');
+    //console.log('options: ' + opt + ' - web.js updateBarOptions');
+    getData(type, opt);
+
+}
+
+function updatePieOptions() {
+
+    var x = $('#keyOp').find(":selected").val();
+
+    var y = $('#sliceOp').find(":selected").val();
+
+    var d = $('#detectionOp').find(":selected").val();
+
+    var v = $('#versionOp').find(":selected").val();
+
+    chartTitle = $('#chartName').val();
+
+    opt = { key: x, slice: y, d: d, v: v };
+
+    //console.log('options: ' + opt + ' - web.js updatePieOptions');
     getData(type, opt);
 
 }
@@ -170,7 +166,7 @@ function updateOtherOptions() {
 
     opt = { column: x, row: y, groupby: z, d: d, v: v };
 
-    console.log(opt);
+    //console.log('options: ' + opt + ' - web.js updateOtherOptions');
     getData(type, opt);
 
 }
@@ -200,7 +196,7 @@ function updateTableOptions() {
 
     opt = { column: x, row: y, groupby: z, d: d, v: v };
 
-    console.log(opt);
+    //console.log('options: ' + opt + ' - web.js updateTableOptions');
     getData(type, opt);
 
 }

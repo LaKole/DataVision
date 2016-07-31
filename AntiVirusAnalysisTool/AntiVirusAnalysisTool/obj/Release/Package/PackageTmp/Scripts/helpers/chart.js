@@ -14,6 +14,9 @@ function getData(type, querySet) {
         case "line":
             url = '/Analysis/getData';
             break;
+        case "pie":
+            url = '/Analysis/getPieData';
+            break;
         case "table":
             url = '/Analysis/getTableData';
             break;
@@ -29,6 +32,13 @@ function getData(type, querySet) {
         data: JSON.stringify(querySet),
         contentType: "application/json",
         url: url,
+        beforeSend: function () {
+            $('#loadingGif').css('display', 'block');
+
+        },
+        complete: function () {
+            $('#loadingGif').css('display', 'none');
+        },
         success: function (result) {
             //console.log(result);
             drawChart(result, type);

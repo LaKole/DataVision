@@ -57,6 +57,35 @@ namespace AntiVirusAnalysisTool.Controllers
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult getPieData(string key, string slice, int d, string v)
+        {
+
+            SqlConnection con = new SqlConnection(connString);
+
+            string cond, sql;
+
+            cond = "WHERE DetectionFailure" + v + " = " + d.ToString();
+
+            sql = "select " + key + ", COUNT(distinct " + slice + ") from dbo.AnalysisResults "+ cond + " GROUP BY " + key;
+
+
+            var cmd = new SqlCommand(sql, con);
+
+            DataTable dt = new DataTable();
+            con.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            var r = dtToJson(dt);
+
+
+            con.Close();
+
+
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
 
 
         [HttpPost]

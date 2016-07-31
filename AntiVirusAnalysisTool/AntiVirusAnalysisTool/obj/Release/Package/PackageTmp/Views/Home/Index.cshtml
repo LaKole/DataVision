@@ -1,4 +1,13 @@
-﻿<div class="container margin-top-20">
+﻿@Styles.Render("~/Content/css")
+<title>AV Analytics</title>
+<div class="container ">
+
+    <div class="row" align="center">
+        <div class="col-md-12">
+            <h2>Antivirus Analytics</h2>
+        </div>
+    </div>
+
     <div class="row">
 
         <div id="chartSelector" class="col-md-12">
@@ -21,19 +30,16 @@
 
             <div class="col-md-9">
                 <div id="chart_div" style="height:500px;"></div>
-                <div id="both_div" style="display:none">
-                    <div id="chartavr_div" class="col-md-6" style="height:500px; width:50%"></div>
-                    <div id="chartmw_div" class="col-md-6" style="height:500px; width:50%"></div>
-                </div>
+                <div id="loadingGif" style="position:absolute; vertical-align:central; top: 50px; display:none"><img src="http://www.wwalliance.com/include/images/loading_with_fade.gif" height="80" width ="80" /></div>
             </div>
             <div class="col-md-3">
 
-                <div class="panel-group" id="accordion">
+                <div class="panel-group" id="panelOptions">
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#chartOptions">Chart Options</a>
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartOptions">Chart Options</a>
                             </h4>
                         </div>
                         <div class="panel-collapse collapse" data-chartop="matrixOp">
@@ -122,12 +128,56 @@
 
                             </div>
                         </div>
+
+                        <div class="panel-collapse collapse" data-chartop="pieOp">
+                            <div class="panel-body">
+
+                                <label class="control-label">Key</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="keyOp" onchange="updateOptions()">
+                                        <option value="Antivirus">Antivirus</option>
+                                        @*<option value="version">Version</option>*@
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Slice</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="sliceOp" onchange="updateOptions()">
+                                        <option value="Scandate">ScanDate</option>
+                                        <option value="Antivirus">Antivirus</option>
+                                        <option value="MD5">Malware</option>
+                                    </select>
+                                </div>
+
+
+                                <label class="control-label">Detection Type</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="detectionOp" onchange="updateOptions()">
+                                        <option value="1">Failure</option>
+                                        <option value="0">Success</option>
+                                    </select>
+                                </div>
+
+
+                                <label class="control-label">Antivirus Version</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="versionOp" onchange="updateOptions()">
+                                        <option value="avr">Full Capability</option>
+                                        <option value="malware">Virus Total</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
                     </div>
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#chartSettings">Chart Settings</a>
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSettings">Chart Settings</a>
                             </h4>
                         </div>
                         <div id="chartSettings" class="panel-collapse collapse">
@@ -152,7 +202,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#otherOptions">Other Options</a>
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#otherOptions">Other Options</a>
                             </h4>
                         </div>
                         <div id="otherOptions" class="panel-collapse collapse">
@@ -171,11 +221,10 @@
 
     </div>
 </div>
-<script src="~/Scripts/jquery-3.0.0.js"></script>
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="~/Scripts/bootstrap.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="~/Scripts/helpers/chart.js"></script>
 <script src="~/Scripts/helpers/web.js"></script>

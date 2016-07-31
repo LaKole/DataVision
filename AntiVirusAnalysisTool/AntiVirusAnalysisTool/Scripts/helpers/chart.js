@@ -6,22 +6,29 @@ function getData(type, querySet) {
     var url;
 
     switch (type) {
-        case "series":
-            url = '/Analysis/getBubbleData';
-            break;
         case "area":
         case "bar":
+        case "column":
+        case "stackedArea":
+        case "stackedBar":
+        case "stackedColumn":
         case "line":
             url = '/Analysis/getData';
+            break;
+        case "pie":
+        case "3dPie":
+        case "donutPie":
+            url = '/Analysis/getPieData';
             break;
         case "table":
             url = '/Analysis/getTableData';
             break;
         default:
-            url = '/Analysis/getData';
+            console.log('define url Lamide - chart.js getData');
             break;
     }
-    console.log(url);
+
+    //console.log(url + ' - chart.js getData');
 
     $.ajax({
         type: 'POST',
@@ -29,12 +36,18 @@ function getData(type, querySet) {
         data: JSON.stringify(querySet),
         contentType: "application/json",
         url: url,
+        beforeSend: function () {
+            $('#loadingGif').css('display', 'block');
+
+        },
+        complete: function () {
+            $('#loadingGif').css('display', 'none');
+        },
         success: function (result) {
-            //console.log(result);
             drawChart(result, type);
         },
         error: function () {
-            console.log('unable to get data');
+            console.log('unable to get data  - chart.js getData');
         }
     });
 
@@ -43,107 +56,87 @@ function getData(type, querySet) {
 function drawChart(result, type) {
 
     switch (type) {
-        case "waterfall":
-            drawWaterFallChart(result);
+        case "area":
+        case "stackedArea":
+            drawAreaChart(result, type);
             break;
         case "bar":
-            drawBarChart(result);
+        case "stackedBar":
+            drawBarChart(result, type);
             break;
-        case "area":
-            drawAreaChart(result);
-            break;
-        case "series":
-            drawSeriesChart(result);
-            break;
-        case "pie":
-            drawPieChart(result, 'donut');
-            break;
-        case "treemap":
-            drawTreeMapChart(result);
-            break;
-        case "table":
-            drawTable(result);
+        case "column":
+        case "stackedColumn":
+            drawColumnChart(result, type);
             break;
         case "line":
             drawLineChart(result);
             break;
+        case "pie":
+        case "3dPie":
+        case "donutPie":
+            drawPieChart(result, type);
+            break;
+        case "table":
+            drawTable(result);
+            break;
+        default:
+            console.log('no selection made - chart.js drawChart');
+            break;
     }
 }
 
-function drawBarChart(result) {
+function drawAreaChart(result, type) {
 
     var data = new google.visualization.DataTable(result);
-    
     var options = {
         title: chartTitle,
-        isStacked: true,
         vAxis: { title: ylab },
-        hAxis: { title: xlab}
+        hAxis: { title: xlab }
     };
+
+    if (type === "stackedArea")
+    { options.isStacked = true; }
+
+    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+
+}
+
+function drawBarChart(result, type) {
+
+    var data = new google.visualization.DataTable(result);
+
+    var options = {
+        title: chartTitle,
+        vAxis: { title: xlab },
+        hAxis: { title: ylab }
+    };
+
+    if (type === "stackedBar")
+    { options.isStacked = true; }
+
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+}
+
+function drawColumnChart(result, type) {
+
+    var data = new google.visualization.DataTable(result);
+
+    var options = {
+        title: chartTitle,
+        vAxis: { title: ylab },
+        hAxis: { title: xlab }
+    };
+
+    if (type === "stackedColumn")
+    { options.isStacked = true; }
 
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 }
 
-function drawAreaChart(result) {
-    console.log(result);
-    var data = new google.visualization.DataTable(result);
-    var options = {
-        title: chartTitle,
-        vAxis: { title: ylab },
-        hAxis: { title: xlab },
-        isStacked: true
-    };
-
-    var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-
-}
-
-function drawPieChart(result, type) { //alternate dataset needed
-
-    var data = new google.visualization.DataTable(result);
-
-    var options;
-
-    switch (type) {
-        case "3d":
-            options = {
-                is3D: true,
-                //chartArea: { top: 60 }
-            };
-            break;
-        case "donut":
-            options = {
-                pieHole: 0.4,
-                //chartArea: { top: 60 }
-            };
-            break;
-        default:
-            options = {
-                chartArea: { top: 0 },
-            };
-    }
-    options.title = chartTitle;
-
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-
-}
-
-
-function drawTable(result) {
-
-    var data = new google.visualization.DataTable(result);
-
-    var options = { width: '100%', height: '100%' };
-
-    var table = new google.visualization.Table(document.getElementById('chart_div'));
-
-    table.draw(data, options);
-}
-
-function drawLineChart(result) { //requires formatting of result set
+function drawLineChart(result) {
 
     var data = new google.visualization.DataTable(result);
 
@@ -158,8 +151,41 @@ function drawLineChart(result) { //requires formatting of result set
     chart.draw(data, options);
 }
 
+function drawPieChart(result, type) { //alternate dataset needed
+
+    var data = new google.visualization.DataTable(result);
+
+    var options = {
+        title: chartTitle
+    };
+
+    switch (type) {
+        case "3dPie":
+            options.is3D = true;
+            break;
+        case "donutPie":
+            options.pieHole = 0.4;
+            break;
+    }
+
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+
+}
+
+function drawTable(result) {
+
+    var data = new google.visualization.DataTable(result);
+
+    var options = { width: '100%', height: '100%' };
+
+    var table = new google.visualization.Table(document.getElementById('chart_div'));
+
+    table.draw(data, options);
+}
 
 
+//unused
 function drawSeriesChart(result) {
 
     var data = new google.visualization.DataTable(result);
@@ -212,23 +238,17 @@ function drawTreeMapChart(result) {
     //['Free/Full', 'Antivirus', 'DF/DS', sample size]
     var data = new google.visualization.arrayToDataTable(result);
 
-    tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
-
     var options = {
         title: chartTitle,
         minColor: '#e7711c',
         midColor: '#fff',
         maxColor: '#4374e0',
         showScale: true,
-        chartArea: { top: 0 },
-        generateTooltip: showStaticTooltip
+        chartArea: { top: 0 }
     };
 
-    tree.draw(data, options);
+    var chart = new google.visualization.TreeMap(document.getElementById('chart_div'));
 
-    function showStaticTooltip(row, size, value) {
-        return '<div style="background:#fd9; padding:10px; border-style:solid">' +
-               'Read more about the <a href="http://en.wikipedia.org/wiki/Kingdom_(biology)">kingdoms of life</a>.</div>';
-    }
+    chart.draw(data, options);
 
 }

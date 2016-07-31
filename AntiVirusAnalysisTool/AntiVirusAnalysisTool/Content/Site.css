@@ -36,3 +36,11 @@ textarea {
 select option[disabled] {
     display: none;
 }
+
+/*center loading gif in chart*/
+/*#loadingGif {
+    width: 50%;
+    height:50%;
+    position:absolute;
+    margin: 0 auto; 
+}*/

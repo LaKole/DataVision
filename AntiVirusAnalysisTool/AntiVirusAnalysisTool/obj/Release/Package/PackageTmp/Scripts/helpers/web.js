@@ -1,12 +1,15 @@
 ﻿var opt, type, chartTitle, xlab, ylab, version;
 
 
-$('.btn').click(function () {
+$('.btn').on('click', (function () {
     $('.btn').removeClass('btn-success').addClass('btn-info');
     $(this).addClass('btn-success').removeClass('btn-info');
     type = $(this).val();
-    updateOptions()
-});
+    updateOptions();
+    $('.panel-collapse').collapse("hide");
+    console.log('worked');
+
+}));
 
 
 $('#startDate, #endDate').datepicker({
@@ -27,34 +30,6 @@ function customRange(input) {
         return { minDate: minDate, maxDate: new Date("12/11/2013") };
     }
     return { minDate: new Date("11/11/2013"), maxDate: new Date("12/11/2013") };
-}
-
-$('.tab-panels .tabs li').on('click', showPanel());
-
-function showPanel() {
-
-    var $panel = $(this).closest('.tab-panels');
-
-    $panel.find('.tabs li.active').removeClass('active');
-    $(this).addClass('active');
-
-    //figure out which panel to show
-    var panelToShow = $(this).attr('data-panelID');
-
-    //hide current panel
-    $panel.find('.panel.active').slideUp(300, showNextPanel(panelToShow));
-
-}
-
-//show next panel
-function showNextPanel(panelToShow) {
-
-    $(this).removeClass('active');
-    $('#' + panelToShow).slideDown(300, function () {
-        $(this).addClass('active');
-    });
-
-
 }
 
 
@@ -99,6 +74,12 @@ function updateOptions() {
             $('[data-chartOp="matrixOp"]').attr('id', 'chartOptions');
             updateTableOptions();
             break;
+        case "pie":
+            console.log(type);
+            $('[data-chartOp="pieOp"]').attr('id', 'chartOptions');
+            updatePieOptions();
+            break;
+
         case "other":
             console.log(type);
             $('[data-chartOp="quantOp"]').attr('id', 'chartOptions');
@@ -114,7 +95,6 @@ function updateOptions() {
             break;
     }
 
-    showPanel();
 }
 
 function updateBarOptions() {
@@ -133,12 +113,27 @@ function updateBarOptions() {
     ylab = $('#detectionOp').find(":selected").text();
 
     chartTitle = $('#chartName').val();
-
-
-    $('#chart_div').attr('style', 'height:500px');
-    $('#pie_div').attr('style', 'display:none');
-
+    
     opt = { key: x, xaxis: y, measure: z, d: d, v: v };
+
+    console.log('made it');
+    getData(type, opt);
+
+}
+
+function updatePieOptions() {
+
+    var x = $('#keyOp').find(":selected").val();
+
+    var y = $('#sliceOp').find(":selected").val();
+
+    var d = $('#detectionOp').find(":selected").val();
+
+    var v = $('#versionOp').find(":selected").val();
+
+    chartTitle = $('#chartName').val();
+
+    opt = { key: x, slice: y, d: d, v: v };
 
     console.log('made it');
     getData(type, opt);
