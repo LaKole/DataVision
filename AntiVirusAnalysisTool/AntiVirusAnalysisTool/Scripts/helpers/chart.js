@@ -1,6 +1,37 @@
-﻿google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
-google.charts.setOnLoadCallback();
+﻿//google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
+//google.charts.setOnLoadCallback();
 
+function chart(type, querySet) {
+    var url = '/Analysis/buildQuery';
+
+
+    $.ajax({
+        type: 'POST',
+        dataType: "json",
+        data: JSON.stringify(querySet),
+        contentType: "application/json",
+        url: url,
+        sahdasdass: function (prog) {
+            console.log('----------------------------');
+            console.log(prog);
+        },
+        beforeSend: function () {
+            $('#loadingGif').css('display', 'block');
+
+        },
+        complete: function () {
+            $('#loadingGif').css('display', 'none');
+        },
+        success: function (result) {
+            console.log('heree');
+            drawChart(result, type);
+        },
+        error: function () {
+            console.log('unable to get data  - chart.js getData');
+        }
+    });
+
+}
 
 function getData(type, querySet) {
     var url;
@@ -36,6 +67,10 @@ function getData(type, querySet) {
         data: JSON.stringify(querySet),
         contentType: "application/json",
         url: url,
+        progress: function (prog) {
+            console.log('----------------------------');
+            console.log(prog);
+        },
         beforeSend: function () {
             $('#loadingGif').css('display', 'block');
 
@@ -171,6 +206,20 @@ function drawPieChart(result, type) { //alternate dataset needed
     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 
+}
+
+function drawScatterChart(result) {
+    var data = new google.visualization.DataTable(result);
+
+    var options = {
+        title: chartTitle,
+        vAxis: { title: ylab },
+        hAxis: { title: xlab }
+
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
 }
 
 function drawTable(result) {
