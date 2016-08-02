@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>testing</title>
+</head>
+<body>
+    <div> 
+        <label class="control-label">Antivirus</label>
+        <div class="selectContainer">
+            <select class="form-control" id="antivirusList" multiple="multiple">
+                <option value="antivir">AntiVir</option>
+                <option value="avg">AVG</option>
+                <option value="comodo">Comodo</option>
+                <option value="f-secure">F-Secure</option>
+                <option value="kaspersky">Kaspersky</option>
+                <option value="mcafee">McAfee</option>
+                <option value="mircosoft">Microsoft</option>
+                <option value="sophos">Sophos</option>
+                <option value="symantec">Symantec</option>
+            </select>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script >
+        $("#antivirusList").multiselect();
+    </script>
+</body>
+</html>

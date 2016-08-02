@@ -1,81 +1,38 @@
 ﻿//google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
 //google.charts.setOnLoadCallback();
 
+ajaxPendingRequests = new Array();
+function abortPendingRequests() {
+    if (ajaxPendingRequests.length > 0) {
+        ajaxPendingRequests.forEach(function (req) {
+            req.abort();
+            ajaxPendingRequests.pop(req);
+        });
+    }
+}
+
+
 function chart(type, querySet) {
     var url = '/Analysis/buildQuery';
 
 
-    $.ajax({
+    var ajReq = $.ajax({
         type: 'POST',
         dataType: "json",
         data: JSON.stringify(querySet),
         contentType: "application/json",
         url: url,
-        sahdasdass: function (prog) {
-            console.log('----------------------------');
-            console.log(prog);
-        },
-        beforeSend: function () {
-            $('#loadingGif').css('display', 'block');
-
-        },
+        beforeSend:
+            function () {
+                console.log(ajaxPendingRequests);
+                abortPendingRequests();
+                ajaxPendingRequests.push(this);
+                console.log(ajaxPendingRequests);
+                $('#loadingGif').css('display', 'block');
+            },
         complete: function () {
-            $('#loadingGif').css('display', 'none');
-        },
-        success: function (result) {
-            console.log('heree');
-            drawChart(result, type);
-        },
-        error: function () {
-            console.log('unable to get data  - chart.js getData');
-        }
-    });
-
-}
-
-function getData(type, querySet) {
-    var url;
-
-    switch (type) {
-        case "area":
-        case "bar":
-        case "column":
-        case "stackedArea":
-        case "stackedBar":
-        case "stackedColumn":
-        case "line":
-            url = '/Analysis/getData';
-            break;
-        case "pie":
-        case "3dPie":
-        case "donutPie":
-            url = '/Analysis/getPieData';
-            break;
-        case "table":
-            url = '/Analysis/getTableData';
-            break;
-        default:
-            console.log('define url Lamide - chart.js getData');
-            break;
-    }
-
-    //console.log(url + ' - chart.js getData');
-
-    $.ajax({
-        type: 'POST',
-        dataType: "json",
-        data: JSON.stringify(querySet),
-        contentType: "application/json",
-        url: url,
-        progress: function (prog) {
-            console.log('----------------------------');
-            console.log(prog);
-        },
-        beforeSend: function () {
-            $('#loadingGif').css('display', 'block');
-
-        },
-        complete: function () {
+            ajaxPendingRequests.pop(this);
+            console.log(ajaxPendingRequests);
             $('#loadingGif').css('display', 'none');
         },
         success: function (result) {
@@ -86,7 +43,9 @@ function getData(type, querySet) {
         }
     });
 
+
 }
+
 
 function drawChart(result, type) {
 
@@ -137,6 +96,7 @@ function drawAreaChart(result, type) {
 
 }
 
+
 function drawBarChart(result, type) {
 
     var data = new google.visualization.DataTable(result);
@@ -152,6 +112,10 @@ function drawBarChart(result, type) {
 
     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
     chart.draw(data, options);
+
+
+
+
 }
 
 function drawColumnChart(result, type) {
@@ -300,4 +264,56 @@ function drawTreeMapChart(result) {
 
     chart.draw(data, options);
 
+}
+
+//filter by chart selection
+function eventFilter() {
+    var columns = [];
+    var series = {};
+    for (var i = 0; i < data.getNumberOfColumns() ; i++) {
+        columns.push(i);
+        if (i > 0) {
+            series[i - 1] = {};
+        }
+    }
+
+    var options = {
+        width: 600,
+        height: 400,
+        series: series
+    }
+
+    google.visualization.events.addListener(chart, 'select', filter);
+}
+
+function filter() {
+    var sel = chart.getSelection();
+    // if selection length is 0, we deselected an element
+    if (sel.length > 0) {
+        // if row is undefined, we clicked on the legend
+        if (sel[0].row === null) {
+            var col = sel[0].column;
+            if (columns[col] == col) {
+                // hide the data series
+                columns[col] = {
+                    label: data.getColumnLabel(col),
+                    type: data.getColumnType(col),
+                    calc: function () {
+                        return null;
+                    }
+                };
+
+                // grey out the legend entry
+                series[col - 1].color = '#CCCCCC';
+            }
+            else {
+                // show the data series
+                columns[col] = col;
+                series[col - 1].color = null;
+            }
+            var view = new google.visualization.DataView(data);
+            view.setColumns(columns);
+            chart.draw(view, options);
+        }
+    }
 }

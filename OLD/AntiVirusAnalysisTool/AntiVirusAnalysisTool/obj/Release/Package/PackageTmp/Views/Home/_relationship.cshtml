@@ -1,0 +1,289 @@
+﻿
+<div id="relationshipChart" class="tab-pane fade in active">
+
+    <div class="container">
+        <div class="row">
+            <h4>Spot Relationships</h4>
+        </div>
+        <div class="row">
+            @* chart area *@
+            <div class="col-md-9">
+                <div id="heat_div" style="height:450px;"></div>
+                <div id="loadingGif" style="position:absolute; vertical-align:central; top: 50px; display:none"><img src="http://www.wwalliance.com/include/images/loading_with_fade.gif" height="80" width="80" /></div>
+            </div>
+
+
+            @* selection area *@
+            <div class="col-md-3">
+
+                <div class="panel-group" id="panelOptions">
+
+                    @* chart selection panel *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSelection">Select Chart</a>
+                            </h4>
+                        </div>
+
+                        <div id="chartSelection" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <button type="button" class="btn btn-info" style="margin:1px 0px" value="heat">Heat</button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @* dimension panel *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartOptions">Chart Dimensions</a>
+                            </h4>
+                        </div>
+
+                        <div id="chartOptions" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+
+                                <label class="control-label">Attribute</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="attribute1" onchange="chartOptions()">
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="scandate">Scan Date</option>
+                                        <option value="version">Version</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">2nd Attribute</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="attribute2" onchange="chartOptions()">
+                                        <option value="scandate">Scan Date</option>
+                                        <option value="md5">Malware</option>
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="">None</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Measure</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="measure" onchange="chartOptions()">
+                                        <option value="md5">Malware</option>
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="scandate">Scan Date</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    @* data filtering *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#dataFilter">Data Filtering</a>
+                            </h4>
+                        </div>
+
+                        <div id="dataFilter" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <label class="control-label">Antivirus</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="antivirusList" multiple="multiple" onchange="chartOptions()">
+                                        <option selected value="'antivir'">AntiVir</option>
+                                        <option selected value="'avg'">AVG</option>
+                                        <option selected value="'comodo'">Comodo</option>
+                                        <option selected value="'f-secure'">F-Secure</option>
+                                        <option selected value="'kaspersky'">Kaspersky</option>
+                                        <option selected value="'mcafee'">McAfee</option>
+                                        <option selected value="'microsoft'">Microsoft</option>
+                                        <option selected value="'sophos'">Sophos</option>
+                                        <option selected value="'symantec'">Symantec</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Version</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="version" onchange="chartOptions()">
+                                        <option value="malware">Virus Total</option>
+                                        <option value="avr">Full Capability</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Detection</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="detection" onchange="chartOptions()">
+                                        <option value="1">Failure</option>
+                                        <option value="0">Success</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Measure Format</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="measureFormat" onchange="chartOptions()">
+                                        <option value="count">Count</option>
+                                        <option value="rate">Rate</option>
+                                        <option value="percentage">Percentage</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Date Range</label>
+                                <div>
+                                    <input type="text" class="form-control" id="startDate" onchange="chartOptions()" placeholder="Start" />
+                                    <input type="text" class="form-control" id="endDate" onchange="chartOptions()" placeholder="End" />
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    @* chart formating *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSettings">Chart Settings</a>
+                            </h4>
+                        </div>
+                        <div id="chartSettings" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <label class="control-label">Chart Name</label>
+                                <div>
+                                    <input type="text" class="form-control" id="chartName" onchange="chartOptions()" />
+                                </div>
+                                <p>(Press "Enter" when done)</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#panelOptions" href="#otherOptions">Other Options</a>
+                                </h4>
+                            </div>
+                            <div id="otherOptions" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>
+                                        save, email etc options here
+                                    </p>
+                                </div>
+                            </div>
+                        </div>*@
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/helpers")
+
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="amcharts/plugins/dataloader/dataloader.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    //$.ajax({
+    //    type: 'POST',
+    //    dataType: "json",
+    //    data: JSON.stringify(querySet),
+    //    contentType: "application/json",
+    //    url: '/Analysis/getTableData2',
+    //    beforeSend: function () {
+    //        $('#loadingGif').css('display', 'block');
+
+    //    },
+    //    complete: function () {
+    //        $('#loadingGif').css('display', 'none');
+    //    },
+    //    success: function (result) {
+    //        drawChart(result, type);
+    //    },
+    //    error: function () {
+    //        console.log('unable to get data  - chart.js getData');
+    //    }
+    //});
+
+
+    // generate random data
+    var sourceData = [];
+    var firstDate = new Date();
+    firstDate.setDate(firstDate.getDate() - 28);
+    firstDate.setHours(0, 0, 0, 0);
+
+    for (var i = 0; i < 28; i++) {
+        var newDate = new Date(firstDate);
+        newDate.setDate(newDate.getDate() + i);
+        var dataPoint = {
+            date: newDate
+        }
+
+        // generate value for each hour
+        for (var h = 0; h <= 23; h++) {
+            dataPoint['value' + h] = Math.round(Math.random() * 4);
+        }
+
+        sourceData.push(dataPoint);
+    }
+
+    // now let's populate the source data with the colors based on the value
+    // as well as replace the original value with 1
+    var colors = ['#FF0000', '#FF9100', '#F2FF00', '#9DFF00', '#00FF00'];
+    for (i in sourceData) {
+        for (var h = 0; h <= 23; h++) {
+            sourceData[i]['color' + h] = colors[sourceData[i]['value' + h]];
+            sourceData[i]['hour' + h] = 1;
+        }
+    }
+
+    // define graph objects for each hour
+    var graphs = [];
+    for (var h = 0; h <= 23; h++) {
+        graphs.push({
+            "balloonText": "Original value: [[value" + h + "]]",
+            "fillAlphas": 1,
+            "lineAlpha": 0,
+            "type": "column",
+            "colorField": "color" + h,
+            "valueField": "hour" + h
+        });
+    }
+
+    var chart = AmCharts.makeChart("heat_div", {
+        "type": "serial",
+        "dataProvider": sourceData,
+        "valueAxes": [{
+            "stackType": "regular",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0,
+            "maximum": 24,
+            "duration": "mm",
+            "unit": ":00"
+        }],
+        "graphs": graphs,
+        "columnWidth": 1,
+        "categoryField": "date",
+        "categoryAxis": {
+            "parseDates": true,
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left"
+        }
+    });
+</script>

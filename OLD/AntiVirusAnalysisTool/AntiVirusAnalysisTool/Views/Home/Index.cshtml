@@ -1,0 +1,52 @@
+﻿<head>
+    @Styles.Render("~/Content/css")
+    <title>AV Analytics</title>
+</head>
+
+<body>
+
+    <div class="container" id="webPage">
+
+        <div class="row" align="center">
+            <div class="col-md-12">
+                <h2>Antivirus Detection Analytics</h2>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs nav-justified">
+            <li class="active"><a data-toggle="tab" href="#home" id="h1">Home</a></li>
+            <li><a data-toggle="tab" href="#comparisonChart" id="c1">Comparison</a></li>
+            <li><a data-toggle="tab" href="#compositionChart" id="c2">Composition</a></li>
+            <li><a data-toggle="tab" href="#relationshipChart" id="c3">Relationship</a></li>
+            <li><a data-toggle="tab" href="#signatureLabel" id="sl">Signature Labels</a></li>
+            <li><a data-toggle="tab" href="#table" id="c4">Table</a></li>
+            <li><a data-toggle="tab" href="#trendChart" id="c5">Trend</a></li>
+        </ul>
+
+        <div class="tab-content" id="tabContent">
+
+            <div id="home" class="tab-pane fade in active">
+                <p>website description here</p>
+            </div>
+
+
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/helpers")
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
+        google.charts.setOnLoadCallback();
+    </script>
+
+    @*<script src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="~/Scripts/helpers/chart.js"></script>
+        <script src="~/Scripts/helpers/selection.js"></script>*@
+
+
+</body>
+
+
+

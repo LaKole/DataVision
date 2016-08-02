@@ -1,5 +1,4 @@
-﻿using AntiVirusAnalysisTool.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -10,7 +9,6 @@ namespace AntiVirusAnalysisTool.Controllers
 {
     public class HomeController : Controller
     {
-        private AnalysisResultContext db = new AnalysisResultContext();
 
         public ActionResult Index()
         {
@@ -28,8 +26,6 @@ namespace AntiVirusAnalysisTool.Controllers
                     return PartialView("_composition");
                 case "c3":
                     return PartialView("_relationship");
-                case "sl":
-                    return PartialView("_sigLab");
                 case "c4":
                     return PartialView("_table");
                 case "c5":

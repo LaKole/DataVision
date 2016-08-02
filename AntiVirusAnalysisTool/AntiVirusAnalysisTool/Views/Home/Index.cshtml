@@ -18,7 +18,6 @@
             <li><a data-toggle="tab" href="#comparisonChart" id="c1">Comparison</a></li>
             <li><a data-toggle="tab" href="#compositionChart" id="c2">Composition</a></li>
             <li><a data-toggle="tab" href="#relationshipChart" id="c3">Relationship</a></li>
-            <li><a data-toggle="tab" href="#signatureLabel" id="sl">Signature Labels</a></li>
             <li><a data-toggle="tab" href="#table" id="c4">Table</a></li>
             <li><a data-toggle="tab" href="#trendChart" id="c5">Trend</a></li>
         </ul>
@@ -32,6 +31,8 @@
 
         </div>
     </div>
+
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/helpers")
@@ -41,9 +42,6 @@
         google.charts.setOnLoadCallback();
     </script>
 
-    @*<script src="https://www.gstatic.com/charts/loader.js"></script>
-        <script src="~/Scripts/helpers/chart.js"></script>
-        <script src="~/Scripts/helpers/selection.js"></script>*@
 
 
 </body>

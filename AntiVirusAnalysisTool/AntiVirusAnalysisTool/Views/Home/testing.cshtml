@@ -1,38 +1,168 @@
-﻿
-@{
-    Layout = null;
-}
+﻿@Styles.Render("~/Content/css")
 
-<!DOCTYPE html>
+<div id="chart_div"></div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>testing</title>
-</head>
-<body>
-    <div> 
-        <label class="control-label">Antivirus</label>
-        <div class="selectContainer">
-            <select class="form-control" id="antivirusList" multiple="multiple">
-                <option value="antivir">AntiVir</option>
-                <option value="avg">AVG</option>
-                <option value="comodo">Comodo</option>
-                <option value="f-secure">F-Secure</option>
-                <option value="kaspersky">Kaspersky</option>
-                <option value="mcafee">McAfee</option>
-                <option value="mircosoft">Microsoft</option>
-                <option value="sophos">Sophos</option>
-                <option value="symantec">Symantec</option>
-            </select>
+
+<div class="col-md-3">
+    <div class="panel-group" id="panelOptions">
+        @* chart selection panel *@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSelection">Select Chart</a>
+                </h4>
+            </div>
+            <div id="chartSelection" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <button type="button" class="chartButton btn btn-info" style="margin:1px 0px" value="table">Table</button>
+                </div>
+            </div>
         </div>
+
+        @* dimension panel *@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panelOptions" href="#chartDimensions">Build Dataset</a>
+                </h4>
+            </div>
+            <div id="chartDimensions" class="panel-collapse collapse">
+                <div class="panel-body">
+
+                    <label class="control-label">Column</label>
+                    <div class="selectContainer">
+                        <select class="form-control" id="column" onchange="getOptions()">
+                            <option value="antivirus">Antivirus</option>
+                            <option value="scandate">Scan Date</option>
+                            <option value="version">Version</option>
+                        </select>
+                    </div>
+                    <label class="control-label">Row</label>
+                    <div class="selectContainer">
+                        <select class="form-control" id="row" onchange="getOptions()">
+                            <option value="scandate">Scan Date</option>
+                            <option value="md5">Malware</option>
+                            <option value="antivirus">Antivirus</option>
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        @* data filtering *@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panelOptions" href="#dataFilter">Filter Dataset</a>
+                </h4>
+            </div>
+            <div id="dataFilter" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <label class="control-label">Antivirus</label>
+                    <div class="selectContainer">
+                        <select class="form-control" id="antivirusList" multiple="multiple" onchange="getOptions()">
+                            <option selected value="'antivir'">AntiVir</option>
+                            <option selected value="'avg'">AVG</option>
+                            <option selected value="'comodo'">Comodo</option>
+                            <option selected value="'f-secure'">F-Secure</option>
+                            <option selected value="'kaspersky'">Kaspersky</option>
+                            <option selected value="'mcafee'">McAfee</option>
+                            <option selected value="'microsoft'">Microsoft</option>
+                            <option selected value="'sophos'">Sophos</option>
+                            <option selected value="'symantec'">Symantec</option>
+                        </select>
+                    </div>
+                    <label class="control-label">Virus Total Detection</label>
+                    <div class="selectContainer">
+                        <select class="form-control" id="vtd" onchange="chartOptions()">
+                            <option value="1">Failure</option>
+                            <option value="0">Success</option>
+                        </select>
+                    </div>
+                    <label class="control-label">Full Capability Detection</label>
+                    <div class="selectContainer">
+                        <select class="form-control" id="fcd" onchange="chartOptions()">
+                            <option value="1">Failure</option>
+                            <option value="0">Success</option>
+                        </select>
+                    </div>
+                    <label class="control-label">Detection</label>
+                    <div class="selectContainer">
+                        <select class="form-control" id="detection" onchange="chartOptions()" disabled>
+                            <option value="1">Failure</option>
+                            <option value="0">Success</option>
+                        </select>
+                    </div>
+                    <label class="control-label">Value Format</label>
+                    <div class="selectContainer">
+                        <select class="form-control" id="format" onchange="chartOptions()">
+                            <option value="count">Count</option>
+                            <option value="rate">Rate</option>
+                            <option value="percentage">Percentage</option>
+                        </select>
+                    </div>
+                    <label class="control-label">Date Range</label>
+                    <div>
+                        <input type="text" class="form-control" id="startDate" onchange="chartOptions()" placeholder="Start" />
+                        <input type="text" class="form-control" id="endDate" onchange="chartOptions()" placeholder="End" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @* chart formating *@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSettings">Chart Settings</a>
+                </h4>
+            </div>
+            <div id="chartSettings" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <label class="control-label">Chart Name</label>
+                    <div>
+                        <input type="text" class="form-control" id="chartName" onchange="chartOptions()" />
+                    </div>
+                    <p>(Press "Enter" when done)</p>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#panelOptions" href="#otherOptions">Other Options</a>
+                    </h4>
+                </div>
+                <div id="otherOptions" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            save, email etc options here
+                        </p>
+                    </div>
+                </div>
+            </div>*@
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+</div>
 
-    <script >
-        $("#antivirusList").multiselect();
-    </script>
-</body>
-</html>
+
+
+
+
+
+
+
+
+
+
+
+@*scripts*@
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script type="text/javascript" src="~/Scripts/helpers/loader.js"></script>
+<script type="text/javascript" src="~/Scripts/helpers/jquery.multiselect.min.js"></script>
+<script type="text/javascript" src="~/Scripts/helpers/NewFolder1/interactiveCharts.js"></script>
+<script type="text/javascript" src="~/Scripts/helpers/NewFolder1/filterHandle.js"></script>

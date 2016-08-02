@@ -1,0 +1,223 @@
+﻿@model IEnumerable<AntiVirusAnalysisTool.Models.ScanResult>
+@{
+    ViewBag.Title = "Chart";
+}
+
+<!--Load jQuery-->
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<!--Load Google Charts API-->
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+<div class="row">
+    <div class="col-md-8 margin-top-20">
+
+        <div style="width:90%;">
+            @*Search Area*@
+            <div style="background-color:#f5f5f5; padding:20px">
+                <h3>Search Panel</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Antivirus</td>
+                            <td>
+                                <select id="ddAntiVirus" style="width:200px">
+                                    <option value="">All AntiVirus</option>
+                                    <option value="AVG">AVG</option>
+                                    <option value="McAfee">McAfee</option>
+                                    <option value="Microsft">Microsft</option>
+                                </select>                        @*This is a select box with static data, populate from db later*@
+                            </td>
+                            <td>ScanDate</td>
+                            <td><input type="text" id="txtScanDate" /></td>                            
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td>Detection Failure</td>
+                            <td>
+                                <select id="ddDF" style="width:200px">
+                                    <option value="">All</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+                                </select>                        @*This is a select box with static data, populate from db later*@
+                            </td>
+                            <td>
+                                <input type="button" value="Search" id="btnSearch" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @*jQuery DataTable*@
+            <div>
+                <table id="myTable" class="table table-responsive table-striped">
+                    <thead>
+                        <tr>
+                            <th>Antivirus</th>
+                            <th>MD5</th>
+                            <th>ScanDate</th>
+                            <th>DetectionFailureAVR</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4 margin-top-20">
+
+        <table class="columns margin-top-20">
+            <tr>
+                <td><div id="piechart_div" style="border: 1px solid #ccc"></div></td>
+                <td>@*<div id="barchart_div" style="border: 1px solid #ccc"></div>*@</td>
+            </tr>
+        </table>
+
+
+        <a href="@Url.Action("Chart", "Chart")" class="btn btn-primary btn-large btn-block margin-top-20"><span class="glyphicon glyphicon-upload"></span> Chart Data</a>
+    </div>
+</div>
+
+
+
+
+
+
+
+@*jQuery DT*@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@*jQeury*@
+
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+ 
+}
+
+
+<script src="~/Scripts/helpers/main.js"></script>
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json",
+            url: '@Url.Action("Data", "Chart")',
+            success: function (result) {
+
+                // Load the Visualization API and the corechart package.
+                google.charts.load('current', { 'packages': ['corechart'] });
+
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(function () {
+                    drawChart(result);
+                });
+            }
+        });
+
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart(result) {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Antivirus');
+            data.addColumn('number', 'Quantity');
+            var dataArray = [];
+            $.each(result, function (i, obj) {
+                dataArray.push([obj.Antivirus, obj.Quantity]);
+            });
+
+            data.addRows(dataArray);
+
+            // Set chart options
+            var piechart_options = {
+                //title: 'Pie Chart: How Many Antivirus Detected Today',
+                width: 400,
+                height: 300
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
+
+            //function selectHandler() {
+            //    var selectedItem = piechart.getSelection()[0];
+            //    if (selectedItem) {
+            //        var av = data.getValue(selectedItem.row, 0);
+            //        alert('The user selected ' + av);
+            //    }
+            //}
+
+            //google.visualization.events.addListener(piechart, 'select', selectHandler);
+
+            piechart.draw(data, piechart_options);
+
+            var barchart_options = {
+                title: 'Barchart: How Many Antivirus Detected Today',
+                width: 400,
+                height: 300,
+                legend: 'none'
+            };
+
+            var barchart = new google.visualization.BarChart(document
+                .getElementById('barchart_div'));
+            barchart.draw(data, barchart_options);
+        }
+
+        //jQuery DataTables initialisation
+        $('#myTable').DataTable({
+            "processing": true, //show processing bar
+            "serverSide": true, //process on server side
+            "orderMulti": false, //db multi column order
+            "dom": '<"top"i>rt<"bottom"lp><"clear">', //hide default global search box
+            "ajax": {
+                "url": "/chart/LoadData",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Antivirus", "name": "Antivirus", "autowidth": true },
+                { "data": "MD5", "name": "MD5", "autowidth": true },
+                { "data": "ScanDate", "name": "ScanDate", "autowidth": true },
+                { "data": "DetectionFailureAVR", "name": "DetectionFailureAVR", "autowidth": true }
+            ]
+
+        });
+        //Apply custom search on jQuery DataTable here
+        oTable = $('#myTable').DataTable();
+        $('#btnSearch').click(function () {
+            //search
+            oTable.columns(0).search($('#ddAntiVirus').val().trim());
+            oTable.columns(2).search($('#txtScanDate').val().trim());
+            oTable.columns(3).search($('#ddDF').val().trim());
+            //hit search on server
+            oTable.draw();
+        });
+
+        $('#execute').click(function () {
+            var data = { dr: $('#query').val().trim() }
+
+            $(this).val('Please wait...');
+
+            $.ajax({
+                url: "/chart/LoadData",
+                data: JSON.stringify(data),
+                dataType: "JSON",
+                contentType: "application/json",
+                type: "POST",
+                success: function (d) {
+                    oTable.draw();
+                    alert('Done');
+                }
+            })
+
+            $(this).val('Execute');
+
+        });
+    });
+</script>*@

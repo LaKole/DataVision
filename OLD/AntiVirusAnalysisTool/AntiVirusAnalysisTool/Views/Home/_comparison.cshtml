@@ -1,0 +1,198 @@
+﻿
+<div id="comparisonChart" class="tab-pane fade in active">
+
+    <div class="container">
+        <div class="row">
+            <h4>Compare Detection Results</h4>
+        </div>
+        <div class="row">
+            @* chart area *@
+            <div class="col-md-9">
+                <div id="chart_div" style="height:450px;"></div>
+                <div id="loadingGif" style="position:absolute; vertical-align:central; top: 50px; display:none"><img src="http://www.wwalliance.com/include/images/loading_with_fade.gif" height="80" width="80" /></div>
+            </div>
+
+            @* selection area *@
+            <div class="col-md-3">
+
+                <div class="panel-group" id="panelOptions">
+
+                    @* chart selection panel *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSelection">Select Chart</a>
+                            </h4>
+                        </div>
+
+                        <div id="chartSelection" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <button type="button" class="btn btn-info" style="margin:1px 0px" value="line">Line</button>
+                                <button type="button" class="btn btn-info" style="margin:1px 0px" value="bar">Bar</button>
+                                <button type="button" class="btn btn-info" style="margin:1px 0px" value="column">Column</button>
+                                @* pie diff with mw representing "old data" *@
+                                @*<button type="button" class="btn btn-info" style="margin:1px 0px" value="pieDiff">Pie</button>*@
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @* dimension panel *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartOptions">Chart Dimensions</a>
+                            </h4>
+                        </div>
+
+                        <div id="chartOptions" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+
+                                <label class="control-label">Attribute</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="attribute1" onchange="chartOptions()">
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="scandate">Scan Date</option>
+                                        <option value="version">Version</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">2nd Attribute</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="attribute2" onchange="chartOptions()">
+                                        <option value="scandate">Scan Date</option>
+                                        <option value="md5">Malware</option>
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="">None</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Measure</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="measure" onchange="chartOptions()">
+                                        <option value="md5">Malware</option>
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="scandate">Scan Date</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    @* data filtering *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#dataFilter">Data Filtering</a>
+                            </h4>
+                        </div>
+
+                        <div id="dataFilter" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <label class="control-label">Antivirus</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="antivirusList" multiple="multiple" onchange="chartOptions()">
+                                        <option selected value="'antivir'">AntiVir</option>
+                                        <option selected value="'avg'">AVG</option>
+                                        <option selected value="'comodo'">Comodo</option>
+                                        <option selected value="'f-secure'">F-Secure</option>
+                                        <option selected value="'kaspersky'">Kaspersky</option>
+                                        <option selected value="'mcafee'">McAfee</option>
+                                        <option selected value="'microsoft'">Microsoft</option>
+                                        <option selected value="'sophos'">Sophos</option>
+                                        <option selected value="'symantec'">Symantec</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Version</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="version" onchange="chartOptions()">
+                                        <option value="malware">Virus Total</option>
+                                        <option value="avr">Full Capability</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Detection</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="detection" onchange="chartOptions()">
+                                        <option value="1">Failure</option>
+                                        <option value="0">Success</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Measure Format</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="measureFormat" onchange="chartOptions()">
+                                        <option value="count">Count</option>
+                                        <option value="rate">Rate</option>
+                                        <option value="percentage">Percentage</option>
+                                    </select>
+                                </div>
+
+                                <label class="control-label">Date Range</label>
+                                <div>
+                                    <input type="text" class="form-control" id="startDate" onchange="chartOptions()" placeholder="Start" />
+                                    <input type="text" class="form-control" id="endDate" onchange="chartOptions()" placeholder="End" />
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    @* chart formating *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSettings">Chart Settings</a>
+                            </h4>
+                        </div>
+                        <div id="chartSettings" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <label class="control-label">Chart Name</label>
+                                <div>
+                                    <input type="text" class="form-control" id="chartName" onchange="chartOptions()" />
+                                </div>
+                                <p>(Press "Enter" when done)</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#panelOptions" href="#otherOptions">Other Options</a>
+                                </h4>
+                            </div>
+                            <div id="otherOptions" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>
+                                        save, email etc options here
+                                    </p>
+                                </div>
+                            </div>
+                        </div>*@
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/helpers")

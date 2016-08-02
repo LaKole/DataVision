@@ -1,5 +1,4 @@
-﻿//set custom date picker range
-
+﻿
 $(function () {
     $('li a[data-toggle="tab"]').click(function () {
         var tab = this.id;
@@ -17,7 +16,7 @@ $(function () {
     });
 });
 
-
+//set custom date picker range
 
 function customRange(input) {
 
