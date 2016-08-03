@@ -167,11 +167,13 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\helpers\chart.js" />
     <Content Include="Scripts\helpers\heatmap.js" />
+    <Content Include="Scripts\helpers\jquery.progressTimer.js" />
     <Content Include="Scripts\helpers\NewFolder1\interactiveCharts.js" />
-    <Content Include="Scripts\helpers\NewFolder1\filterHandle.js" />
+    <Content Include="Scripts\helpers\NewFolder1\inputHandler.js" />
     <Content Include="Scripts\helpers\NewFolder1\google.js" />
     <Content Include="Scripts\helpers\jquery.multiselect.min.js" />
     <Content Include="Scripts\helpers\loader.js" />
+    <Content Include="Scripts\helpers\NewFolder1\pageHandler.js" />
     <Content Include="Scripts\helpers\pageSetup.js" />
     <Content Include="Scripts\helpers\selection.js" />
     <Content Include="Scripts\helpers\NewFolder1\web.js" />

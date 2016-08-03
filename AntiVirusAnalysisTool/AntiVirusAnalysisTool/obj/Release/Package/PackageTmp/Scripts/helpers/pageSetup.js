@@ -1,5 +1,4 @@
-﻿//set custom date picker range
-
+﻿
 $(function () {
     $('li a[data-toggle="tab"]').click(function () {
         var tab = this.id;
@@ -17,7 +16,7 @@ $(function () {
     });
 });
 
-
+//set custom date picker range
 
 function customRange(input) {
 
@@ -33,10 +32,10 @@ function customRange(input) {
 }
 
 //init datepickers
-$('#startDate, #endDate').datepicker({
+$('.date').datepicker({
     defaultDate: new Date("11/11/2013"),
     beforeShow: customRange,
-    dateFormat: "dd/mm/yy",
+    dateFormat: "yy/mm/dd",
 });
 
 //init multiselect

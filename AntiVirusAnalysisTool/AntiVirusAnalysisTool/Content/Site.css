@@ -37,10 +37,21 @@ select option[disabled] {
     display: none;
 }
 
-/*center loading gif in chart*/
-/*#loadingGif {
-    width: 50%;
-    height:50%;
-    position:absolute;
-    margin: 0 auto; 
-}*/
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto; 
+    width:auto;
+}

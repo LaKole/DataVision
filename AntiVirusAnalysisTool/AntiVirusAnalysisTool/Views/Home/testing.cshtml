@@ -1,6 +1,12 @@
 ﻿@Styles.Render("~/Content/css")
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-<div id="chart_div"></div>
+<div data-role="panel" id="pushPanel" data-display="push">
+    <h2>Push Panel</h2>
+    <p>You can close the panel by clicking outside the panel, pressing the Esc key, by swiping, or by clicking the button below:</p>
+    <a href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">Close panel</a>
+</div>
+
 
 
 <div class="col-md-3">
@@ -31,7 +37,7 @@
 
                     <label class="control-label">Column</label>
                     <div class="selectContainer">
-                        <select class="form-control" id="column" onchange="getOptions()">
+                        <select class="form-control" id="column" onchange="fieldOptions()">
                             <option value="antivirus">Antivirus</option>
                             <option value="scandate">Scan Date</option>
                             <option value="version">Version</option>
@@ -39,11 +45,10 @@
                     </div>
                     <label class="control-label">Row</label>
                     <div class="selectContainer">
-                        <select class="form-control" id="row" onchange="getOptions()">
+                        <select class="form-control" id="row">
+                            <option value="antivirus">Antivirus</option>
                             <option value="scandate">Scan Date</option>
                             <option value="md5">Malware</option>
-                            <option value="antivirus">Antivirus</option>
-                            <option value="">None</option>
                         </select>
                     </div>
                 </div>
@@ -62,7 +67,7 @@
                 <div class="panel-body">
                     <label class="control-label">Antivirus</label>
                     <div class="selectContainer">
-                        <select class="form-control" id="antivirusList" multiple="multiple" onchange="getOptions()">
+                        <select class="form-control" id="antivirusList" multiple="multiple">
                             <option selected value="'antivir'">AntiVir</option>
                             <option selected value="'avg'">AVG</option>
                             <option selected value="'comodo'">Comodo</option>
@@ -74,39 +79,48 @@
                             <option selected value="'symantec'">Symantec</option>
                         </select>
                     </div>
-                    <label class="control-label">Virus Total Detection</label>
-                    <div class="selectContainer">
-                        <select class="form-control" id="vtd" onchange="chartOptions()">
-                            <option value="1">Failure</option>
-                            <option value="0">Success</option>
-                        </select>
+                    <div id="md">
+
+                        <label class="control-label">Virus Total Detection</label>
+                        <div class="selectContainer">
+                            <select class="form-control" id="vtd">
+                                <option value="1">Failure</option>
+                                <option value="0">Success</option>
+                            </select>
+                        </div>
+                        <label class="control-label">Full Capability Detection</label>
+                        <div class="selectContainer">
+                            <select class="form-control" id="fcd">
+                                <option value="1">Failure</option>
+                                <option value="0">Success</option>
+                            </select>
+                        </div>
+
                     </div>
-                    <label class="control-label">Full Capability Detection</label>
-                    <div class="selectContainer">
-                        <select class="form-control" id="fcd" onchange="chartOptions()">
-                            <option value="1">Failure</option>
-                            <option value="0">Success</option>
-                        </select>
+                    <div id="vd">
+
+                        <label class="control-label">Detection</label>
+                        <div class="selectContainer">
+                            <select class="form-control" id="detection">
+                                <option value="1">Failure</option>
+                                <option value="0">Success</option>
+                            </select>
+                        </div>
+
+                        <label class="control-label">Value Format</label>
+                        <div class="selectContainer">
+                            <select class="form-control" id="format" onchange="chartOptions()">
+                                <option value="count">Count</option>
+                                <option value="rate">Rate</option>
+                                <option value="percentage">Percentage</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="control-label">Detection</label>
-                    <div class="selectContainer">
-                        <select class="form-control" id="detection" onchange="chartOptions()" disabled>
-                            <option value="1">Failure</option>
-                            <option value="0">Success</option>
-                        </select>
-                    </div>
-                    <label class="control-label">Value Format</label>
-                    <div class="selectContainer">
-                        <select class="form-control" id="format" onchange="chartOptions()">
-                            <option value="count">Count</option>
-                            <option value="rate">Rate</option>
-                            <option value="percentage">Percentage</option>
-                        </select>
-                    </div>
+
                     <label class="control-label">Date Range</label>
                     <div>
-                        <input type="text" class="form-control" id="startDate" onchange="chartOptions()" placeholder="Start" />
-                        <input type="text" class="form-control" id="endDate" onchange="chartOptions()" placeholder="End" />
+                        <input type="text" class="form-control date" id="startDate" onchange="validRange()" />
+                        <input type="text" class="form-control date" id="endDate" />
                     </div>
                 </div>
             </div>
@@ -130,26 +144,18 @@
             </div>
         </div>
 
-        @*<div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#panelOptions" href="#otherOptions">Other Options</a>
-                    </h4>
-                </div>
-                <div id="otherOptions" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <p>
-                            save, email etc options here
-                        </p>
-                    </div>
-                </div>
-            </div>*@
     </div>
 
 </div>
 
 
-
+<div style="display:none">
+    <div class="progress progress-striped active">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+            <span class="sr-only">40% Complete (success)</span>
+        </div>
+    </div>
+</div>
 
 
 
@@ -165,4 +171,5 @@
 <script type="text/javascript" src="~/Scripts/helpers/loader.js"></script>
 <script type="text/javascript" src="~/Scripts/helpers/jquery.multiselect.min.js"></script>
 <script type="text/javascript" src="~/Scripts/helpers/NewFolder1/interactiveCharts.js"></script>
-<script type="text/javascript" src="~/Scripts/helpers/NewFolder1/filterHandle.js"></script>
+<script type="text/javascript" src="~/Scripts/helpers/NewFolder1/inputHandler.js"></script>
+<script type="text/javascript" src="~/Scripts/helpers/NewFolder1/pageHandler.js"></script>

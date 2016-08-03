@@ -13,7 +13,8 @@ namespace AntiVirusAnalysisTool.Controllers
 {
     public class GoogleChartsController : Controller
     {
-        static string connString = ConfigurationManager.ConnectionStrings["AzureDB"].ToString();
+        static string connString = ConfigurationManager.ConnectionStrings["AnalysisResultContext"].ToString();
+        //static string connString = ConfigurationManager.ConnectionStrings["AzureDB"].ToString();
 
         //return data in google format
         public string dtToJson(DataTable dt)
@@ -83,13 +84,15 @@ namespace AntiVirusAnalysisTool.Controllers
         //use method overloading 
         //get basic data 
         [HttpPost]
-        public JsonResult getData()
+        public JsonResult getData(string row, string version, string dateRange, string avList, int detection, string format)
         {
             SqlConnection con = new SqlConnection(connString);
-            
-            string sql = "SELECT AntiVirus, sum(DetectionFailureAVR) DetectionFailureAVR, SUM(DetectionFailureMalware) DetectionFailureMalware FROM AnalysisResults GROUP BY antivirus";
 
-            var cmd = new SqlCommand(sql, con);
+            var sql = "EXEC dbo.getPie @row = '{0}', @version = '{1}', @dateRange = '{2}', @avList = '({3})', @detection = '{4}', @format = '{5}'";
+
+            var statement = string.Format(sql, row, version, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
+
+            var cmd = new SqlCommand(statement, con);
 
             DataTable dt = new DataTable();
             con.Open();
@@ -111,9 +114,9 @@ namespace AntiVirusAnalysisTool.Controllers
         {
             SqlConnection con = new SqlConnection(connString);
 
-            var sql = "EXEC dbo.getVersionComparison @row = '{0}', @dateRange = '{1}', @avList = '{2}', @detection = '{3}', @format = '{4}'";
+            var sql = "EXEC dbo.getVersionComparison @row = '{0}', @dateRange = '{1}', @avList = '({2})', @detection = '{3}', @format = '{4}'";
 
-            var statement = string.Format(sql, row, dateRange, avList, detection, format);
+            var statement = string.Format(sql, row, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
 
             var cmd = new SqlCommand(statement, con);
 
@@ -138,9 +141,9 @@ namespace AntiVirusAnalysisTool.Controllers
             SqlConnection con = new SqlConnection(connString);
 
 
-            var sql = "EXEC dbo.getMatrix @column = '{0}', @row = '{1}', @dateRange = '{2}', @avList = '{3}', @detCondFC = '{4}', @detCondVT = '{5}'";
+            var sql = "EXEC dbo.getMatrix @column = '{0}', @row = '{1}', @dateRange = '{2}', @avList = '({3})', @detCondFC = '{4}', @detCondVT = '{5}'";
 
-            var statement = string.Format(sql, column, row, dateRange, avList, dfc, dvt);
+            var statement = string.Format(sql, column, row, dateRange.Replace("'", "''"), avList.Replace("'", "''"), dfc, dvt);
 
             var cmd = new SqlCommand(statement, con);
 

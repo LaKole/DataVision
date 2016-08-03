@@ -1,5 +1,8 @@
-﻿//google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
-//google.charts.setOnLoadCallback();
+﻿google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
+google.charts.setOnLoadCallback();
+
+var u, chart_div, uri;
+chart_div = document.getElementById('chart_div');
 
 ajaxPendingRequests = new Array();
 function abortPendingRequests() {
@@ -12,9 +15,20 @@ function abortPendingRequests() {
 }
 
 
-function chart(type, querySet) {
-    var url = '/Analysis/buildQuery';
+function chart(querySet, type) {
+    var url;
 
+    switch (u) {
+        case 'p':
+            url = '/GoogleCharts/getData';
+            break;
+        case 'v':
+            url = '/GoogleCharts/getData1';
+            break;
+        case 'm':
+            url = '/GoogleCharts/getData2';
+            break;
+    }
 
     var ajReq = $.ajax({
         type: 'POST',
@@ -24,17 +38,15 @@ function chart(type, querySet) {
         url: url,
         beforeSend:
             function () {
-                console.log(ajaxPendingRequests);
                 abortPendingRequests();
                 ajaxPendingRequests.push(this);
-                console.log(ajaxPendingRequests);
-                $('#loadingGif').css('display', 'block');
+                startProgressTimer();
             },
-        complete: function () {
-            ajaxPendingRequests.pop(this);
-            console.log(ajaxPendingRequests);
-            $('#loadingGif').css('display', 'none');
-        },
+        complete:
+            function () {
+                ajaxPendingRequests.pop(this);
+                $('#progressTimer').hide();
+            },
         success: function (result) {
             drawChart(result, type);
         },
@@ -45,6 +57,8 @@ function chart(type, querySet) {
 
 
 }
+
+//
 
 
 function drawChart(result, type) {
@@ -91,7 +105,14 @@ function drawAreaChart(result, type) {
     if (type === "stackedArea")
     { options.isStacked = true; }
 
-    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.AreaChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
+
     chart.draw(data, options);
 
 }
@@ -100,7 +121,7 @@ function drawAreaChart(result, type) {
 function drawBarChart(result, type) {
 
     var data = new google.visualization.DataTable(result);
-
+    console.log(result);
     var options = {
         title: chartTitle,
         vAxis: { title: xlab },
@@ -110,10 +131,14 @@ function drawBarChart(result, type) {
     if (type === "stackedBar")
     { options.isStacked = true; }
 
-    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.BarChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
     chart.draw(data, options);
-
-
 
 
 }
@@ -131,7 +156,11 @@ function drawColumnChart(result, type) {
     if (type === "stackedColumn")
     { options.isStacked = true; }
 
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.ColumnChart(chart_div);
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
     chart.draw(data, options);
 }
 
@@ -146,7 +175,13 @@ function drawLineChart(result) {
 
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
     chart.draw(data, options);
 }
 
@@ -167,10 +202,35 @@ function drawPieChart(result, type) { //alternate dataset needed
             break;
     }
 
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.PieChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
     chart.draw(data, options);
 
 }
+
+function drawTable(result) {
+
+    var data = new google.visualization.DataTable(result);
+
+    var options = { width: '100%', height: '100%' };
+
+    var table = new google.visualization.Table(chart_div);
+
+
+    google.visualization.events.addListener(table, 'ready', function () {
+        $('#png').html('');
+    });
+
+    table.draw(data, options);
+}
+
+
+//unused
 
 function drawScatterChart(result) {
     var data = new google.visualization.DataTable(result);
@@ -182,23 +242,9 @@ function drawScatterChart(result) {
 
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(chart_div);
     chart.draw(data, options);
 }
-
-function drawTable(result) {
-
-    var data = new google.visualization.DataTable(result);
-
-    var options = { width: '100%', height: '100%' };
-
-    var table = new google.visualization.Table(document.getElementById('chart_div'));
-
-    table.draw(data, options);
-}
-
-
-//unused
 function drawSeriesChart(result) {
 
     var data = new google.visualization.DataTable(result);
@@ -211,7 +257,7 @@ function drawSeriesChart(result) {
         bubble: { textStyle: { fontSize: 11 } }
     };
 
-    var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.BubbleChart(chart_div);
     chart.draw(data, options);
 }
 
@@ -243,7 +289,7 @@ function drawWaterFallChart(result) {
         }
     };
 
-    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.CandlestickChart(chart_div);
     chart.draw(data, options);
 }
 
@@ -260,7 +306,7 @@ function drawTreeMapChart(result) {
         chartArea: { top: 0 }
     };
 
-    var chart = new google.visualization.TreeMap(document.getElementById('chart_div'));
+    var chart = new google.visualization.TreeMap(chart_div);
 
     chart.draw(data, options);
 

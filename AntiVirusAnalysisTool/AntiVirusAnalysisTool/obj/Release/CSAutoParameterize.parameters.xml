@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="ScanResultContext-Web.config Connection String" description="ScanResultContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\v11.0;Initial Catalog=AntiVirusAnalysisTool;Integrated Security=SSPI;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Olamide\\Desktop\\DataVision\\AntiVirusAnalysisTool\\AntiVirusAnalysisTool\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ScanResultContext']/@connectionString" />
+  <parameter name="AzureDB-Web.config Connection String" description="AzureDB Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:olamidek.database.windows.net,1433;Initial Catalog=AntivirusAnalytics;Persist Security Info=False;User ID=olamidek;Password=Olaitan1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Olamide\\Desktop\\DataVision\\AntiVirusAnalysisTool\\AntiVirusAnalysisTool\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AzureDB']/@connectionString" />
   </parameter>
   <parameter name="AnalysisResultContext-Web.config Connection String" description="AnalysisResultContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\v11.0;Initial Catalog=AntiVirusAnalysisTool;Integrated Security=SSPI;" tags="SqlConnectionString">
     <parameterEntry kind="XmlFile" scope="C:\\Users\\Olamide\\Desktop\\DataVision\\AntiVirusAnalysisTool\\AntiVirusAnalysisTool\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AnalysisResultContext']/@connectionString" />

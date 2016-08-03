@@ -1,74 +1,52 @@
-﻿//google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
-//google.charts.setOnLoadCallback();
+﻿google.charts.load('current', { 'packages': ['corechart', 'line', 'treemap', 'table', 'bar'] });
+google.charts.setOnLoadCallback();
 
-function chart(type, querySet) {
-    var url = '/Analysis/buildQuery';
+var u, chart_div, uri;
+chart_div = document.getElementById('chart_div');
 
-
-    $.ajax({
-        type: 'POST',
-        dataType: "json",
-        data: JSON.stringify(querySet),
-        contentType: "application/json",
-        url: url,
-        beforeSend: function () {
-            $('#loadingGif').css('display', 'block');
-
-        },
-        complete: function () {
-            $('#loadingGif').css('display', 'none');
-        },
-        success: function (result) {
-            drawChart(result, type);
-        },
-        error: function () {
-            console.log('unable to get data  - chart.js getData');
-        }
-    });
-
+ajaxPendingRequests = new Array();
+function abortPendingRequests() {
+    if (ajaxPendingRequests.length > 0) {
+        ajaxPendingRequests.forEach(function (req) {
+            req.abort();
+            ajaxPendingRequests.pop(req);
+        });
+    }
 }
 
-function getData(type, querySet) {
+
+function chart(querySet, type) {
     var url;
 
-    switch (type) {
-        case "area":
-        case "bar":
-        case "column":
-        case "stackedArea":
-        case "stackedBar":
-        case "stackedColumn":
-        case "line":
-            url = '/Analysis/getData';
+    switch (u) {
+        case 'p':
+            url = '/GoogleCharts/getData';
             break;
-        case "pie":
-        case "3dPie":
-        case "donutPie":
-            url = '/Analysis/getPieData';
+        case 'v':
+            url = '/GoogleCharts/getData1';
             break;
-        case "table":
-            url = '/Analysis/getTableData';
-            break;
-        default:
-            console.log('define url Lamide - chart.js getData');
+        case 'm':
+            url = '/GoogleCharts/getData2';
             break;
     }
 
-    //console.log(url + ' - chart.js getData');
-
-    $.ajax({
+    var ajReq = $.ajax({
         type: 'POST',
         dataType: "json",
         data: JSON.stringify(querySet),
         contentType: "application/json",
         url: url,
-        beforeSend: function () {
-            $('#loadingGif').css('display', 'block');
-
-        },
-        complete: function () {
-            $('#loadingGif').css('display', 'none');
-        },
+        beforeSend:
+            function () {
+                abortPendingRequests();
+                ajaxPendingRequests.push(this);
+                startProgressTimer();
+            },
+        complete:
+            function () {
+                ajaxPendingRequests.pop(this);
+                $('#progressTimer').hide();
+            },
         success: function (result) {
             drawChart(result, type);
         },
@@ -77,7 +55,9 @@ function getData(type, querySet) {
         }
     });
 
+
 }
+
 
 function drawChart(result, type) {
 
@@ -123,10 +103,18 @@ function drawAreaChart(result, type) {
     if (type === "stackedArea")
     { options.isStacked = true; }
 
-    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.AreaChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
+
     chart.draw(data, options);
 
 }
+
 
 function drawBarChart(result, type) {
 
@@ -141,8 +129,16 @@ function drawBarChart(result, type) {
     if (type === "stackedBar")
     { options.isStacked = true; }
 
-    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.BarChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
     chart.draw(data, options);
+
+
 }
 
 function drawColumnChart(result, type) {
@@ -158,7 +154,11 @@ function drawColumnChart(result, type) {
     if (type === "stackedColumn")
     { options.isStacked = true; }
 
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.ColumnChart(chart_div);
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
     chart.draw(data, options);
 }
 
@@ -173,7 +173,13 @@ function drawLineChart(result) {
 
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
     chart.draw(data, options);
 }
 
@@ -194,10 +200,35 @@ function drawPieChart(result, type) { //alternate dataset needed
             break;
     }
 
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.PieChart(chart_div);
+
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+        $('#png').html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+    });
+
     chart.draw(data, options);
 
 }
+
+function drawTable(result) {
+
+    var data = new google.visualization.DataTable(result);
+
+    var options = { width: '100%', height: '100%' };
+
+    var table = new google.visualization.Table(chart_div);
+
+
+    google.visualization.events.addListener(table, 'ready', function () {
+        $('#png').html('');
+    });
+
+    table.draw(data, options);
+}
+
+
+//unused
 
 function drawScatterChart(result) {
     var data = new google.visualization.DataTable(result);
@@ -209,23 +240,9 @@ function drawScatterChart(result) {
 
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(chart_div);
     chart.draw(data, options);
 }
-
-function drawTable(result) {
-
-    var data = new google.visualization.DataTable(result);
-
-    var options = { width: '100%', height: '100%' };
-
-    var table = new google.visualization.Table(document.getElementById('chart_div'));
-
-    table.draw(data, options);
-}
-
-
-//unused
 function drawSeriesChart(result) {
 
     var data = new google.visualization.DataTable(result);
@@ -238,7 +255,7 @@ function drawSeriesChart(result) {
         bubble: { textStyle: { fontSize: 11 } }
     };
 
-    var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.BubbleChart(chart_div);
     chart.draw(data, options);
 }
 
@@ -270,7 +287,7 @@ function drawWaterFallChart(result) {
         }
     };
 
-    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.CandlestickChart(chart_div);
     chart.draw(data, options);
 }
 
@@ -287,8 +304,60 @@ function drawTreeMapChart(result) {
         chartArea: { top: 0 }
     };
 
-    var chart = new google.visualization.TreeMap(document.getElementById('chart_div'));
+    var chart = new google.visualization.TreeMap(chart_div);
 
     chart.draw(data, options);
 
+}
+
+//filter by chart selection
+function eventFilter() {
+    var columns = [];
+    var series = {};
+    for (var i = 0; i < data.getNumberOfColumns() ; i++) {
+        columns.push(i);
+        if (i > 0) {
+            series[i - 1] = {};
+        }
+    }
+
+    var options = {
+        width: 600,
+        height: 400,
+        series: series
+    }
+
+    google.visualization.events.addListener(chart, 'select', filter);
+}
+
+function filter() {
+    var sel = chart.getSelection();
+    // if selection length is 0, we deselected an element
+    if (sel.length > 0) {
+        // if row is undefined, we clicked on the legend
+        if (sel[0].row === null) {
+            var col = sel[0].column;
+            if (columns[col] == col) {
+                // hide the data series
+                columns[col] = {
+                    label: data.getColumnLabel(col),
+                    type: data.getColumnType(col),
+                    calc: function () {
+                        return null;
+                    }
+                };
+
+                // grey out the legend entry
+                series[col - 1].color = '#CCCCCC';
+            }
+            else {
+                // show the data series
+                columns[col] = col;
+                series[col - 1].color = null;
+            }
+            var view = new google.visualization.DataView(data);
+            view.setColumns(columns);
+            chart.draw(view, options);
+        }
+    }
 }
