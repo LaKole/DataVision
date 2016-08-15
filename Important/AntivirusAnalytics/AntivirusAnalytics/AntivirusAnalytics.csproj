@@ -127,7 +127,7 @@
     <Content Include="Content\themes\bootstrap.css" />
     <Content Include="Content\themes\bootstrap.min.css" />
     <Content Include="Content\themes\base\jquery.multiselect.css" />
-    <Content Include="jsHandlers\accountHandler.js" />
+    <Content Include="jsHandlers\userHandler.js" />
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -214,7 +214,7 @@
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Visual\Index.cshtml" />
-    <Content Include="Views\Home\Index-old.cshtml" />
+    <Content Include="Views\Home\History.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -224,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

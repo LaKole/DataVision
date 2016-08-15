@@ -53,13 +53,33 @@ namespace AntivirusAnalytics.Controllers
             var sql = "EXEC dbo.getPie @row = '{0}', @version = '{1}', @dateRange = '{2}', @avList = '({3})', @detection = '{4}', @format = '{5}'";
 
             var statement = string.Format(sql, key, version, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
+            string av = "(" + avList + ")";
 
-            var cmd = new SqlCommand(statement, con);
+            //SqlCommand cmd = new SqlCommand(statement, con);
 
             DataTable dt = new DataTable();
-            con.Open();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "getPie";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = con;
+                cmd.Parameters.Add("@row", SqlDbType.VarChar).Value = key;
+                cmd.Parameters.Add("@version", SqlDbType.VarChar).Value = version;
+                cmd.Parameters.Add("@dateRange", SqlDbType.VarChar).Value = dateRange;
+                cmd.Parameters.Add("@avList", SqlDbType.VarChar).Value = av;
+                cmd.Parameters.Add("@detection", SqlDbType.VarChar).Value = detection;
+                cmd.Parameters.Add("@format", SqlDbType.VarChar).Value = format;
+
+
+                con.Open();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+            }
+            catch { throw; }
+
             var r = dtToJson(dt);
             con.Close();
 
@@ -69,21 +89,39 @@ namespace AntivirusAnalytics.Controllers
         }
 
         [HttpPost]
-        public JsonResult GtData1(string row, string dateRange, string avList, int detection, string format)
+        public JsonResult GetData1(string row, string dateRange, string avList, int detection, string format)
         {
             SqlConnection con = new SqlConnection(connString);
 
             var sql = "EXEC dbo.getVersionComparison @row = '{0}', @dateRange = '{1}', @avList = '({2})', @detection = '{3}', @format = '{4}'";
-
             var statement = string.Format(sql, row, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
+            
+            string av = "(" + avList + ")";
 
-            var cmd = new SqlCommand(statement, con);
+            //SqlCommand cmd = new SqlCommand(statement, con);
 
-            DataTable dt = new DataTable();
-            con.Open();
+                DataTable dt = new DataTable();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "getVersionComparison";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = con;
+                cmd.Parameters.Add("@row", SqlDbType.VarChar).Value = row;
+                cmd.Parameters.Add("@dateRange", SqlDbType.VarChar).Value = dateRange;
+                cmd.Parameters.Add("@avList", SqlDbType.VarChar).Value = av;
+                cmd.Parameters.Add("@detection", SqlDbType.VarChar).Value = detection;
+                cmd.Parameters.Add("@format", SqlDbType.VarChar).Value = format;
 
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
+
+                con.Open();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+            }
+            catch { throw; }
+
 
             var r = dtToJson(dt);
 
@@ -105,13 +143,32 @@ namespace AntivirusAnalytics.Controllers
 
             var statement = string.Format(sql, column, row, dateRange.Replace("'", "''"), avList.Replace("'", "''"), dfc, dvt);
 
-            var cmd = new SqlCommand(statement, con);
+            string av = "(" + avList + ")";
+
+            //SqlCommand cmd = new SqlCommand(statement, con);
 
             DataTable dt = new DataTable();
-            con.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "getMatrix";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = con;
+                cmd.Parameters.Add("@column", SqlDbType.VarChar).Value = column;
+                cmd.Parameters.Add("@row", SqlDbType.VarChar).Value = row;
+                cmd.Parameters.Add("@dateRange", SqlDbType.VarChar).Value = dateRange;
+                cmd.Parameters.Add("@avList", SqlDbType.VarChar).Value = av;
+                cmd.Parameters.Add("@detCondFC", SqlDbType.VarChar).Value = dfc;
+                cmd.Parameters.Add("@detCondVT", SqlDbType.VarChar).Value = dvt;
 
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
+
+                con.Open();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+            }
+            catch { throw; }
 
             var r = dtToJson(dt);
 

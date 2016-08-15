@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @Styles.Render("~/otherstyles")
     @Styles.Render("~/webstyles")
-    
+
 
     <title>AV Analytics</title>
 </head>
@@ -15,7 +15,6 @@
     <nav class="main-nav">
         @if (User.Identity.IsAuthenticated)
         {
-
             <ul id="u-signedin">
                 <li id="greeting">Hi, @User.Identity.Name</li>
                 <li><a class="cd-signout" href="#0">Sign out</a></li>
@@ -23,21 +22,19 @@
         }
         else
         {
-
             <ul id="u-signedout">
                 <!-- inser more links here -->
                 <li><a class="cd-signin" href="#0">Sign in</a></li>
                 <li><a class="cd-signup" href="#0">Sign up</a></li>
             </ul>
-
         }
-        
-
     </nav>
 
     <div class="row" align="center">
         <div class="col-md-12">
-            <h2>Antivirus Detection Analytics</h2>
+            <div class="page-header">
+                <h1 style="font-size:xx-large; justify-content:center">Antivirus Detection Analytics</h1>
+            </div>
         </div>
     </div>
 
@@ -117,9 +114,14 @@
         </div> <!-- cd-user-modal-container -->
     </div> <!-- cd-user-modal -->
 
-
-    <div id="progressTimer"></div>
-
+    <div id="progress-timer-container" class="loading" style="display:none">
+        <div id="progressTimer"></div>
+       
+    </div>
+    <div id="no-chart-alert" style="display:none; height:50px" class="alert alert-danger loading">
+        <a href="#" class="close" onclick="resetAlert()">&times;</a>
+        <strong>Please select a chart from the options on the left</strong>
+    </div>
 
     <div class="container" id="chartPage">
 
@@ -135,7 +137,7 @@
                         <li id="trend"><a data-toggle="tab" href="#chart">Trend</a></li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li id="historyTab"><a data-toggle="tab" href="#chart" id="history">History</a></li>
+                        <li id="historyTab"><a data-toggle="tab" href="#chart" id="history">History</a></li>
                         }
                     </ul>
                 </div>
@@ -149,7 +151,7 @@
                     <ul class="nav nav-pills nav-stacked col-md-12" id="cb-list">
                         <li id="3dPie" class="all 2d"><a href="#chart" data-toggle="tab">3D Pie</a></li>
                         <li id="bar" class="all comparison"><a href="#chart" data-toggle="tab">Bar</a></li>
-                        <li id="column"class="all comparison"><a href="#chart" data-toggle="tab">Column</a></li>
+                        <li id="column" class="all comparison"><a href="#chart" data-toggle="tab">Column</a></li>
                         <li id="donutPie" class="all 2d"><a href="#chart" data-toggle="tab">Donut Pie</a></li>
                         <li id="line" class="all trend comparison"><a href="#chart" data-toggle="tab">Line</a></li>
                         <li id="pie" class="all 2d"><a href="#chart" data-toggle="tab">Pie</a></li>
@@ -160,7 +162,7 @@
                 </div>
 
                 <div class="col-md-8">
-                    <div id="chart_div" style="height:450px;"></div>
+                    <div id="chart_div" style="height:450px;"></div>                    
                 </div>
 
                 <div class="col-md-2">
@@ -324,8 +326,14 @@
 
         <div id="historyArea" class="container">
 
+            <div id="history" class="tab-pane fade">
 
+                <div class="row">
+                          @*  @Html.Partial("History", ViewData["History"] as List<AntivirusAnalytics.Models.History>)*@
 
+                </div>
+
+            </div>
         </div>
 
 
@@ -338,6 +346,6 @@
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 
-<script src="~/jsHandlers/accountHandler.js"></script>
+<script src="~/jsHandlers/userHandler.js"></script>
 <script src="~/jsHandlers/pageHandler.js"></script>
 <script src="~/jsHandlers/chartHandler.js"></script>

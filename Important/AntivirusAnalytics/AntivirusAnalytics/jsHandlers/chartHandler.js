@@ -45,14 +45,16 @@ function chart(querySet, method, chartType) {
         complete:
             function () {
                 ajaxPendingRequests.pop(this);
-                $('#progressTimer').hide();
+                $('#progress-timer-container').hide();
             },
         success: function (result) {
             //drawChart(result, chartType);
             genericDraw(result, chartType);
         },
-        error: function (error) {
+        error: function () {
             console.log('unable to get data  - chart.js getdata ');
+            ajaxPendingRequests.pop(this);
+            $('#progress-timer-container').hide();
         }
     });
 

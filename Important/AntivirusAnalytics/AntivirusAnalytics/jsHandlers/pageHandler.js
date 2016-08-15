@@ -58,7 +58,7 @@ filterPanel.find('#antivirusList').multiselect({
 //---------------------PROGRESS TIMER SETUP------------------//
 function startProgressTimer(x) {
 
-    $('#progressTimer').show()
+    $('#progress-timer-container').show()
     $('#progressTimer').progressTimer({
         timeLimit: x,
         warningThreshold: 50,
@@ -71,6 +71,8 @@ function startProgressTimer(x) {
 
 }
 
+//start at all
+currentTab = 'all';
 filterHandler();
 
 //-----------------------------------TAB SELECTION----------------------------//
@@ -83,12 +85,13 @@ function showTabCharts() {
     chartClass = '.' + currentTab;
     chartButtons.show();
     chartButtons.not(chartClass).hide();
+    selectedChart = null;
 
 }
-//start at all
-currentTab = 'all';
 
 //----------------------------------CHART SELECTION---------------------------//
+//set selected chart to first available
+
 chartButtons.on('click', function () {
     selectedChart = this.id;
     //console.log(selectedChart);
@@ -110,7 +113,7 @@ filterPanel.find('#column').on('change', filterHandler);
 
 function filterHandler() {
 
-    var column = filterPanel.find('#column').find(":selected").val();
+    var column = filterPanel.find('#column').find(':selected').val();
     if (currentTab != '2d' && isPie === false) {
         filterPanel.find('#avVersion').hide();
         filterPanel.find('#dataMeasure').show();
@@ -158,20 +161,20 @@ function filterHandler() {
 
 function getOptions() {
 
-    column = filterPanel.find('#column').find(":selected").val();
-    row = filterPanel.find('#row').find(":selected").val();
+    column = filterPanel.find('#column').find(':selected').val();
+    row = filterPanel.find('#row').find(':selected').val();
     al = filterPanel.find('#antivirusList').val().join(', ');
-    dfc = filterPanel.find('#vtd').find(":selected").val();
-    dvt = filterPanel.find('#fcd').find(":selected").val();
-    d = filterPanel.find('#detection').find(":selected").val();
-    f = filterPanel.find('#format').find(":selected").val();
+    dfc = filterPanel.find('#vtd').find(':selected').val();
+    dvt = filterPanel.find('#fcd').find(':selected').val();
+    d = filterPanel.find('#detection').find(':selected').val();
+    f = filterPanel.find('#format').find(':selected').val();
     getDateRange();
     var method;
     //may be unnecessary
 
     if (currentTab === '2d' || isPie === true) {
 
-        var vers = $('#version').find(":selected").val();
+        var vers = $('#version').find(':selected').val();
         opt = { key: column, version: vers, dateRange: dr, avList: al, detection: d, format: f };
         method = 0;
     }
@@ -187,11 +190,19 @@ function getOptions() {
         }
 
     }
+    if (selectedChart != null) {
 
     chart(opt, method, selectedChart);
+    } else {
+        $('#no-chart-alert').show();
+    }
     chartTitle = filterPanel.find('#chartName').val();
 }
 
+function resetAlert() {
+
+    $('#no-chart-alert').hide();
+}
 
 function getDateRange() {
 

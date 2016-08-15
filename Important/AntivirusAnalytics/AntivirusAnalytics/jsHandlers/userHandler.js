@@ -238,9 +238,7 @@ jQuery(document).ready(function ($) {
             $('#creationArea').hide();
             $('#historyArea').show();
 
-            //userObject = {email: 'o@g.com', Password: 'hi'};
-            console.log(userObject);
-            loadHistory(userObject.email);
+            loadHistory();
         } else {
             $('#historyArea').hide();
             $('#creationArea').show();
@@ -248,19 +246,20 @@ jQuery(document).ready(function ($) {
 
     });
 
-    function loadHistory(email) {
+    function loadHistory() {
         $.ajax({
-            url: '@Url.Content("~/User/History")',
+            url: '/User/History',
             type: 'POST',
-            contentType: 'application/json',
             success: function (result) {
-                $("#historyArea").innerhtml(result);
+                $("#historyArea").html(result);
+                //location.reload();
             },
             error: function (result, error) {
 
             }
         });
     }
+
 
 //-----------------------------------------------------------------------------------//
 

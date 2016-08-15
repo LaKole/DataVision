@@ -41,6 +41,9 @@ namespace AntivirusAnalytics.Models
 
         }
 
+
+        
+
         public int GetUserId(string email)
         {
             try
@@ -75,7 +78,7 @@ namespace AntivirusAnalytics.Models
 
         }
 
-
+        
 
         //not using model logic
         public bool IsValid(string email, string password)

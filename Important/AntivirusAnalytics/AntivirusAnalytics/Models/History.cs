@@ -29,16 +29,7 @@ namespace AntivirusAnalytics.Models
             catch { throw; }
         }
 
-        public static List<History> GetHistoryByUser(int userId)
-        {
-            try
-            {
-            List<History> histories = db.HistoryRepository.Where(x => x.UserID == userId).ToList();
-            return histories;
-
-            }
-            catch { throw; }
-        }
+        
 
         public static History GetHistoryById(int histId)
         {
