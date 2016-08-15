@@ -1,0 +1,63 @@
+﻿@model IEnumerable<AntivirusAnalytics.Models.History>
+
+
+<table class="table">
+    <tr>
+        <th>
+           @* @Html.DisplayNameFor(model => model.UserID)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Query)
+        </th>
+        <th>
+            Created
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+           @* @Html.DisplayFor(modelItem => item.UserID)*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Query)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.ActionLink("Show Image", "Image", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "DeleteHistory", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+<script>
+
+    function showHistory() {
+        console.log('show');
+    }
+    function deleteHistory(id) {
+
+        $.ajax({
+            url: '/User/History',
+            type: 'POST',
+            data: id,
+            success: function (result) {
+                $("#historyArea").html(result);
+                //location.reload();
+            },
+            error: function (result, error) {
+
+            }
+        });
+        console.log('delete');
+    }
+
+    $('.deleteHistory').click(function (index) {
+        deleteHistory()
+    });
+</script>

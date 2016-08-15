@@ -1,0 +1,216 @@
+﻿@Styles.Render("~/otherstyles")
+@Styles.Render("~/webstyles")
+
+
+<div class="container" id="chartPage">
+    <div class="container" id="selectionTab">
+
+        <div class="container">
+            <div class="row">
+                <ul class="nav nav-tabs nav-justified col-md-12" id="selectionTab">
+                    <li id="all" class="active"><a data-toggle="tab" href="#chart">All</a></li>
+                    <li id="comparison"><a data-toggle="tab" href="#chart">Comparison</a></li>
+                    <li id="composition"><a data-toggle="tab" href="#chart">Composition</a></li>
+                    <li id="2d"><a data-toggle="tab" href="#chart">2-Dimensional</a></li>
+                    <li id="trend"><a data-toggle="tab" href="#chart">Trend</a></li>
+                    <li id="historyTab" ><a data-toggle="tab" href="#chart" id="history">History</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container" id="creationArea">
+        <div class="row margin-top-20">
+
+            <div class="col-md-2" style="height:450px;">
+                <ul class="nav nav-pills nav-stacked col-md-12" id="cb-list">
+                    <li class="chart 2d"><a href="#chart" data-toggle="tab">3D Pie</a></li>
+                    <li class="chart comparison"><a href="#chart" data-toggle="tab">Bar</a></li>
+                    <li class="chart comparison"><a href="#chart" data-toggle="tab">Column</a></li>
+                    <li class="chart 2d"><a href="#chart" data-toggle="tab">Donut Pie</a></li>
+                    <li class="chart trend comparison"><a href="#chart" data-toggle="tab">Line</a></li>
+                    <li class="chart 2d"><a href="#chart" data-toggle="tab">Pie</a></li>
+                    <li class="chart composition"><a href="#chart" data-toggle="tab">Stacked Bar</a></li>
+                    <li class="chart composition"><a href="#chart" data-toggle="tab">Stacked Column</a></li>
+                    <li class="chart all"><a href="#chart" data-toggle="tab">Table</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-8">
+                <div id="chart_div" style="height:450px;"></div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="panel-group" id="analysisPanel">
+
+                    @* dimension panel *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartDimensions">Customise Dataset</a>
+                            </h4>
+                        </div>
+                        <div id="chartDimensions" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <label class="control-label np">Column Headers</label>
+                                <div class="selectContainer np">
+                                    <select class="form-control" id="column" onchange="fieldOptions()">
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="scandate">Scan Date</option>
+                                        <option value="version">Version</option>
+                                    </select>
+                                </div>
+                                <label class="control-label">Row Headers</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="row">
+                                        <option value="antivirus">Antivirus</option>
+                                        <option value="scandate">Scan Date</option>
+                                        <option value="md5">Malware</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @* data filtering *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#dataFilter">Filter Dataset</a>
+                            </h4>
+                        </div>
+                        <div id="dataFilter" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <label class="control-label">Antivirus</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="antivirusList" multiple="multiple">
+                                        <option selected value="'antivir'">AntiVir</option>
+                                        <option selected value="'avg'">AVG</option>
+                                        <option selected value="'comodo'">Comodo</option>
+                                        <option selected value="'f-secure'">F-Secure</option>
+                                        <option selected value="'kaspersky'">Kaspersky</option>
+                                        <option selected value="'mcafee'">McAfee</option>
+                                        <option selected value="'microsoft'">Microsoft</option>
+                                        <option selected value="'sophos'">Sophos</option>
+                                        <option selected value="'symantec'">Symantec</option>
+                                    </select>
+                                </div>
+                                <div id="md" class="np">
+
+                                    <label class="control-label">Virus Total Detection</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="vtd">
+                                            <option value="1">Failure</option>
+                                            <option value="0">Success</option>
+                                        </select>
+                                    </div>
+                                    <label class="control-label">Full Capability Detection</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="fcd">
+                                            <option value="1">Failure</option>
+                                            <option value="0">Success</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div id="pieV">
+
+                                    <label class="control-label">Anivirus Version</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="version">
+                                            <option value="AVR">Full Capability</option>
+                                            <option value="Malware">Virus Total</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div id="vd">
+
+                                    <label class="control-label">Detection</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="detection">
+                                            <option value="1">Failure</option>
+                                            <option value="0">Success</option>
+                                        </select>
+                                    </div>
+
+                                    <label class="control-label">Value Format</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="format">
+                                            <option value="count">Count</option>
+                                            <option value="rate">Rate</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <label class="control-label">Date Range</label>
+                                <div>
+                                    <input type="text" class="form-control date" id="startDate" onchange="validRange()" />
+                                    <input type="text" class="form-control date" id="endDate" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @* chart formating *@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSettings">Chart Settings</a>
+                            </h4>
+                        </div>
+                        <div id="chartSettings" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <label class="control-label">Chart Name</label>
+                                <div>
+                                    <input type="text" class="form-control" id="chartName" />
+                                </div>
+                                <p>(Press "Enter" when done)</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <row>
+
+                    <div id='png' class="margin-top-20">
+
+                    </div>
+
+                    <button type="button" class="btn btn-info btn-block " onclick="getOptions()">Update Dataset</button>
+                </row>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div id="historyArea" class="container">
+        
+        
+                
+    </div>
+
+
+</div>
+
+
+
+
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<script src="~/jsHandlers/accountHandler.js"></script>
+<script src="~/jsHandlers/pageHandler.js"></script>
+<script src="~/jsHandlers/chartHandler.js"></script>
