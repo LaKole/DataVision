@@ -12,6 +12,8 @@ namespace AntivirusAnalytics.Models
     public class User
     {
         [Key]
+        public int ID { get; set; }
+
         public string Email { get; set; }
 
         public string Password { get; set; }
@@ -34,6 +36,20 @@ namespace AntivirusAnalytics.Models
                     return true;
                 }
                 else { return false; }
+            }
+            catch { throw; }
+
+        }
+
+        public int GetUserId(string email)
+        {
+            try
+            {
+                var tUser = db.Users.Where(u => u.Email.Equals(email)).FirstOrDefault();
+                
+                var id = tUser.ID;
+                return id;
+                
             }
             catch { throw; }
 

@@ -7,55 +7,69 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
+using System.Web.Security;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Microsoft.AspNet.Identity;
 
 namespace AntivirusAnalytics.Controllers
 {
     public class VisualController : Controller
     {
-
+        //model logic
+        AntivirusAnalyticsDB db = new AntivirusAnalyticsDB();
         //local db connection
-        static string connString = ConfigurationManager.ConnectionStrings["AVLocalContext"].ToString();
+        //static string connString = ConfigurationManager.ConnectionStrings["AVLocalContext"].ToString();
         //azure db connection
-        //static string connString = ConfigurationManager.ConnectionStrings["AzureDB"].ToString();
+        static string connString = ConfigurationManager.ConnectionStrings["AzureDB"].ToString();
 
         public ActionResult Index()
         {
             return View();
         }
+
+        public void SaveHistory(string query)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                Models.User n = new Models.User();
+                n.ID = n.GetUserId(User.Identity.Name);
+                History h = new History();
+                h.UserID = Convert.ToInt32(n.ID);
+                h.Query = query;
+                h.CreateDate = DateTime.Now;
+
+                History.SaveHistory(h);
+            }
+        }
+
         //fix for method overloading 
         //get basic data 
         [HttpPost]
-        public JsonResult getData(string row, string version, string dateRange, string avList, int detection, string format)
+        public JsonResult GetData(string key, string version, string dateRange, string avList, int detection, string format)
         {
             SqlConnection con = new SqlConnection(connString);
 
             var sql = "EXEC dbo.getPie @row = '{0}', @version = '{1}', @dateRange = '{2}', @avList = '({3})', @detection = '{4}', @format = '{5}'";
 
-            var statement = string.Format(sql, row, version, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
+            var statement = string.Format(sql, key, version, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
 
             var cmd = new SqlCommand(statement, con);
 
             DataTable dt = new DataTable();
             con.Open();
-
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-
             var r = dtToJson(dt);
-
-
             con.Close();
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    HistoryRepository.SaveHistory("", row, version, dateRange, avList, detection, format, 0, 0, "", Convert.ToInt32(Session["UserID"]));
-            //}
+
+            SaveHistory(statement);
+
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult getData1(string row, string dateRange, string avList, int detection, string format)
+        public JsonResult GtData1(string row, string dateRange, string avList, int detection, string format)
         {
             SqlConnection con = new SqlConnection(connString);
 
@@ -75,17 +89,14 @@ namespace AntivirusAnalytics.Controllers
 
 
             con.Close();
-            ////save query to histoory
-            //if (user.identity.isauthenticated)
-            //{
-            //    historyrepository.savehistory("", row, "", daterange, avlist, detection, format, 0, 0, "", convert.toint32(session["userid"]));
-            //}
+
+            SaveHistory(statement);
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult getData2(string column, string row, string dateRange, string avList, int dfc, int dvt)
+        public JsonResult GetData2(string column, string row, string dateRange, string avList, int dfc, int dvt)
         {
             SqlConnection con = new SqlConnection(connString);
 
@@ -106,16 +117,11 @@ namespace AntivirusAnalytics.Controllers
 
 
             con.Close();
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    int userId = Convert.ToInt32(User.Identity.Name);
-            //    HistoryRepository.SaveHistory(column, row, "", dateRange, avList, 0, "", dfc, dvt, "", userId);
-            //}
+
+            SaveHistory(statement);
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }
-
-
 
 
 
