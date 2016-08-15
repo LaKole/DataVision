@@ -10,25 +10,34 @@ namespace AntivirusAnalytics.App_Start
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+           
+
+            bundles.Add(new StyleBundle("~/webstyles").Include(
+                      "~/Content/css/pt-sans.css",
+                      "~/Content/css/reset.css",
+                      "~/Content/css/style.css"));
+
+            bundles.Add(new StyleBundle("~/otherstyles")
+                      .IncludeDirectory("~/Content/themes", "*.css", true));
+
+
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery-ui-{version}.js",
-                        "~/js/external/jquery.multiselect.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/helpers")
-                      .IncludeDirectory("~/js/external", "*.js", true));
-
+             "~/Scripts/jquery-{version}.js",
+             "~/Scripts/jquery-ui-{version}.js",
+             "~/Scripts/jquery.multiselect.min.js",
+             "~/Scripts/jquery.progress.Timer.js",
+             "~/Scripts/loader.js",
+             "~/Scripts/modernizr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.min.js"));
 
-            bundles.Add(new StyleBundle("~/Content").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css",
-                      "~/Content/userPanel.css",
-                      "~/Content/jquery.multiselect.css")
-                      .IncludeDirectory("~/Content/themes/base", "*.css"));
+
+
+
+
         }
     }
 }

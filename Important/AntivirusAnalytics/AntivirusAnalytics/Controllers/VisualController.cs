@@ -14,60 +14,110 @@ namespace AntivirusAnalytics.Controllers
 {
     public class VisualController : Controller
     {
+
         //local db connection
         static string connString = ConfigurationManager.ConnectionStrings["AVLocalContext"].ToString();
         //azure db connection
         //static string connString = ConfigurationManager.ConnectionStrings["AzureDB"].ToString();
 
-        //get data without stored procedure
-        public ActionResult getData(string column, string row, string value)
+        public ActionResult Index()
         {
+            return View();
+        }
+        //fix for method overloading 
+        //get basic data 
+        [HttpPost]
+        public JsonResult getData(string row, string version, string dateRange, string avList, int detection, string format)
+        {
+            SqlConnection con = new SqlConnection(connString);
 
-            var vx = "test";
+            var sql = "EXEC dbo.getPie @row = '{0}', @version = '{1}', @dateRange = '{2}', @avList = '({3})', @detection = '{4}', @format = '{5}'";
+
+            var statement = string.Format(sql, row, version, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
+
+            var cmd = new SqlCommand(statement, con);
+
+            DataTable dt = new DataTable();
+            con.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            var r = dtToJson(dt);
 
 
-            // query = select column, row, sum(data) group by column row
-
-
-            return Json(vx, JsonRequestBehavior.AllowGet);
-
+            con.Close();
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    HistoryRepository.SaveHistory("", row, version, dateRange, avList, detection, format, 0, 0, "", Convert.ToInt32(Session["UserID"]));
+            //}
+            return Json(r, JsonRequestBehavior.AllowGet);
         }
 
-        //return pivoted dt - http://michaeljswart.com/2011/06/forget-about-pivot/
-        DataTable Pivot(DataTable dt, DataColumn pivotColumn, DataColumn pivotValue)
+        [HttpPost]
+        public JsonResult getData1(string row, string dateRange, string avList, int detection, string format)
         {
-            // find primary key columns 
-            //(i.e. everything but pivot column and pivot value)
-            DataTable temp = dt.Copy();
-            temp.Columns.Remove(pivotColumn.ColumnName);
-            temp.Columns.Remove(pivotValue.ColumnName);
-            string[] pkColumnNames = temp.Columns.Cast<DataColumn>()
-                .Select(c => c.ColumnName)
-                .ToArray();
+            SqlConnection con = new SqlConnection(connString);
 
-            // prep results table
-            DataTable result = temp.DefaultView.ToTable(true, pkColumnNames).Copy();
-            result.PrimaryKey = result.Columns.Cast<DataColumn>().ToArray();
-            dt.AsEnumerable()
-                .Select(r => r[pivotColumn.ColumnName].ToString())
-                .Distinct().ToList()
-                .ForEach(c => result.Columns.Add(c, pivotColumn.DataType));
+            var sql = "EXEC dbo.getVersionComparison @row = '{0}', @dateRange = '{1}', @avList = '({2})', @detection = '{3}', @format = '{4}'";
 
-            // load it
-            foreach (DataRow row in dt.Rows)
-            {
-                // find row to update
-                DataRow aggRow = result.Rows.Find(
-                    pkColumnNames
-                        .Select(c => row[c])
-                        .ToArray());
-                // the aggregate used here is LATEST 
-                // adjust the next line if you want (SUM, MAX, etc...)
-                aggRow[row[pivotColumn.ColumnName].ToString()] = row[pivotValue.ColumnName];
-            }
+            var statement = string.Format(sql, row, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
 
-            return result;
+            var cmd = new SqlCommand(statement, con);
+
+            DataTable dt = new DataTable();
+            con.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            var r = dtToJson(dt);
+
+
+            con.Close();
+            ////save query to histoory
+            //if (user.identity.isauthenticated)
+            //{
+            //    historyrepository.savehistory("", row, "", daterange, avlist, detection, format, 0, 0, "", convert.toint32(session["userid"]));
+            //}
+
+            return Json(r, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult getData2(string column, string row, string dateRange, string avList, int dfc, int dvt)
+        {
+            SqlConnection con = new SqlConnection(connString);
+
+
+            var sql = "EXEC dbo.getMatrix @column = '{0}', @row = '{1}', @dateRange = '{2}', @avList = '({3})', @detCondFC = '{4}', @detCondVT = '{5}'";
+
+            var statement = string.Format(sql, column, row, dateRange.Replace("'", "''"), avList.Replace("'", "''"), dfc, dvt);
+
+            var cmd = new SqlCommand(statement, con);
+
+            DataTable dt = new DataTable();
+            con.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            var r = dtToJson(dt);
+
+
+            con.Close();
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    int userId = Convert.ToInt32(User.Identity.Name);
+            //    HistoryRepository.SaveHistory(column, row, "", dateRange, avList, 0, "", dfc, dvt, "", userId);
+            //}
+
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
 
         //return data in google format, sampled - http://stackoverflow.com/questions/17398019/how-to-convert-datatable-to-json-in-c-sharp
         public string dtToJson(DataTable dt)

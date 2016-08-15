@@ -104,24 +104,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bgimage.jpg" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\jquery.multiselect.css" />
-    <Content Include="Content\login\img\cd-icon-close.svg" />
-    <Content Include="Content\login\img\cd-icon-email.svg" />
-    <Content Include="Content\login\img\cd-icon-menu.svg" />
-    <Content Include="Content\login\img\cd-icon-password.svg" />
-    <Content Include="Content\login\img\cd-icon-username.svg" />
-    <Content Include="Content\login\img\cd-logo.svg" />
-    <Content Include="Content\login\js\main.js" />
+    <Content Include="Content\css\pt-sans.css" />
+    <Content Include="Content\css\reset.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\img\bgimage.jpg" />
+    <Content Include="Content\img\cd-icon-close.svg" />
+    <Content Include="Content\img\cd-icon-email.svg" />
+    <Content Include="Content\img\cd-icon-menu.svg" />
+    <Content Include="Content\img\cd-icon-password.svg" />
+    <Content Include="Content\img\cd-icon-username.svg" />
+    <Content Include="Content\img\cd-logo.svg" />
+    <Content Include="Content\themes\bootstrap-theme.css" />
+    <Content Include="Content\themes\bootstrap-theme.min.css" />
+    <Content Include="Content\themes\bootstrap.css" />
+    <Content Include="Content\themes\bootstrap.min.css" />
+    <Content Include="Content\themes\base\jquery.multiselect.css" />
+    <Content Include="jsHandlers\accountHandler.js" />
     <Content Include="Scripts\modernizr.js" />
-    <Content Include="Content\login\css\reset.css" />
-    <Content Include="Content\login\css\style.css" />
-    <Content Include="Content\userPanel.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -163,18 +162,13 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="js\chartHandler.js" />
-    <Content Include="js\filterHandler.js" />
-    <Content Include="js\external\jquery.multiselect.min.js" />
-    <Content Include="js\external\jquery.progress.Timer.js" />
-    <Content Include="js\external\loader.js" />
-    <Content Include="js\pageHandler.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="jsHandlers\chartHandler.js" />
+    <Content Include="jsHandlers\filterHandler.js" />
+    <Content Include="Scripts\jquery.multiselect.min.js" />
+    <Content Include="Scripts\jquery.progress.Timer.js" />
+    <Content Include="Scripts\loader.js" />
+    <Content Include="jsHandlers\pageHandler.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
@@ -185,7 +179,6 @@
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="js\tetst.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -210,12 +203,11 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="packages.config" />
-    <Content Include="Views\Home\Index-archive.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
-    <Content Include="Views\User\Index2.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Visual\Index.cshtml" />
+    <Content Include="Views\Home\Index-old.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -225,7 +217,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Visual\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
