@@ -31,7 +31,7 @@ namespace AntivirusAnalytics.Controllers
                 User user = new User();
                 user = GetUserByEmail(User.Identity.Name);
                 List<History> userHistory = new List<History>();
-                userHistory = GetHistoryByUser(user.ID);
+                userHistory = GetHistoryByUser(user.ID).OrderByDescending(i => i.CreateDate).ToList();
                 return PartialView("History", userHistory);
             }
             else { return View("Index"); }

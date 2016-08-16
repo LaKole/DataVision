@@ -253,7 +253,7 @@ namespace AntivirusAnalytics.Controllers
                     column.Add("label", colu.ColumnName);
                     column.Add("type", "date");
                 }
-                else if (colu.ColumnName.ToLower() == "antivirus" || colu.ColumnName.ToLower() == "md5")
+                else if (colu.ColumnName.ToLower() == "antivirus" || colu.ColumnName.ToLower() == "md5" || colu.ColumnName.ToLower() == "version")
                 {
                     column.Add("id", colu.ColumnName);
                     column.Add("label", colu.ColumnName);
