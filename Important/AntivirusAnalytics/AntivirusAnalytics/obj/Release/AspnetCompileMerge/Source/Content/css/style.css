@@ -79,7 +79,7 @@ table {
     position: relative;
     width: 90%;
     max-width: 700px;
-    background-image: url('../img/bgimage.jpg');
+    background-image: url('/Content/img/bgimage.jpg');
     margin: 3em auto 4em;
     cursor: auto;
     border-radius: 0.25em;
