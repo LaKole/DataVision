@@ -43,7 +43,6 @@ namespace AntivirusAnalytics.Models
 
 
         
-
         public int GetUserId(string email)
         {
             try

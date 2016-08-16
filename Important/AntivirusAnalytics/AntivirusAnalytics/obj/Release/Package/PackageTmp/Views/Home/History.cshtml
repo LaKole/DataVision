@@ -4,60 +4,36 @@
 <table class="table">
     <tr>
         <th>
-           @* @Html.DisplayNameFor(model => model.UserID)*@
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Query)
-        </th>
-        <th>
             Created
         </th>
-        <th></th>
+        <th>
+            Chart Type
+        </th>
+        <th>
+            Options
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-           @* @Html.DisplayFor(modelItem => item.UserID)*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Query)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>
-            @Html.ActionLink("Show Image", "Image", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "DeleteHistory", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChartTypeProper)
+            </td>
+            <td style="display:none;">@Html.DisplayFor(modelItem => item.ID)</td>
+            <td>
+                <a href="javascript:;" onclick="recreateImage(this)">REGENERATE</a> |
+                <a href="javascript:;" onclick="deleteImage(this)">DELETE</a> 
+            </td>
+            <td style="display:none;">@Html.DisplayFor(modelItem => item.ChartType)</td>
+        </tr>
+    }
 
 </table>
 
-<script>
 
-    function showHistory() {
-        console.log('show');
-    }
-    function deleteHistory(id) {
 
-        $.ajax({
-            url: '/User/History',
-            type: 'POST',
-            data: id,
-            success: function (result) {
-                $("#historyArea").html(result);
-                //location.reload();
-            },
-            error: function (result, error) {
 
-            }
-        });
-        console.log('delete');
-    }
-
-    $('.deleteHistory').click(function (index) {
-        deleteHistory()
-    });
-</script>

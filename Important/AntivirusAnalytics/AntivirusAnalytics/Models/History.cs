@@ -13,6 +13,8 @@ namespace AntivirusAnalytics.Models
 
         public int UserID { get; set; }
         public string Query { get; set; }
+        public string ChartType { get; set; }
+        public string ChartTypeProper { get; set; }
         public DateTime CreateDate { get; set; }
 
 
@@ -42,8 +44,7 @@ namespace AntivirusAnalytics.Models
             catch { throw; }
         }
 
-
-
+        
 
     }
 }

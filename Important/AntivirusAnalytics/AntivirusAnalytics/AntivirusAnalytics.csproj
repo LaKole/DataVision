@@ -113,7 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\pt-sans.css" />
-    <Content Include="Content\css\reset.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\img\bgimage.jpg" />
     <Content Include="Content\img\cd-icon-close.svg" />
@@ -127,6 +126,7 @@
     <Content Include="Content\themes\bootstrap.css" />
     <Content Include="Content\themes\bootstrap.min.css" />
     <Content Include="Content\themes\base\jquery.multiselect.css" />
+    <Content Include="jsHandlers\archive\userHandler.js" />
     <Content Include="jsHandlers\userHandler.js" />
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -171,11 +171,11 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Global.asax" />
-    <Content Include="jsHandlers\chartHandler.js" />
+    <Content Include="jsHandlers\archive\chartHandler.js" />
     <Content Include="Scripts\jquery.multiselect.min.js" />
     <Content Include="Scripts\jquery.progress.Timer.js" />
     <Content Include="Scripts\loader.js" />
-    <Content Include="jsHandlers\pageHandler.js" />
+    <Content Include="jsHandlers\archive\pageHandler.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\AVAnalytics - FTP.pubxml" />
@@ -217,6 +217,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Visual\Index.cshtml" />
     <Content Include="Views\Home\History.cshtml" />
+    <Content Include="Views\Histories\Create.cshtml" />
+    <Content Include="Views\Histories\Delete.cshtml" />
+    <Content Include="Views\Histories\Details.cshtml" />
+    <Content Include="Views\Histories\Edit.cshtml" />
+    <Content Include="Views\Histories\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

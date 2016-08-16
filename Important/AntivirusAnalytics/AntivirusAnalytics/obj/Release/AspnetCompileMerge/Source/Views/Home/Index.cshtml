@@ -1,6 +1,4 @@
-﻿
-
-<head>
+﻿<head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,15 +15,15 @@
         {
             <ul id="u-signedin">
                 <li id="greeting">Hi, @User.Identity.Name</li>
-                <li><a class="cd-signout" href="#0">Sign out</a></li>
+                <li><a class="cd-signout" href="javascript:;">Sign out</a></li>
             </ul>
         }
         else
         {
             <ul id="u-signedout">
                 <!-- inser more links here -->
-                <li><a class="cd-signin" href="#0">Sign in</a></li>
-                <li><a class="cd-signup" href="#0">Sign up</a></li>
+                <li><a class="cd-signin" href="javascript:;">Sign in</a></li>
+                <li><a class="cd-signup" href="javascript:;">Sign up</a></li>
             </ul>
         }
     </nav>
@@ -33,7 +31,7 @@
     <div class="row" align="center">
         <div class="col-md-12">
             <div class="page-header">
-                <h1 style="font-size:xx-large; justify-content:center">Antivirus Detection Analytics</h1>
+                <h1 style="font-size:xx-large; text-align:center">Antivirus Detection Analytics</h1>
             </div>
         </div>
     </div>
@@ -44,8 +42,8 @@
         <div class="cd-user-modal-container">
             <!-- this is the container wrapper -->
             <ul class="cd-switcher">
-                <li><a href="#0">Sign in</a></li>
-                <li><a href="#0">Register</a></li>
+                <li><a href="javascript:;">Sign in</a></li>
+                <li><a href="javascript:;">Register</a></li>
             </ul>
 
             <div id="cd-login">
@@ -61,7 +59,7 @@
                     <p class="fieldset">
                         <label class="image-replace cd-password" for="signin-password">Password</label>
                         <input class="full-width has-padding has-border cd-input" id="signin-password" type="password" placeholder="Password">
-                        <a href="#0" class="show-password">Show</a>
+                        <a href="javascript:;" class="show-password">Show</a>
                         <span class="cd-error-message">Incorrect login details.</span>
                     </p>
 
@@ -76,7 +74,7 @@
                 </form>
 
 
-                <!-- <a href="#0" class="cd-close-form">Close</a> -->
+                <!-- <a href="javascript:;" class="cd-close-form">Close</a> -->
             </div> <!-- cd-login -->
 
             <div id="cd-signup">
@@ -91,14 +89,14 @@
                     <p class="fieldset">
                         <label class="image-replace cd-password" for="signup-password">Password</label>
                         <input class="full-width has-padding has-border cd-input" id="signup-password" type="password" placeholder="Password">
-                        <a href="#0" class="show-password">Show</a>
+                        <a href="javascript:;" class="show-password">Show</a>
                         <span class="cd-error-message">Enter password</span>
                     </p>
 
                     <p class="fieldset">
                         <label class="image-replace cd-password" for="signup-password">Confirm Password</label>
                         <input class="full-width has-padding has-border cd-input" id="signup-passwordconfirm" type="password" placeholder="Password">
-                        <a href="#0" class="show-password">Show</a>
+                        <a href="javascript:;" class="show-password">Show</a>
                         <span class="cd-error-message">Confirm password</span>
                     </p>
 
@@ -107,10 +105,10 @@
                     </p>
                 </form>
 
-                <!-- <a href="#0" class="cd-close-form">Close</a> -->
+                <!-- <a href="javascript:;" class="cd-close-form">Close</a> -->
             </div> <!-- cd-signup -->
 
-            <a href="#0" class="cd-close-form">Close</a>
+            <a href="javascript:;" class="cd-close-form">Close</a>
         </div> <!-- cd-user-modal-container -->
     </div> <!-- cd-user-modal -->
 
@@ -119,7 +117,7 @@
        
     </div>
     <div id="no-chart-alert" style="display:none; height:50px" class="alert alert-danger loading">
-        <a href="#" class="close" onclick="resetAlert()">&times;</a>
+        <a href="javascript:;" class="close" onclick="resetAlert()">&times;</a>
         <strong>Please select a chart from the options on the left</strong>
     </div>
 
@@ -164,6 +162,7 @@
                 <div class="col-md-8">
                     <div id="chart_div" style="height:450px;"></div>                    
                 </div>
+                                
 
                 <div class="col-md-2">
                     <div class="panel-group" id="panelOptions">
@@ -324,6 +323,18 @@
 
         </div>
 
+        
+        <div class="reg-modal">
+
+            <div class="reg-modal-container" id="reg_div">
+
+                <div style="height:500px; width:700px"></div>
+                <a href="javascript:;" class="reg-modal-close">Close</a>
+
+            </div>
+
+        </div> 
+
         <div id="historyArea" class="container">
 
             <div id="history" class="tab-pane fade">
@@ -347,5 +358,5 @@
 @Scripts.Render("~/bundles/bootstrap")
 
 <script src="~/jsHandlers/userHandler.js"></script>
-<script src="~/jsHandlers/pageHandler.js"></script>
-<script src="~/jsHandlers/chartHandler.js"></script>
+@*<script src="~/jsHandlers/pageHandler.js"></script>*@
+@*<script src="~/jsHandlers/chartHandler.js"></script>*@

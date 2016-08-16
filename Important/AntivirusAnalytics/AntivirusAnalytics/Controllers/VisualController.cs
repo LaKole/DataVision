@@ -28,9 +28,9 @@ namespace AntivirusAnalytics.Controllers
             return View();
         }
 
-        public void SaveHistory(string query)
+        public void SaveHistory(string query, string chart, string ctProper)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated && chart != "table")
             {
                 Models.User n = new Models.User();
                 n.ID = n.GetUserId(User.Identity.Name);
@@ -38,6 +38,8 @@ namespace AntivirusAnalytics.Controllers
                 h.UserID = Convert.ToInt32(n.ID);
                 h.Query = query;
                 h.CreateDate = DateTime.Now;
+                h.ChartType = chart;
+                h.ChartTypeProper = ctProper;
 
                 History.SaveHistory(h);
             }
@@ -46,7 +48,7 @@ namespace AntivirusAnalytics.Controllers
         //fix for method overloading 
         //get basic data 
         [HttpPost]
-        public JsonResult GetData(string key, string version, string dateRange, string avList, int detection, string format)
+        public JsonResult GetPie(string key, string version, string dateRange, string avList, int detection, string format, string chartType, string ctProper)
         {
             SqlConnection con = new SqlConnection(connString);
 
@@ -83,13 +85,13 @@ namespace AntivirusAnalytics.Controllers
             var r = dtToJson(dt);
             con.Close();
 
-            SaveHistory(statement);
+            SaveHistory(statement, chartType, ctProper);
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult GetData1(string row, string dateRange, string avList, int detection, string format)
+        public JsonResult GetVersion(string row, string dateRange, string avList, int detection, string format, string chartType, string ctProper)
         {
             SqlConnection con = new SqlConnection(connString);
 
@@ -128,13 +130,13 @@ namespace AntivirusAnalytics.Controllers
 
             con.Close();
 
-            SaveHistory(statement);
+            SaveHistory(statement, chartType, ctProper);
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult GetData2(string column, string row, string dateRange, string avList, int dfc, int dvt)
+        public JsonResult GetMatrix(string column, string row, string dateRange, string avList, int dfc, int dvt, string chartType, string ctProper)
         {
             SqlConnection con = new SqlConnection(connString);
 
@@ -175,7 +177,32 @@ namespace AntivirusAnalytics.Controllers
 
             con.Close();
 
-            SaveHistory(statement);
+            SaveHistory(statement, chartType, ctProper);
+
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult Regenerate(int id)
+        {
+            SqlConnection con = new SqlConnection(connString);            
+
+            DataTable dt = new DataTable();
+            try
+            {
+                History history = db.HistoryRepository.Find(id);
+
+                SqlCommand cmd = new SqlCommand(history.Query, con);
+                con.Open();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+            }
+            catch { throw; }
+
+            var r = dtToJson(dt);
+            con.Close();
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }

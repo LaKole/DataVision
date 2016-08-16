@@ -2,7 +2,6 @@
 google.charts.setOnLoadCallback();
 
 var chart_div, uri;
-chart_div = document.getElementById('chart_div');
 
 ajaxPendingRequests = new Array();
 function abortPendingRequests() {
@@ -15,18 +14,18 @@ function abortPendingRequests() {
 }
 
 
-function chart(querySet, method, chartType) {
+function chart(querySet, method) {
     var url;
 
     switch (method) {
         case 0:
-            url = '/Visual/GetData';
+            url = '/Visual/GetPie';
             break;
         case 1:
-            url = '/Visual/GetData1';
+            url = '/Visual/GetVersion';
             break;
         case 2:
-            url = '/Visual/GetData2';
+            url = '/Visual/GetMatrix';
             break;
     }
 
@@ -48,8 +47,7 @@ function chart(querySet, method, chartType) {
                 $('#progress-timer-container').hide();
             },
         success: function (result) {
-            //drawChart(result, chartType);
-            genericDraw(result, chartType);
+            genericDraw(result, querySet.chartType, false);
         },
         error: function () {
             console.log('unable to get data  - chart.js getdata ');
@@ -61,16 +59,21 @@ function chart(querySet, method, chartType) {
 
 }
 
-function genericDraw(result, type) {
+function genericDraw(result, type, isRegenerated) {
 
     var data = new google.visualization.DataTable(result);
     var options = {
         title: chartTitle,
-        chartArea: { left: 65, top: 65, width: "75%", height: "75%" },
+        chartArea: { left: 45, top: 30, width: "70%", height: "85%" },
         backgroundColor: { fill: 'none' }
     };
 
-
+    if (isRegenerated) {
+        chart_div = document.getElementById('reg_div')
+    }
+    else {
+        chart_div = document.getElementById('chart_div');
+    }
 
     switch (type) {
         case "area":
@@ -107,7 +110,8 @@ function genericDraw(result, type) {
         case "pie":
         case "3dPie":
         case "donutPie":
-            options.chartArea = { left: 150, top: 40, width: "85%", height: "85%" };
+
+            options.chartArea = { left: 100, top: 20, width: "100%", height: "100%" };
             switch (type) {
                 case "3dPie":
                     options.is3D = true;
@@ -121,19 +125,25 @@ function genericDraw(result, type) {
 
             break;
         case "table":
-            drawTable(result);            
+            drawTable(result);
             break;
         default:
-            console.log('no selection made - chart.js drawChart');
+            //console.log('no selection made - chart.js drawChart');
+            type = 'none';
             break;
     }
 
+    if (type != 'table' && type != 'none') {
 
-    google.visualization.events.addListener(chart, 'ready', function () {
-        $('#png').show().html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
-    });
+        if (!isRegenerated) {
+            //add printable image
+            google.visualization.events.addListener(chart, 'ready', function () {
+                $('#png').show().html('<a href="' + chart.getImageURI() + '">Printable Image</a>');
+            });
+        }
 
-    chart.draw(data, options);
+        chart.draw(data, options);
+    }
 }
 
 
@@ -193,6 +203,8 @@ function drawChart(result, type) {
 
 }
 
+
+
 function drawAreaChart(result, type) {
 
     var data = new google.visualization.DataTable(result);
@@ -216,7 +228,6 @@ function drawAreaChart(result, type) {
     chart.draw(data, options);
 
 }
-
 
 function drawBarChart(result, type) {
 

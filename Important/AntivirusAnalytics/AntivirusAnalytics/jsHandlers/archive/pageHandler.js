@@ -1,5 +1,4 @@
-﻿//global
-var opt, column, row, dr, al, dfc, dvt, d, f, chartTitle, currentTab, selectedChart, isPie,
+﻿var opt, column, row, dr, al, dfc, dvt, d, f, chartTitle, currentTab, selectedChart, ctProper, isPie,
     filterPanel = $('#panelOptions'),
     chartButtons = $('#cb-list li');
 
@@ -94,6 +93,8 @@ function showTabCharts() {
 
 chartButtons.on('click', function () {
     selectedChart = this.id;
+    ctProper = $(this).find('a').html();
+
     //console.log(selectedChart);
 
     if (selectedChart.toLowerCase().indexOf("pie") >= 0) {
@@ -175,24 +176,24 @@ function getOptions() {
     if (currentTab === '2d' || isPie === true) {
 
         var vers = $('#version').find(':selected').val();
-        opt = { key: column, version: vers, dateRange: dr, avList: al, detection: d, format: f };
+        opt = { key: column, version: vers, dateRange: dr, avList: al, detection: d, format: f, chartType: selectedChart, ctProper : ctProper };
         method = 0;
     }
 
     else {
         if (column === 'version') {
-            opt = { row: row, dateRange: dr, avList: al, detection: d, format: f };
+            opt = { row: row, dateRange: dr, avList: al, detection: d, format: f, chartType: selectedChart, ctProper: ctProper };
             method = 1;
         }
         else {
-            opt = { column: column, row: row, dateRange: dr, avList: al, dfc: dfc, dvt: dvt };
+            opt = { column: column, row: row, dateRange: dr, avList: al, dfc: dfc, dvt: dvt, chartType: selectedChart, ctProper: ctProper };
             method = 2;
         }
 
     }
     if (selectedChart != null) {
 
-    chart(opt, method, selectedChart);
+    chart(opt, method);
     } else {
         $('#no-chart-alert').show();
     }

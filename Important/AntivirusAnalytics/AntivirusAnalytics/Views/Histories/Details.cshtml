@@ -1,0 +1,58 @@
+﻿@model AntivirusAnalytics.Models.History
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>History</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UserID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Query)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Query)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ChartType)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ChartType)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreateDate)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
