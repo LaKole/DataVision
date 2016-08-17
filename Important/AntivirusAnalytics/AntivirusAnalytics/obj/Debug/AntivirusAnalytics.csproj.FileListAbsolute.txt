@@ -1,32 +1,3 @@
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\AntivirusAnalytics.dll.config
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\AntivirusAnalytics.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\AntivirusAnalytics.pdb
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\Antlr3.Runtime.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\EntityFramework.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\EntityFramework.SqlServer.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\Newtonsoft.Json.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Helpers.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Mvc.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Optimization.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Razor.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Webpages.Deployment.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Webpages.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Webpages.Razor.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\WebGrease.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\Antlr3.Runtime.pdb
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\EntityFramework.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\EntityFramework.SqlServer.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\Newtonsoft.Json.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Optimization.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Razor.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Webpages.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Webpages.Deployment.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Webpages.Razor.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Helpers.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Mvc.xml
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\obj\Debug\AntivirusAnalytics.dll
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\obj\Debug\AntivirusAnalytics.pdb
-C:\Users\Olamide\Documents\Visual Studio 2013\Projects\AntivirusAnalytics\AntivirusAnalytics\obj\Debug\AntivirusAnalytics.csprojResolveAssemblyReference.cache
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\bin\AntivirusAnalytics.dll.config
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\bin\AntivirusAnalytics.dll
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\bin\AntivirusAnalytics.pdb
@@ -57,6 +28,5 @@ C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalyt
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Webpages.Razor.xml
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Helpers.xml
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\bin\System.Web.Mvc.xml
-C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\obj\Debug\AntivirusAnalytics.csprojResolveAssemblyReference.cache
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\obj\Debug\AntivirusAnalytics.dll
 C:\Users\Olamide\Desktop\DataVision\Important\AntivirusAnalytics\AntivirusAnalytics\obj\Debug\AntivirusAnalytics.pdb

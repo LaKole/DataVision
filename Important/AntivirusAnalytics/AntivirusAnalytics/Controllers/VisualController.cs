@@ -18,10 +18,6 @@ namespace AntivirusAnalytics.Controllers
     {
         //model logic
         AntivirusAnalyticsDB db = new AntivirusAnalyticsDB();
-        //local db connection
-        //static string connString = ConfigurationManager.ConnectionStrings["AVLocalContext"].ToString();
-        //azure db connection
-        static string connString = ConfigurationManager.ConnectionStrings["AzureDB"].ToString();
 
         public ActionResult Index()
         {
@@ -50,8 +46,8 @@ namespace AntivirusAnalytics.Controllers
         [HttpPost]
         public JsonResult GetPie(string key, string version, string dateRange, string avList, int detection, string format, string chartType, string ctProper)
         {
-            SqlConnection con = new SqlConnection(connString);
-
+            SqlConnection con = new SqlConnection(db.Database.Connection.ConnectionString);
+            
             var sql = "EXEC dbo.getPie @row = '{0}', @version = '{1}', @dateRange = '{2}', @avList = '({3})', @detection = '{4}', @format = '{5}'";
 
             var statement = string.Format(sql, key, version, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
@@ -93,7 +89,7 @@ namespace AntivirusAnalytics.Controllers
         [HttpPost]
         public JsonResult GetVersion(string row, string dateRange, string avList, int detection, string format, string chartType, string ctProper)
         {
-            SqlConnection con = new SqlConnection(connString);
+            SqlConnection con = new SqlConnection(db.Database.Connection.ConnectionString);
 
             var sql = "EXEC dbo.getVersionComparison @row = '{0}', @dateRange = '{1}', @avList = '({2})', @detection = '{3}', @format = '{4}'";
             var statement = string.Format(sql, row, dateRange.Replace("'", "''"), avList.Replace("'", "''"), detection, format);
@@ -138,7 +134,7 @@ namespace AntivirusAnalytics.Controllers
         [HttpPost]
         public JsonResult GetMatrix(string column, string row, string dateRange, string avList, int dfc, int dvt, string chartType, string ctProper)
         {
-            SqlConnection con = new SqlConnection(connString);
+            SqlConnection con = new SqlConnection(db.Database.Connection.ConnectionString);
 
 
             var sql = "EXEC dbo.getMatrix @column = '{0}', @row = '{1}', @dateRange = '{2}', @avList = '({3})', @detCondFC = '{4}', @detCondVT = '{5}'";
@@ -185,7 +181,7 @@ namespace AntivirusAnalytics.Controllers
         [HttpPost]
         public JsonResult Regenerate(int id)
         {
-            SqlConnection con = new SqlConnection(connString);            
+            SqlConnection con = new SqlConnection(db.Database.Connection.ConnectionString);            
 
             DataTable dt = new DataTable();
             try

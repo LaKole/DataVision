@@ -4,6 +4,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--CSS BUNDLES IN ORDER-->
     @Styles.Render("~/otherstyles")
     @Styles.Render("~/webstyles")
 
@@ -11,350 +12,361 @@
     <title>AV Analytics</title>
 </head>
 <body>
+    <!--NAV BAR-->
 
-    <nav class="main-nav">
-        @if (User.Identity.IsAuthenticated)
-        {
-            <ul id="u-signedin">
-                <li id="greeting">Hi, @User.Identity.Name</li>
-                <li><a class="cd-signout" href="javascript:;">Sign out</a></li>
+        <div class="main-nav">
+            <ul class="cent">
+                <li><h1>Antivirus Detection Analytics</h1></li>
             </ul>
-        }
-        else
-        {
-            <ul id="u-signedout">
-                <!-- inser more links here -->
-                <li><a class="cd-signin" href="javascript:;">Sign in</a></li>
-                <li><a class="cd-signup" href="javascript:;">Sign up</a></li>
-            </ul>
-        }
-    </nav>
 
-    <div class="row" align="center">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1 style="font-size:xx-large; text-align:center">Antivirus Detection Analytics</h1>
-            </div>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul id="u-signedin" class="right">
+                        <li id="greeting">Hi, @User.Identity.Name</li>
+                        <li><a class="cd-signout" href="javascript:;">Sign out</a></li>
+                    </ul>
+                }
+                else
+                {
+                    <ul id="u-signedout" class="right">
+                        <!-- inser more links here -->
+                        <li><a class="cd-signin" href="javascript:;">Sign in</a></li>
+                        <li><a class="cd-signup" href="javascript:;">Sign up</a></li>
+                    </ul>
+                }
         </div>
+
+
+
+    <!--LOGIN/SIGNUP FORM-->
+    <div class="container">
+        <div class="cd-user-modal">
+            <!-- this is the entire modal form, including the background -->
+            <div class="cd-user-modal-container">
+                <!-- this is the container wrapper -->
+                <ul class="cd-switcher">
+                    <li><a href="javascript:;">Sign in</a></li>
+                    <li><a href="javascript:;">Register</a></li>
+                </ul>
+
+                <div id="cd-login">
+                    <!-- log in form -->
+
+                    <form class="cd-form">
+                        <p class="fieldset">
+                            <label class="image-replace cd-email" for="signin-email">E-mail</label>
+                            <input class="full-width has-padding has-border cd-input" id="signin-email" type="email" placeholder="E-mail">
+                            <span class="cd-error-message">Incorrect login details.</span>
+                        </p>
+
+                        <p class="fieldset">
+                            <label class="image-replace cd-password" for="signin-password">Password</label>
+                            <input class="full-width has-padding has-border cd-input" id="signin-password" type="password" placeholder="Password">
+                            <a href="javascript:;" class="show-password">Show</a>
+                            <span class="cd-error-message">Incorrect login details.</span>
+                        </p>
+
+                        <p class="fieldset">
+                            <input type="checkbox" id="remember-me" checked>
+                            <label for="remember-me">Remember me</label>
+                        </p>
+
+                        <p class="fieldset">
+                            <input class="full-width has-padding" id="signin-button" type="button" value="Login" style="display:none">
+                        </p>
+                    </form>
+
+
+                    <!-- <a href="javascript:;" class="cd-close-form">Close</a> -->
+                </div> <!-- cd-login -->
+
+                <div id="cd-signup">
+                    <!-- sign up form -->
+                    <form class="cd-form">
+                        <p class="fieldset">
+                            <label class="image-replace cd-email" for="signup-email">E-mail</label>
+                            <input class="full-width has-padding has-border cd-input" id="signup-email" type="email" placeholder="E-mail">
+                            <span class="cd-error-message">This email has already been registered. Please try logging in.</span>
+                        </p>
+
+                        <p class="fieldset">
+                            <label class="image-replace cd-password" for="signup-password">Password</label>
+                            <input class="full-width has-padding has-border cd-input" id="signup-password" type="password" placeholder="Password">
+                            <a href="javascript:;" class="show-password">Show</a>
+                            <span class="cd-error-message">Enter password</span>
+                        </p>
+
+                        <p class="fieldset">
+                            <label class="image-replace cd-password" for="signup-password">Confirm Password</label>
+                            <input class="full-width has-padding has-border cd-input" id="signup-passwordconfirm" type="password" placeholder="Password">
+                            <a href="javascript:;" class="show-password">Show</a>
+                            <span class="cd-error-message">Confirm password</span>
+                        </p>
+
+                        <p class="fieldset">
+                            <input class="full-width has-padding" id="signup-button" type="button" value="Register" style="display:none">
+                        </p>
+                    </form>
+
+                    <!-- <a href="javascript:;" class="cd-close-form">Close</a> -->
+                </div> <!-- cd-signup -->
+
+                <a href="javascript:;" class="cd-close-form">Close</a>
+            </div> <!-- cd-user-modal-container -->
+        </div> <!-- cd-user-modal -->
+
     </div>
 
+    <!--PROGRESS TIMER-->
+    <div class="container">
 
-    <div class="cd-user-modal">
-        <!-- this is the entire modal form, including the background -->
-        <div class="cd-user-modal-container">
-            <!-- this is the container wrapper -->
-            <ul class="cd-switcher">
-                <li><a href="javascript:;">Sign in</a></li>
-                <li><a href="javascript:;">Register</a></li>
-            </ul>
+        <div id="progress-timer-container" class="loading" style="display:none">
+            <div id="progressTimer"></div>
 
-            <div id="cd-login">
-                <!-- log in form -->
-
-                <form class="cd-form">
-                    <p class="fieldset">
-                        <label class="image-replace cd-email" for="signin-email">E-mail</label>
-                        <input class="full-width has-padding has-border cd-input" id="signin-email" type="email" placeholder="E-mail">
-                        <span class="cd-error-message">Incorrect login details.</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <label class="image-replace cd-password" for="signin-password">Password</label>
-                        <input class="full-width has-padding has-border cd-input" id="signin-password" type="password" placeholder="Password">
-                        <a href="javascript:;" class="show-password">Show</a>
-                        <span class="cd-error-message">Incorrect login details.</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <input type="checkbox" id="remember-me" checked>
-                        <label for="remember-me">Remember me</label>
-                    </p>
-
-                    <p class="fieldset">
-                        <input class="full-width has-padding" id="signin-button" type="button" value="Login" style="display:none">
-                    </p>
-                </form>
-
-
-                <!-- <a href="javascript:;" class="cd-close-form">Close</a> -->
-            </div> <!-- cd-login -->
-
-            <div id="cd-signup">
-                <!-- sign up form -->
-                <form class="cd-form">
-                    <p class="fieldset">
-                        <label class="image-replace cd-email" for="signup-email">E-mail</label>
-                        <input class="full-width has-padding has-border cd-input" id="signup-email" type="email" placeholder="E-mail">
-                        <span class="cd-error-message">This email has already been registered. Please try logging in.</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <label class="image-replace cd-password" for="signup-password">Password</label>
-                        <input class="full-width has-padding has-border cd-input" id="signup-password" type="password" placeholder="Password">
-                        <a href="javascript:;" class="show-password">Show</a>
-                        <span class="cd-error-message">Enter password</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <label class="image-replace cd-password" for="signup-password">Confirm Password</label>
-                        <input class="full-width has-padding has-border cd-input" id="signup-passwordconfirm" type="password" placeholder="Password">
-                        <a href="javascript:;" class="show-password">Show</a>
-                        <span class="cd-error-message">Confirm password</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <input class="full-width has-padding" id="signup-button" type="button" value="Register" style="display:none">
-                    </p>
-                </form>
-
-                <!-- <a href="javascript:;" class="cd-close-form">Close</a> -->
-            </div> <!-- cd-signup -->
-
-            <a href="javascript:;" class="cd-close-form">Close</a>
-        </div> <!-- cd-user-modal-container -->
-    </div> <!-- cd-user-modal -->
-
-    <div id="progress-timer-container" class="loading" style="display:none">
-        <div id="progressTimer"></div>
+        </div>
 
     </div>
-    <div id="no-chart-alert" style="display:none; height:50px" class="alert alert-danger loading">
-        <a href="javascript:;" class="close" id="reset-alert">&times;</a>
-        <strong>Please select a chart from the options on the left</strong>
+
+    <!--ALERT-->
+    <div class="container">
+
+        <div id="no-chart-alert" style="display:none; height:50px" class="alert alert-danger loading">
+            <a href="javascript:;" class="close" id="reset-alert">&times;</a>
+            <strong>Please select a chart from the options on the left</strong>
+        </div>
+
     </div>
 
+    <!--PAGE MINUS NAV BAR-->
     <div class="container" id="chartPage">
 
-        <div class="container" id="selectionTab">
+        <!--CHART GROUPINGS-->
+            <ul class="custom-tabs custom-justified col-md-12 col-sm-12 co-xs-12" id="selectionTab">
+                <li id="all" class="active"><a data-toggle="tab" href="#chart">All</a></li>
+                <li id="comparison"><a data-toggle="tab" href="#chart">Comparison</a></li>
+                <li id="composition"><a data-toggle="tab" href="#chart">Composition</a></li>
+                <li id="2d"><a data-toggle="tab" href="#chart">2-Dimensional</a></li>
+                <li id="trend"><a data-toggle="tab" href="#chart">Trend</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li id="historyTab"><a data-toggle="tab" href="#chart" id="history">History</a></li>
+                }
+            </ul>
 
-            <div class="container">
-                <div class="row">
-                    <ul class="nav nav-tabs nav-justified col-md-12" id="selectionTab">
-                        <li id="all" class="active"><a data-toggle="tab" href="#chart">All</a></li>
-                        <li id="comparison"><a data-toggle="tab" href="#chart">Comparison</a></li>
-                        <li id="composition"><a data-toggle="tab" href="#chart">Composition</a></li>
-                        <li id="2d"><a data-toggle="tab" href="#chart">2-Dimensional</a></li>
-                        <li id="trend"><a data-toggle="tab" href="#chart">Trend</a></li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li id="historyTab"><a data-toggle="tab" href="#chart" id="history">History</a></li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+        <!--CHART DESIGN SECTION-->
         <div class="container" id="creationArea">
-            <div class="row margin-top-20">
 
-                <div class="col-md-2" style="height:450px;">
-                    <ul class="nav nav-pills nav-stacked col-md-12" id="cb-list">
-                        <li id="3dPie" class="all 2d"><a href="#chart" data-toggle="tab">3D Pie</a></li>
-                        <li id="bar" class="all comparison"><a href="#chart" data-toggle="tab">Bar</a></li>
-                        <li id="column" class="all comparison"><a href="#chart" data-toggle="tab">Column</a></li>
-                        <li id="donutPie" class="all 2d"><a href="#chart" data-toggle="tab">Donut Pie</a></li>
-                        <li id="line" class="all trend comparison"><a href="#chart" data-toggle="tab">Line</a></li>
-                        <li id="pie" class="all 2d"><a href="#chart" data-toggle="tab">Pie</a></li>
-                        <li id="stackedBar" class="all composition"><a href="#chart" data-toggle="tab">Stacked Bar</a></li>
-                        <li id="stackedColumn" class="all composition"><a href="#chart" data-toggle="tab">Stacked Column</a></li>
-                        <li id="table" class="all 2d comparison composition trend"><a href="#chart" data-toggle="tab">Table</a></li>
-                    </ul>
-                </div>
+                <!--CHART BUTTONS-->
+            <ul class=" margin-top-20 custom-tabs col-md-2 col-sm-3 col-xs-3" style="height:400px;" id="cb-list">
+                <li id="3dPie" class="all 2d"><a href="#chart" data-toggle="tab">3D Pie</a></li>
+                <li id="bar" class="all comparison"><a href="#chart" data-toggle="tab">Bar</a></li>
+                <li id="column" class="all comparison"><a href="#chart" data-toggle="tab">Column</a></li>
+                <li id="donutPie" class="all 2d"><a href="#chart" data-toggle="tab">Donut Pie</a></li>
+                <li id="line" class="all trend comparison"><a href="#chart" data-toggle="tab">Line</a></li>
+                <li id="pie" class="all 2d"><a href="#chart" data-toggle="tab">Pie</a></li>
+                <li id="stackedBar" class="all composition"><a href="#chart" data-toggle="tab">Stacked Bar</a></li>
+                <li id="stackedColumn" class="all composition"><a href="#chart" data-toggle="tab">Stacked Column</a></li>
+                <li id="table" class="all 2d comparison composition trend"><a href="#chart" data-toggle="tab">Table</a></li>
+            </ul>
 
-                <div class="col-md-8">
-                    <div id="chart_div" style="height:450px;"></div>
-                </div>
+                <!--CHART AREA-->
+            <div class=" margin-top-20 col-md-8 col-sm-9 col-xs-9">
+                <div id="chart_div" style="height:400px;"></div>
+            </div>
 
+                <!--BUILD AND VIEW-->
+            <div class=" margin-top-20 col-md-2 col-sm-12 col-xs-12" style="height:400px;">
 
-                <div class="col-md-2">
-                    <div class="panel-group" id="panelOptions">
+                <!--SELECTION PANEL-->
 
-                        @* dimension panel *@
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#panelOptions" href="#chartDimensions">1: Define</a>
-                                </h4>
-                            </div>
-                            <div id="chartDimensions" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <div id="dataKey">
-                                        <label class="control-label np">Key</label>
-                                        <div class="selectContainer np">
-                                            <select class="form-control" id="column">
-                                                <option value="antivirus">Antivirus</option>
-                                                <option value="scandate">Scan Date</option>
-                                                <option value="version">Version</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="dataMeasure">
-                                        <label class="control-label">Measure By</label>
-                                        <div class="selectContainer">
-                                            <select class="form-control" id="row">
-                                                <option value="antivirus">Antivirus</option>
-                                                <option value="scandate">Scan Date</option>
-                                                <option value="md5">Malware</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                <div class="panel-group" id="panelOptions">
+                    <!--CHART DIMENSIONS-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartDimensions">1: Define</a>
+                            </h4>
                         </div>
-
-                        @* data filtering *@
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#panelOptions" href="#dataFilter">2: Filter</a>
-                                </h4>
-                            </div>
-                            <div id="dataFilter" class="panel-collapse collapse">
-                                <div class="panel-body">
-
-                                    <label class="control-label">Antivirus</label>
-                                    <div class="selectContainer">
-                                        <select class="form-control" id="antivirusList" multiple="multiple">
-                                            <option selected value="'antivir'">AntiVir</option>
-                                            <option selected value="'avg'">AVG</option>
-                                            <option selected value="'comodo'">Comodo</option>
-                                            <option selected value="'f-secure'">F-Secure</option>
-                                            <option selected value="'kaspersky'">Kaspersky</option>
-                                            <option selected value="'mcafee'">McAfee</option>
-                                            <option selected value="'microsoft'">Microsoft</option>
-                                            <option selected value="'sophos'">Sophos</option>
-                                            <option selected value="'symantec'">Symantec</option>
+                        <div id="chartDimensions" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div id="dataKey">
+                                    <label class="control-label np">Key</label>
+                                    <div class="selectContainer np">
+                                        <select class="form-control" id="column">
+                                            <option value="antivirus">Antivirus</option>
+                                            <option value="scandate">Scan Date</option>
+                                            <option value="version">Software Version</option>
                                         </select>
                                     </div>
-                                    <div id="matrixDetection">
-
-                                        <label class="control-label">AV-Free Detection</label>
-                                        <div class="selectContainer">
-                                            <select class="form-control" id="vtd">
-                                                <option value="1">Failure</option>
-                                                <option value="0">Success</option>
-                                            </select>
-                                        </div>
-                                        <label class="control-label">AV-Paid SW Detection</label>
-                                        <div class="selectContainer">
-                                            <select class="form-control" id="fcd">
-                                                <option value="1">Failure</option>
-                                                <option value="0">Success</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-
-                                    <div id="avVersion">
-
-                                        <label class="control-label">Antivirus Version</label>
-                                        <div class="selectContainer">
-                                            <select class="form-control" id="version">
-                                                <option value="AVR">Full Capability</option>
-                                                <option value="Malware">Virus Total</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-
-                                    <div id="versionDetection">
-
-                                        <label class="control-label">Detection</label>
-                                        <div class="selectContainer">
-                                            <select class="form-control" id="detection">
-                                                <option value="1">Failure</option>
-                                                <option value="0">Success</option>
-                                            </select>
-                                        </div>
-
-                                        <label class="control-label">Value Format</label>
-                                        <div class="selectContainer">
-                                            <select class="form-control" id="format">
-                                                <option value="count">Count</option>
-                                                <option value="rate">Rate</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-
-                                    <label class="control-label">Date Range</label>
-                                    <div>
-                                        <input type="text" class="form-control date" id="startDate" onchange="validRange()" />
-                                        <input type="text" class="form-control date" id="endDate" />
+                                </div>
+                                <div id="dataMeasure">
+                                    <label class="control-label">Group By</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="row">
+                                            <option value="antivirus">Antivirus</option>
+                                            <option value="scandate">Scan Date</option>
+                                            <option value="version">Software Version</option>
+                                            <option value="md5">Malware</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-
-                        @* chart formating *@
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSettings">3: Customise</a>
-                                </h4>
-                            </div>
-                            <div id="chartSettings" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <label class="control-label">Chart Name</label>
-                                    <div>
-                                        <input type="text" class="form-control" id="chartName" />
-                                    </div>
-                                    <p>(Press "Enter" when done)</p>
-                                </div>
-                            </div>
-
                         </div>
 
                     </div>
 
-                    <row>
+                    <!--FILTERING-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#dataFilter">2: Filter</a>
+                            </h4>
+                        </div>
+                        <div id="dataFilter" class="panel-collapse collapse">
+                            <div class="panel-body">
 
-                        <div id='png' class="margin-top-20">
+                                <label class="control-label">Antivirus</label>
+                                <div class="selectContainer">
+                                    <select class="form-control" id="antivirusList" multiple="multiple">
+                                        <option selected value="'antivir'">AntiVir</option>
+                                        <option selected value="'avg'">AVG</option>
+                                        <option selected value="'comodo'">Comodo</option>
+                                        <option selected value="'f-secure'">F-Secure</option>
+                                        <option selected value="'kaspersky'">Kaspersky</option>
+                                        <option selected value="'mcafee'">McAfee</option>
+                                        <option selected value="'microsoft'">Microsoft</option>
+                                        <option selected value="'sophos'">Sophos</option>
+                                        <option selected value="'symantec'">Symantec</option>
+                                    </select>
+                                </div>
+                                <div id="matrixDetection">
 
+                                    <label class="control-label">AV-Free Detection</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="vtd">
+                                            <option value="1">Failure</option>
+                                            <option value="0">Success</option>
+                                        </select>
+                                    </div>
+                                    <label class="control-label">AV-Paid SW Detection</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="fcd">
+                                            <option value="1">Failure</option>
+                                            <option value="0">Success</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div id="avVersion">
+
+                                    <label class="control-label">Software Version</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="version">
+                                            <option value="AVR">Full Capability</option>
+                                            <option value="Malware">Virus Total</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div id="versionDetection">
+
+                                    <label class="control-label">Detection</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="detection">
+                                            <option value="1">Failure</option>
+                                            <option value="0">Success</option>
+                                        </select>
+                                    </div>
+
+                                    <label class="control-label">Value Format</label>
+                                    <div class="selectContainer">
+                                        <select class="form-control" id="format">
+                                            <option value="count">Count</option>
+                                            <option value="rate">Rate</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <label class="control-label">Date Range</label>
+                                <div>
+                                    <input type="text" class="form-control date" id="startDate" onchange="validRange()" />
+                                    <input type="text" class="form-control date" id="endDate" />
+                                </div>
+                            </div>
                         </div>
 
-                        <button type="button" class="btn btn-info btn-block " id="create-chart-btn">4: Create</button>
-                    </row>
+                    </div>
+
+                    <!--CHART NAME-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#panelOptions" href="#chartSettings">3: Customise</a>
+                            </h4>
+                        </div>
+                        <div id="chartSettings" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <label class="control-label">Chart Name</label>
+                                <div>
+                                    <input type="text" class="form-control" id="chartName" />
+                                </div>
+                                <p>(Press "Enter" when done)</p>
+                            </div>
+                        </div>
+
+                    </div>
 
                 </div>
 
+                <!--PRINTABLE IMAGE-->
+                <div id='print-img' class="margin-top-20"></div>
+
+                <!--CREATE BUTTON-->
+                <button type="button" class="btn btn-info btn-block" id="create-chart-btn">4: Create</button>
+
 
             </div>
 
-        </div>
 
 
-        <div class="reg-modal">
 
-            <div class="reg-modal-container" id="reg_div">
-
-                <div style="height:500px; width:700px"></div>
-                <a href="javascript:;" class="reg-modal-close">Close</a>
-
-            </div>
 
         </div>
 
-        <div id="historyArea" class="container">
+        <!--HISTORY MODAL-->
+        <div class="container">
+            <div class="reg-modal">
 
-            <div id="history" class="tab-pane fade">
+                <div class="reg-modal-container" id="reg_div">
 
-                <div class="row">
-                    @*  @Html.Partial("History", ViewData["History"] as List<AntivirusAnalytics.Models.History>)*@
+                    <div style="height:500px; width:700px"></div>
+                    <a href="javascript:;" class="reg-modal-close">Close</a>
 
                 </div>
 
             </div>
+
         </div>
+
+        <!--HISTORY PARTIAL VIEW-->
+        <div class="container" id="historyArea">
+
+            <div id="history">
+                @*class="tab-pane fade">*@
+
+            </div>
+        </div>
+
 
 
     </div>
 
 
-
-
+    <!--SCRIPTS IN ORDER-->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/jsHandlers/mainHandler.js"></script>

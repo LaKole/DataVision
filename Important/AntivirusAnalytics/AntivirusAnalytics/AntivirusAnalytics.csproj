@@ -114,6 +114,7 @@
   <ItemGroup>
     <Content Include="Content\css\pt-sans.css" />
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\tabs.css" />
     <Content Include="Content\img\bgimage.jpg" />
     <Content Include="Content\img\cd-icon-close.svg" />
     <Content Include="Content\img\cd-icon-email.svg" />
@@ -251,11 +252,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
 </Project>

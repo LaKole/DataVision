@@ -14,7 +14,8 @@ namespace AntivirusAnalytics.App_Start
 
             bundles.Add(new StyleBundle("~/webstyles").Include(
                       "~/Content/css/pt-sans.css",
-                      "~/Content/css/style.css"));
+                      "~/Content/css/style.css",
+                      "~/Content/css/tabs.css"));
 
             bundles.Add(new StyleBundle("~/otherstyles")
                       .IncludeDirectory("~/Content/themes", "*.css", true));
