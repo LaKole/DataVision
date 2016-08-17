@@ -72,16 +72,5 @@ namespace AntivirusAnalytics.Controllers
 
         }
 
-        public String GetRegenerateOptions(int id)
-        {
-            try
-            {
-                History history = db.HistoryRepository.Find(id);
-                string options = history.Query + "?" + history.ChartType;
-                return options;
-            }
-            catch { throw; }
-
-        }
     }
 }
