@@ -12,7 +12,7 @@ namespace AntivirusAnalytics.Models
 
         public AntivirusAnalyticsDB()
             : base("name=AzureDB")
-            //: base("name=AVLocalContext")
+            //: base("name=LocalDB")
         {
 
         }

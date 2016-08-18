@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="AzureDB-Web.config Connection String" description="AzureDB Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:olamidek.database.windows.net,1433;Initial Catalog=AntivirusAnalytics;User ID=avtool;Password=8vtoolD3V;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Olamide\\Desktop\\DataVision\\Important\\AntivirusAnalytics\\AntivirusAnalytics\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AzureDB']/@connectionString" />
-  </parameter>
-  <parameter name="AVLocalContext-Web.config Connection String" description="AVLocalContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\v11.0;Initial Catalog=AntiVirusAnalysisTool;Integrated Security=SSPI;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Olamide\\Desktop\\DataVision\\Important\\AntivirusAnalytics\\AntivirusAnalytics\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AVLocalContext']/@connectionString" />
-  </parameter>
-</parameters>
